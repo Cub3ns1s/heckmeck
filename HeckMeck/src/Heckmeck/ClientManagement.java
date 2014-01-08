@@ -20,7 +20,7 @@ public class ClientManagement {
 
 	public void checkPlayerCount() {
 		if (mClients.size() == mPlayerCount) {
-			Game.start();
+			//Game.start();
 		}	
 	}
 	

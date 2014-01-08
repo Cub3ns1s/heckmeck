@@ -6,10 +6,11 @@ public class Client implements Runnable {
 	
 	@SuppressWarnings("unused")
 	private ServerSocket mSocket;
+	private Server mServer;
 	
-	public Client(ServerSocket socket) {
+	public Client(ServerSocket socket, Server server) {
 		this.mSocket = socket;
-		
+		this.mServer = server;
 	}
 
 	@Override
