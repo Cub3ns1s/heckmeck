@@ -4,6 +4,7 @@ import java.net.ServerSocket;
 
 public class Client implements Runnable {
 	
+	@SuppressWarnings("unused")
 	private ServerSocket mSocket;
 	
 	public Client(ServerSocket socket) {
@@ -20,7 +21,5 @@ public class Client implements Runnable {
 	private void waitForMessages(){
 		
 	}
-	
-	//Testkommentar für Git-Probe123 bla
 	
 }
