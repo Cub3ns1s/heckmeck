@@ -8,9 +8,7 @@ public class Token implements Comparable<Token>{
 	private boolean mActive;
 	
 	
-	/**
-	 * @param m_value
-	 */
+	//Constructor
 	public Token(int m_value) {
 		this.mValue = m_value;
 		this.mActive = true;
@@ -77,5 +75,4 @@ public class Token implements Comparable<Token>{
 		Token otherToken = other;
 		return mValue-otherToken.mValue;
 	}
-	
 }

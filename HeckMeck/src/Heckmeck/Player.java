@@ -12,9 +12,7 @@ public class Player implements Serializable {
 	private DiceState mDiceState;
 	
 	
-	/**
-	 * @param name
-	 */
+	//Constructor
 	public Player(String name) {
 		this.mName = name;
 		this.mTurn = false;

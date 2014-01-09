@@ -11,6 +11,7 @@ import Heckmeck.Exceptions.ValueNotFound;
 
 public class DiceState implements Serializable{
 	
+	//Attributes
 	private static final long serialVersionUID = -8819803397763601581L;
 	private List<Dice> mUnfixedDices;
 	private List<Dice> mFixedDices;
@@ -27,27 +28,37 @@ public class DiceState implements Serializable{
 		}
 	}
 	
+	/**
+	 * gets list of unfixed dices
+	 * @return
+	 */
 	public List<Dice> getUnfixedDices() {
 		return mUnfixedDices;
 	}
 
+	/**
+	 * sets list of unfixed dices
+	 * @param unfixedDices
+	 */
 	public void setmUnfixedDices(List<Dice> unfixedDices) {
 		this.mUnfixedDices = unfixedDices;
 	}
 
-
-
+	/**
+	 * gets list of fixed dices
+	 * @return
+	 */
 	public List<Dice> getFixedDices() {
 		return mFixedDices;
 	}
 
-
-
+	/**
+	 * set list of fixed dices
+	 * @param fixedDices
+	 */
 	public void setmFixedDices(List<Dice> fixedDices) {
 		this.mFixedDices = fixedDices;
 	}
-
-
 
 	/**
 	 * returns sum of diced dices

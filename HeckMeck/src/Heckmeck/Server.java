@@ -2,7 +2,20 @@ package Heckmeck;
 
 public class Server  {
 
+	//Attributes
 	private int mPlayerCount;
+	
+	
+	//Konstruktor
+	private Server( int playerCount ){
+		
+		System.out.println( "Starte Server für " + playerCount + " Spieler");
+//		Warten auf Anmeldung
+		
+//		Spiel starten
+//		Game game = new Game( this );
+	}
+	
 	
 	public static void main(String[] args){
 		
@@ -17,28 +30,6 @@ public class Server  {
 		}
 
 		new Server( playerCount );
-		
-		
-//		String abc = "ABC";
-//		String abd = "ABC";
-//		
-//		if (abc == abd){
-//		System.out.println( "Gleich" );
-//		}
-//		else{
-//		System.out.println( "Ungleich" );
-//		}
-//		char a = 'A' ;
-		
-	}
-
-	private Server( int playerCount ){
-		
-		System.out.println( "Starte Server für " + playerCount + " Spieler");
-//		Warten auf Anmeldung
-		
-//		Spiel starten
-//		Game game = new Game( this );
-	}
-	
+				
+	}	
 }
