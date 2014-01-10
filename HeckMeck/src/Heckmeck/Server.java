@@ -1,10 +1,11 @@
 package Heckmeck;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.*;
 import java.lang.Thread;
-
-public class Server implements Runnable{
+import java.net.Socket;
+public class Server{
 
 	//Attributes
 	private int mPlayerCount;
@@ -13,21 +14,19 @@ public class Server implements Runnable{
 	
 	//Konstruktor
 	private Server( int playerCount ) {
-		
-		System.out.println( "Starte Server für " + playerCount + " Spieler");
-//		Warten auf Anmeldung
-		for (int i = 0; i < playerCount; i++) {
-			
 		try {
-		mServerSocket = new ServerSocket();
-		mThread = new Thread(this);
-		mThread.start();
+		mServerSocket = new ServerSocket( 23534 );
 		}
-		
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		System.out.println( "Starte Server für " + playerCount + " Spieler");
+//		Warten auf Anmeldung
+		for (int i = 0; i < playerCount; i++) {
+			mThread.start();
 		}
+		
 
 //		Spiel starten
 //		Game game = new Game( this );
@@ -35,7 +34,36 @@ public class Server implements Runnable{
 	
 	@Override
 	public void run() {
+		
+		Socket socket = new Socket();
+		ObjectInputStream ois = null;
+		
+		System.out.println("Thread läuft");
+		
+		try {
+			socket = mServerSocket.accept();
+		} catch (IOException e) {
 
+			e.printStackTrace();
+		} 
+
+		try {
+			ois = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+		
+		
+        
+        try {
+			ClientMessage message = (ClientMessage)ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+
+			e.printStackTrace();
+		}
+        
+		
 	}	
 	
 	

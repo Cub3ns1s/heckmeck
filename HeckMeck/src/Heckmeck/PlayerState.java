@@ -2,7 +2,7 @@ package Heckmeck;
 
 import java.io.Serializable;
 
-public class Player implements Serializable {
+public class PlayerState implements Serializable {
 
 	//Attributes
 	private static final long serialVersionUID = 620133243256754238L;
@@ -13,7 +13,7 @@ public class Player implements Serializable {
 	
 	
 	//Constructor
-	public Player(String name) {
+	public PlayerState(String name) {
 		this.mName = name;
 		this.mTurn = false;
 		this.mDeck = new Deck();
