@@ -1,4 +1,4 @@
-package heckmeck;
+package heckmeck.server;
 
 public abstract class ClientMessage {
 

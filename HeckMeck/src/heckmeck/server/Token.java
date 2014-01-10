@@ -1,4 +1,4 @@
-package heckmeck;
+package heckmeck.server;
 
 public class Token implements Comparable<Token> {
 

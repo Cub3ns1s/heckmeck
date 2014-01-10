@@ -1,8 +1,8 @@
-package heckmeck;
+package heckmeck.server;
 
-import heckmeck.Exceptions.AlreadyFixed;
-import heckmeck.Exceptions.Misthrow;
-import heckmeck.Exceptions.ValueNotFound;
+import heckmeck.exceptions.AlreadyFixed;
+import heckmeck.exceptions.Misthrow;
+import heckmeck.exceptions.ValueNotFound;
 
 import java.io.Serializable;
 import java.util.ArrayList;

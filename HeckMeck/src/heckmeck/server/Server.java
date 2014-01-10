@@ -1,7 +1,5 @@
 package heckmeck.server;
 
-import heckmeck.ClientListener;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.*;
@@ -27,7 +25,7 @@ public class Server {
 		System.out.println("Starte Server für " + playerCount + " Spieler");
 		// Warten auf Anmeldung
 		for (int i = 0; i < playerCount; i++) {
-			Socket socket = new Socket();
+			Socket socket;
 			try {
 				socket = mServerSocket.accept();
 				new Thread(new ClientListener(socket));

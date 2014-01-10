@@ -1,4 +1,6 @@
-package heckmeck;
+package heckmeck.server;
+
+import heckmeck.client.Client;
 
 import java.util.*;
 

@@ -1,6 +1,6 @@
-package heckmeck;
+package heckmeck.server;
 
-import heckmeck.Exceptions.NoTokenFound;
+import heckmeck.exceptions.NoTokenFound;
 
 import java.util.*;
 

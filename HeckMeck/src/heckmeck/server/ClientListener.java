@@ -1,4 +1,4 @@
-package heckmeck;
+package heckmeck.server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,6 +29,7 @@ public class ClientListener implements Runnable {
 		try {
 			do {
 				ClientMessage message = (ClientMessage) mOis.readObject();
+				System.out.println("Message empfangen");
 				switch (message.getMessageType()) {
 				case ClientMessage.LOGON:
 					logon(message);
