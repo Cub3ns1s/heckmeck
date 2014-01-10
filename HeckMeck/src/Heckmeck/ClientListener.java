@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class PlayerListener implements Runnable {
+public class ClientListener implements Runnable {
 
 	// Attributes
 	private Socket mClientSocket;
@@ -14,7 +14,7 @@ public class PlayerListener implements Runnable {
 
 	
 	// Constructor
-	public PlayerListener(Socket socket) throws IOException {
+	public ClientListener(Socket socket) throws IOException {
 		mClientSocket = socket;
 		mOos = new ObjectOutputStream(socket.getOutputStream());
 		mOis = new ObjectInputStream(mClientSocket.getInputStream());

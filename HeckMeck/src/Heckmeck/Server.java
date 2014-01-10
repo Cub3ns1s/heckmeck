@@ -28,7 +28,7 @@ public class Server {
 			Socket socket = new Socket();
 			try {
 				socket = mServerSocket.accept();
-				new Thread(new PlayerListener(socket));
+				new Thread(new ClientListener(socket));
 
 			} catch (IOException e) {
 				e.printStackTrace();
