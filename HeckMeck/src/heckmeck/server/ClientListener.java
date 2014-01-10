@@ -27,8 +27,7 @@ public class ClientListener implements Runnable {
 
 	private void waitForMessages() {
 		try {
-			do {
-				
+//			do {				
 				ClientMessage message = (ClientMessage) mOis.readObject();
 				
 				switch (message.getMessageType()) {
@@ -45,12 +44,12 @@ public class ClientListener implements Runnable {
 					break;
 				}
 
-			} while (true);
+//			} while (true);
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("No message in object found /n");
+			System.out.println("No message in object found");
 			e.printStackTrace();
 		}
 	}
