@@ -28,8 +28,11 @@ public class Server {
 			Socket socket;
 			try {
 				socket = mServerSocket.accept();
-				new Thread(new ClientListener(socket));
-
+				ClientListener clientListener = new ClientListener(socket);
+				
+				new Thread(new ClientListener(socket)).start();;
+				System.out.println("Thread mit ClientListener erstellt und gestartet");
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

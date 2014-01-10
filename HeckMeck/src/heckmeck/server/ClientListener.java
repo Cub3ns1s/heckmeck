@@ -29,11 +29,13 @@ public class ClientListener implements Runnable {
 		try {
 			do {
 				ClientMessage message = (ClientMessage) mOis.readObject();
-				System.out.println("Message empfangen");
+				
 				switch (message.getMessageType()) {
 				case ClientMessage.LOGON:
+					System.out.println("Message Typ 'LOGON' empfangen");
 					logon(message);
 					break;
+					
 				case ClientMessage.MOVE:
 					move(message);
 					break;
@@ -56,7 +58,8 @@ public class ClientListener implements Runnable {
 	}
 
 	private void logon(ClientMessage message) {
-		LogonMessage logonMessage = (LogonMessage) message;
+		LogonMessage logonMessage =(LogonMessage) message;
+		System.out.println("Logon Message erstellt");
 
 		System.out.println("New Player: " + logonMessage.getName());
 

@@ -7,7 +7,6 @@ import java.net.UnknownHostException;
 public class Client {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String ip = "127.0.0.1";
 		LogonMessage message = new LogonMessage( args[0] );
         try {
@@ -22,10 +21,8 @@ public class Client {
 	            
 	        socket.close();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // verbindet sich mit Server
 	}
