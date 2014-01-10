@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class PlayerState implements Serializable {
 
-	//Attributes
+	// Attributes
 	private static final long serialVersionUID = 620133243256754238L;
 	private Deck mDeck;
 	private String mName;
 	private boolean mTurn;
 	private DiceState mDiceState;
+
 	
-	
-	//Constructor
+	// Constructor
 	public PlayerState(String name) {
 		this.mName = name;
 		this.mTurn = false;
@@ -22,6 +22,7 @@ public class PlayerState implements Serializable {
 
 	/**
 	 * returns whether it's players turn or not
+	 * 
 	 * @return boolean
 	 */
 	public boolean isTurn() {
@@ -30,6 +31,7 @@ public class PlayerState implements Serializable {
 
 	/**
 	 * returns deck of player
+	 * 
 	 * @return Deck
 	 */
 	public Deck getDeck() {
@@ -38,6 +40,7 @@ public class PlayerState implements Serializable {
 
 	/**
 	 * returns name of player
+	 * 
 	 * @return String
 	 */
 	public String getName() {
@@ -46,14 +49,16 @@ public class PlayerState implements Serializable {
 
 	/**
 	 * returns dice state of player
+	 * 
 	 * @return DiceState
 	 */
 	public DiceState getDiceState() {
 		return mDiceState;
 	}
-	
+
 	/**
 	 * sets if it's players turn or not
+	 * 
 	 * @param turn
 	 */
 	public void setTurn(boolean turn) {

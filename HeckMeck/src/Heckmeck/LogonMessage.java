@@ -4,18 +4,19 @@ import java.io.Serializable;
 
 public class LogonMessage extends ClientMessage implements Serializable {
 
-	//Attributes
+	// Attributes
 	private static final long serialVersionUID = -2490711427776617424L;
 	private String mName;
+
 	
-	
-	//Constructor
+	// Constructor
 	public LogonMessage(String name) {
 		this.mName = name;
 	}
 
 	/**
 	 * gets name of player
+	 * 
 	 * @return
 	 */
 	public String getName() {
@@ -24,9 +25,7 @@ public class LogonMessage extends ClientMessage implements Serializable {
 
 	@Override
 	public String getMessageType() {
-		// TODO Auto-generated method stub
 		return LOGON;
 	}
-	
-		
+
 }
