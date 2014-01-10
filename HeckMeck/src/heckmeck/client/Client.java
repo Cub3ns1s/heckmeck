@@ -15,7 +15,6 @@ public class Client {
 			 ObjectOutputStream oos = new ObjectOutputStream( socket.getOutputStream( )); 
 
 			 oos.writeObject( message );
-			 oos.flush();
             
 	        System.out.println( "Client: Anmeldung abgeschickt");
 	            
