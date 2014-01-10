@@ -1,4 +1,6 @@
-package Heckmeck;
+package heckmeck.server;
+
+import heckmeck.ClientListener;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

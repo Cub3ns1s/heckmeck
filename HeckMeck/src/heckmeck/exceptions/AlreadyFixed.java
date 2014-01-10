@@ -1,4 +1,4 @@
-package Heckmeck.Exceptions;
+package heckmeck.exceptions;
 
 public class AlreadyFixed extends HeckmeckException {
 

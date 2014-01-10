@@ -1,4 +1,4 @@
-package Heckmeck.Exceptions;
+package heckmeck.exceptions;
 
 public class NoTokenFound extends HeckmeckException {
 

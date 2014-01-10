@@ -1,4 +1,4 @@
-package Heckmeck;
+package heckmeck;
 
 public class Client {
 

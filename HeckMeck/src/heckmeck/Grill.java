@@ -1,8 +1,8 @@
-package Heckmeck;
+package heckmeck;
+
+import heckmeck.Exceptions.NoTokenFound;
 
 import java.util.*;
-
-import Heckmeck.Exceptions.NoTokenFound;
 
 public class Grill {
 

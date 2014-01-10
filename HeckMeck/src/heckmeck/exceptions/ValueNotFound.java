@@ -1,4 +1,4 @@
-package Heckmeck.Exceptions;
+package heckmeck.exceptions;
 
 
 public class ValueNotFound extends HeckmeckException {

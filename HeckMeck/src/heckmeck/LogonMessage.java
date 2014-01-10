@@ -1,4 +1,4 @@
-package Heckmeck;
+package heckmeck;
 
 import java.io.Serializable;
 

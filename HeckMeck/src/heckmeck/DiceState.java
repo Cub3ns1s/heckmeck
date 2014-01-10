@@ -1,13 +1,13 @@
-package Heckmeck;
+package heckmeck;
+
+import heckmeck.Exceptions.AlreadyFixed;
+import heckmeck.Exceptions.Misthrow;
+import heckmeck.Exceptions.ValueNotFound;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import Heckmeck.Exceptions.AlreadyFixed;
-import Heckmeck.Exceptions.Misthrow;
-import Heckmeck.Exceptions.ValueNotFound;
 
 public class DiceState implements Serializable {
 
