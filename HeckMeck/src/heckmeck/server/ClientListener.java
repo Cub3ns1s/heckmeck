@@ -50,7 +50,7 @@ public class ClientListener implements Runnable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("No message in object found");
+			System.out.println("No message in object found /n");
 			e.printStackTrace();
 		}
 	}
