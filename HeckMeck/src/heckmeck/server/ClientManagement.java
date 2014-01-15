@@ -7,25 +7,24 @@ import java.util.*;
 public class ClientManagement {
 
 	// Attributes
-	private List<Client> mClients;
+	private List<ClientConnection> mClients;
 	private int mPlayerCount;
 
 	
 	// Constructor
 	public ClientManagement(int playerCount) {
-		this.mClients = new ArrayList<Client>();
+		this.mClients = new ArrayList<ClientConnection>();
 		this.mPlayerCount = playerCount;
 	}
 
 	/**
 	 * Adds client to list
 	 * 
-	 * @param client
+	 * @param clientListener
 	 */
-	public void addClient(Client client) {
-		this.mClients.add(client);
+	public void addClient(ClientConnection clientConnection) {
+		this.mClients.add(clientConnection);
 
-		checkPlayerCount();
 	}
 
 	/**
@@ -37,4 +36,11 @@ public class ClientManagement {
 		}
 	}
 
+	public void sendMessage( ServerMessage message){
+		for (Iterator iterator = mClients.iterator(); iterator.hasNext();) {
+			ClientConnection client = (ClientConnection) iterator.next();
+			client.sendMessage( message );
+		}
+	}
+	
 }

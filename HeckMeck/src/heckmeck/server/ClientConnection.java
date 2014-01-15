@@ -5,17 +5,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientListener implements Runnable {
+public class ClientConnection implements Runnable {
 
 	// Attributes
 	private Socket mClientSocket;
 	private ObjectOutputStream mOos;
 	private ObjectInputStream mOis;
+	private Server mServer;
 
 	
 	// Constructor
-	public ClientListener(Socket socket) throws IOException {
+	public ClientConnection(Socket socket, Server server) throws IOException {
 		mClientSocket = socket;
+		mServer = server; 
 		mOos = new ObjectOutputStream(socket.getOutputStream());
 		mOis = new ObjectInputStream(mClientSocket.getInputStream());
 	}
@@ -27,6 +29,7 @@ public class ClientListener implements Runnable {
 
 	private void waitForMessages() {
 		try {
+	
 			do {				
 				ClientMessage message = (ClientMessage) mOis.readObject();
 			
@@ -65,5 +68,15 @@ public class ClientListener implements Runnable {
 
 		System.out.println("New Player: " + logonMessage.getName());
 
+	}
+
+	public void sendMessage(ServerMessage message) {
+		// TODO Auto-generated method stub
+		try {
+			mOos.writeObject(message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

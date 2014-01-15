@@ -12,10 +12,12 @@ public class Server {
 	private int mPlayerCount;
 	private ServerSocket mServerSocket;
 	private Thread mThread;
+	private ClientManagement mClientManagement;
 
 	
 	// Constructor
 	private Server(int playerCount) {
+		mClientManagement = new ClientManagement( playerCount);
 		try {
 			mServerSocket = new ServerSocket(23534);
 		} catch (IOException e) {
@@ -28,14 +30,18 @@ public class Server {
 			Socket socket;
 			try {
 				socket = mServerSocket.accept();
+				ClientConnection clientListener = new ClientConnection(socket, this);
 				
-				new Thread(new ClientListener(socket)).start();
+				mClientManagement.addClient( clientListener );
+				new Thread(clientListener).start();
 				System.out.println("Thread mit ClientListener erstellt und gestartet");
 				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		
+		mClientManagement.sendMessage(new WelcomeMessage( "Hallo"));
 
 		// Spiel starten
 		// Game game = new Game( this );
