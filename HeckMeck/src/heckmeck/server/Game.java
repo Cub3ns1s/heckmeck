@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Game {
+public class Game implements GameState{
 	
 	//Attributes
 	private Grill mGrill;
@@ -32,6 +32,7 @@ public class Game {
 	}
 
 	public Game move() {
+		return null;
 		
 	}
 	
@@ -39,6 +40,16 @@ public class Game {
 	
 	public static void main(String[] args) {
 		System.out.println(args[0]);
+	}
+
+	@Override
+	public Grill getGrill() {
+		return null;
+	}
+
+	@Override
+	public List<PlayerState> getPlayerStates() {
+		return null;
 	}
 
 }
