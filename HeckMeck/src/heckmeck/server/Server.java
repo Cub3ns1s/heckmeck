@@ -26,6 +26,7 @@ public class Server {
 
 		System.out.println("Starte Server für " + playerCount + " Spieler");
 		// Warten auf Anmeldung
+		
 		for (int i = 0; i < playerCount; i++) {
 			Socket socket;
 			try {
@@ -44,7 +45,7 @@ public class Server {
 		mClientManagement.sendMessage(new WelcomeMessage( "Hallo"));
 
 		// Spiel starten
-		// Game game = new Game( this );
+		 Game game = new Game( mClientManagement.getPlayerNames() );
 	}
 
 	public static void main(String[] args) {

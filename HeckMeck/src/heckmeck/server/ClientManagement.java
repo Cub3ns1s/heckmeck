@@ -24,7 +24,6 @@ public class ClientManagement {
 	 */
 	public void addClient(ClientConnection clientConnection) {
 		this.mClients.add(clientConnection);
-
 	}
 
 	/**
@@ -41,6 +40,19 @@ public class ClientManagement {
 			ClientConnection client = (ClientConnection) iterator.next();
 			client.sendMessage( message );
 		}
+	}
+	
+	public List<String> getPlayerNames() {
+		
+		ArrayList<String> clientList = new ArrayList<String>();
+		
+		for (Iterator iterator = mClients.iterator(); iterator.hasNext();) {
+			ClientConnection client = (ClientConnection) iterator.next();
+			
+			clientList.add(client.getName());
+			
+		}
+		return clientList;
 	}
 	
 }

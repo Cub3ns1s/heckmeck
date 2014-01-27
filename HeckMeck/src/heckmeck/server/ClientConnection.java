@@ -12,6 +12,7 @@ public class ClientConnection implements Runnable {
 	private ObjectOutputStream mOos;
 	private ObjectInputStream mOis;
 	private Server mServer;
+	private String mName;
 
 	
 	// Constructor
@@ -66,7 +67,8 @@ public class ClientConnection implements Runnable {
 		LogonMessage logonMessage =(LogonMessage) message;
 		System.out.println("Logon Message erstellt");
 
-		System.out.println("New Player: " + logonMessage.getName());
+		mName = logonMessage.getName();
+		System.out.println("New Player: " + mName);
 
 	}
 
@@ -78,5 +80,9 @@ public class ClientConnection implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public String getName() {
+		return mName;
 	}
 }
