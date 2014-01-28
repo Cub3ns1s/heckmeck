@@ -23,8 +23,8 @@ public class Game implements GameState{
 		
 		mPlayers = new ArrayList<PlayerState>();
 		
-		for (Iterator iterator = playerList.iterator(); iterator.hasNext();) {
-			String name = (String) iterator.next();
+		for (Iterator<String> iterator = playerList.iterator(); iterator.hasNext();) {
+			String name = iterator.next();
 			
 			mPlayers.add(new PlayerState(name));
 		}

@@ -1,5 +1,8 @@
 package heckmeck.server;
 
+import heckmeck.exceptions.PlayerCountOne;
+import heckmeck.exceptions.PlayerCountZero;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.*;
@@ -14,7 +17,6 @@ public class Server {
 	private Thread mThread;
 	private ClientManagement mClientManagement;
 
-	
 	// Constructor
 	private Server(int playerCount) {
 		mClientManagement = new ClientManagement( playerCount);
@@ -25,8 +27,21 @@ public class Server {
 		}
 
 		System.out.println("Starte Server für " + playerCount + " Spieler");
-		// Warten auf Anmeldung
 		
+		// Warten auf Anmeldung
+		if (mPlayerCount == 0) {
+			try {
+				throw new PlayerCountZero();
+			} catch (PlayerCountZero e) {
+				e.printStackTrace();
+			}}
+		if(mPlayerCount == 1) {
+				try {
+					throw new PlayerCountOne();
+				} catch (PlayerCountOne e) {
+					e.printStackTrace();
+				}}
+		else {
 		for (int i = 0; i < playerCount; i++) {
 			Socket socket;
 			try {
@@ -40,12 +55,12 @@ public class Server {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}}
 		
 		mClientManagement.sendMessage(new WelcomeMessage( "Hallo"));
 
 		// Spiel starten
-		 Game game = new Game( mClientManagement.getPlayerNames() );
+		 Game game = new Game(mClientManagement.getPlayerNames());
 	}
 
 	public static void main(String[] args) {
