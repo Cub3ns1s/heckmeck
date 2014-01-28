@@ -71,12 +71,11 @@ public class Server {
 			Socket socket;
 			try {
 				socket = mServerSocket.accept();
-				ClientConnection clientListener = new ClientConnection(socket,
-						this);
+				ClientConnection clientConnection = new ClientConnection(socket, this);
 
-				mClientManagement.addClient(clientListener);
-				new Thread(clientListener).start();
-				log("Thread mit ClientListener erstellt und gestartet");
+				mClientManagement.addClient(clientConnection);
+				new Thread(clientConnection).start();
+				log("Thread mit ClientConnection erstellt und gestartet");
 
 			} catch (IOException e) {
 				e.printStackTrace();
