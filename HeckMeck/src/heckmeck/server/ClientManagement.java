@@ -1,7 +1,5 @@
 package heckmeck.server;
 
-import heckmeck.client.Client;
-
 import java.util.*;
 
 public class ClientManagement {
@@ -36,8 +34,8 @@ public class ClientManagement {
 	}
 
 	public void sendMessage( ServerMessage message){
-		for (Iterator iterator = mClients.iterator(); iterator.hasNext();) {
-			ClientConnection client = (ClientConnection) iterator.next();
+		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator.hasNext();) {
+			ClientConnection client = iterator.next();
 			client.sendMessage( message );
 		}
 	}
@@ -46,8 +44,8 @@ public class ClientManagement {
 		
 		ArrayList<String> clientList = new ArrayList<String>();
 		
-		for (Iterator iterator = mClients.iterator(); iterator.hasNext();) {
-			ClientConnection client = (ClientConnection) iterator.next();
+		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator.hasNext();) {
+			ClientConnection client = iterator.next();
 			
 			clientList.add(client.getName());
 			

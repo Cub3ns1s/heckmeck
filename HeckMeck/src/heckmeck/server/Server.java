@@ -3,7 +3,6 @@ package heckmeck.server;
 import heckmeck.exceptions.WrongPlayerCount;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.*;
 import java.lang.Thread;
 import java.net.Socket;
@@ -12,7 +11,6 @@ public class Server {
 
 	// Attributes
 	private ServerSocket mServerSocket;
-	private Thread mThread;
 	private ClientManagement mClientManagement;
 	private Game mGame;
 

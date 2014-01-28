@@ -1,10 +1,8 @@
 package heckmeck.client;
 
-import heckmeck.server.ClientMessage;
 import heckmeck.server.LogonMessage;
 import heckmeck.server.ServerMessage;
 import heckmeck.server.WelcomeMessage;
-
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
