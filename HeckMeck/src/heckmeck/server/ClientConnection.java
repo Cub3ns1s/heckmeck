@@ -41,7 +41,7 @@ public class ClientConnection implements Runnable {
 					break;
 					
 				case ClientMessage.MOVE:
-					move(message);
+					mServer.move((Decision)message);
 					break;
 
 				default:
@@ -59,9 +59,6 @@ public class ClientConnection implements Runnable {
 		}
 	}
 
-	private void move(ClientMessage message) {
-
-	}
 
 	private void logon(ClientMessage message) {
 		LogonMessage logonMessage =(LogonMessage) message;

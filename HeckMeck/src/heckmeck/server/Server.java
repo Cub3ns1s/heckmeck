@@ -12,55 +12,59 @@ import java.net.Socket;
 public class Server {
 
 	// Attributes
-	private int mPlayerCount;
 	private ServerSocket mServerSocket;
 	private Thread mThread;
 	private ClientManagement mClientManagement;
+	private Game mGame;
 
 	// Constructor
 	private Server(int playerCount) {
-		mClientManagement = new ClientManagement( playerCount);
+		mClientManagement = new ClientManagement(playerCount);
 		try {
 			mServerSocket = new ServerSocket(23534);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		System.out.println("Starte Server für " + playerCount + " Spieler");
-		
 		// Warten auf Anmeldung
-		if (mPlayerCount == 0) {
-			try {
-				throw new PlayerCountZero();
-			} catch (PlayerCountZero e) {
-				e.printStackTrace();
-			}}
-		if(mPlayerCount == 1) {
-				try {
-					throw new PlayerCountOne();
-				} catch (PlayerCountOne e) {
-					e.printStackTrace();
-				}}
-		else {
+		if (playerCount == 0) {
+			log("Mindestens zwei Spieler benötigt!");
+			return;
+		}
+		if (playerCount == 1) {
+			log("Mindestens zwei Spieler benötigt!");
+			return;
+		}
+
+		if (playerCount > 7) {
+			log("");
+		}
+		log("Starte Server für " + playerCount + " Spieler");
 		for (int i = 0; i < playerCount; i++) {
 			Socket socket;
 			try {
 				socket = mServerSocket.accept();
-				ClientConnection clientListener = new ClientConnection(socket, this);
-				
-				mClientManagement.addClient( clientListener );
+				ClientConnection clientListener = new ClientConnection(socket,
+						this);
+
+				mClientManagement.addClient(clientListener);
 				new Thread(clientListener).start();
-				System.out.println("Thread mit ClientListener erstellt und gestartet");
-				
+				log("Thread mit ClientListener erstellt und gestartet");
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}}
-		
-		mClientManagement.sendMessage(new WelcomeMessage( "Hallo"));
+		}
+
+		mClientManagement.sendMessage(new WelcomeMessage("Hallo"));
 
 		// Spiel starten
-		 Game game = new Game(mClientManagement.getPlayerNames());
+		mGame = new Game(mClientManagement.getPlayerNames());
+	}
+	
+	// Log Message
+	public static void log(String message) {
+		System.out.println(message);
 	}
 
 	public static void main(String[] args) {
@@ -77,5 +81,11 @@ public class Server {
 
 		new Server(playerCount);
 	}
-
+	
+	// Move
+	public void move(Decision decision) {
+		
+		GameStateMessage gameStateMessage = new GameStateMessage(mGame.move(decision));
+		mClientManagement.sendMessage(gameStateMessage);
+	}
 }

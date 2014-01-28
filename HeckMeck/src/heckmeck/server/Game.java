@@ -31,8 +31,12 @@ public class Game implements GameState{
 		
 	}
 
-	public Game move() {
-		return null;
+	public GameState move(Decision decision) {
+		return this;
+	}
+	
+	public GameState getGameState() {
+		return this;
 	}
 	
 	@Override
