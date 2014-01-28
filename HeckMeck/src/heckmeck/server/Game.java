@@ -33,23 +33,22 @@ public class Game implements GameState{
 
 	public Game move() {
 		return null;
-		
+	}
+	
+	@Override
+	public Grill getGrill() {
+		return mGrill;
+	}
+
+	@Override
+	public List<PlayerState> getPlayerStates() {
+		return mPlayers;
 	}
 	
 	
 	
 	public static void main(String[] args) {
 		System.out.println(args[0]);
-	}
-
-	@Override
-	public Grill getGrill() {
-		return null;
-	}
-
-	@Override
-	public List<PlayerState> getPlayerStates() {
-		return null;
 	}
 
 }
