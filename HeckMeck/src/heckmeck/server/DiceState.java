@@ -16,7 +16,6 @@ public class DiceState implements Serializable {
 	private List<Dice> mUnfixedDices;
 	private List<Dice> mFixedDices;
 
-	
 	// Constructor
 	public DiceState() {
 
@@ -67,7 +66,7 @@ public class DiceState implements Serializable {
 	/**
 	 * returns sum of diced dices
 	 * 
-	 * @return int
+	 * @return 
 	 */
 	public int getDicedValue() {
 
@@ -105,7 +104,7 @@ public class DiceState implements Serializable {
 	/**
 	 * checks whether a misthrow occured
 	 * 
-	 * @return boolean
+	 * @return 
 	 */
 	private boolean isMisthrow() {
 
@@ -125,7 +124,7 @@ public class DiceState implements Serializable {
 	 * checks whether value is fixed
 	 * 
 	 * @param value
-	 * @return boolean
+	 * @return 
 	 */
 	private boolean isValueFixed(int value) {
 		for (Iterator<Dice> iterator = mFixedDices.iterator(); iterator

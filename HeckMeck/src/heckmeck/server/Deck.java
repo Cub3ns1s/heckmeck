@@ -9,7 +9,6 @@ public class Deck implements Serializable {
 	private static final long serialVersionUID = -7606947981178065654L;
 	private List<Token> mToken;
 
-	
 	// Constructor
 	public Deck() {
 		this.mToken = new ArrayList<Token>();
@@ -18,7 +17,7 @@ public class Deck implements Serializable {
 	/**
 	 * returns token on top of deck
 	 * 
-	 * @return Token
+	 * @return 
 	 */
 	public Token getTopToken() {
 		return this.mToken.get(this.mToken.size());
@@ -27,7 +26,7 @@ public class Deck implements Serializable {
 	/**
 	 * returns size of deck
 	 * 
-	 * @return int
+	 * @return
 	 */
 	public int getSize() {
 		return this.mToken.size();
@@ -50,7 +49,7 @@ public class Deck implements Serializable {
 	}
 
 	/**
-	 * @return int
+	 * @return
 	 */
 	public int getWorms() {
 		int result = 0;

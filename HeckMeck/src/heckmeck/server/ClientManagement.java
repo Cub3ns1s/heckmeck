@@ -8,7 +8,6 @@ public class ClientManagement {
 	private List<ClientConnection> mClients;
 	private int mPlayerCount;
 
-	
 	// Constructor
 	public ClientManagement(int playerCount) {
 		this.mClients = new ArrayList<ClientConnection>();
@@ -33,24 +32,35 @@ public class ClientManagement {
 		}
 	}
 
-	public void sendMessage( ServerMessage message){
-		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator.hasNext();) {
+	/**
+	 * sends message
+	 * 
+	 * @param message
+	 */
+	public void sendMessage(ServerMessage message) {
+		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator
+				.hasNext();) {
 			ClientConnection client = iterator.next();
-			client.sendMessage( message );
+			client.sendMessage(message);
 		}
 	}
-	
+
+	/**
+	 * gets names of connected players
+	 * 
+	 * @return
+	 */
 	public List<String> getPlayerNames() {
-		
+
 		ArrayList<String> clientList = new ArrayList<String>();
-		
-		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator.hasNext();) {
+
+		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator
+				.hasNext();) {
 			ClientConnection client = iterator.next();
-			
+
 			clientList.add(client.getName());
-			
 		}
 		return clientList;
 	}
-	
+
 }

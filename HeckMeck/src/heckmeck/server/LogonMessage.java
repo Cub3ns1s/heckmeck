@@ -8,7 +8,6 @@ public class LogonMessage extends ClientMessage implements Serializable {
 	private static final long serialVersionUID = -2490711427776617424L;
 	private String mName;
 
-	
 	// Constructor
 	public LogonMessage(String name) {
 		this.mName = name;

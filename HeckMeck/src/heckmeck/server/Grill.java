@@ -9,7 +9,6 @@ public class Grill {
 	// Attributes
 	private SortedSet<Token> mt_token;
 
-	
 	// Constructor
 	public Grill() {
 		init();
@@ -29,7 +28,7 @@ public class Grill {
 	 * removes token from grill
 	 * 
 	 * @param tokenNr
-	 * @return Token
+	 * @return 
 	 * @throws NoTokenFound
 	 */
 	public Token remove(int tokenNr) throws NoTokenFound {

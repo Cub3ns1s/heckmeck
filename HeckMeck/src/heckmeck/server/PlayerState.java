@@ -11,7 +11,6 @@ public class PlayerState implements Serializable {
 	private boolean mTurn;
 	private DiceState mDiceState;
 
-	
 	// Constructor
 	public PlayerState(String name) {
 		this.mName = name;

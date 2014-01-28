@@ -8,7 +8,6 @@ public class Dice implements Serializable {
 	private static final long serialVersionUID = 7745295383873720798L;
 	private int mValue;
 
-	
 	// Constructor
 	public Dice() {
 		dice();
@@ -17,7 +16,7 @@ public class Dice implements Serializable {
 	/**
 	 * returns value of dice
 	 * 
-	 * @return int
+	 * @return
 	 */
 	public int getValue() {
 		return mValue;

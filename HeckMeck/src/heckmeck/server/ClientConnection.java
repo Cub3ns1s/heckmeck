@@ -14,11 +14,10 @@ public class ClientConnection implements Runnable {
 	private Server mServer;
 	private String mName;
 
-	
 	// Constructor
 	public ClientConnection(Socket socket, Server server) throws IOException {
 		mClientSocket = socket;
-		mServer = server; 
+		mServer = server;
 		mOos = new ObjectOutputStream(socket.getOutputStream());
 		mOis = new ObjectInputStream(mClientSocket.getInputStream());
 	}
@@ -28,20 +27,45 @@ public class ClientConnection implements Runnable {
 		waitForMessages();
 	}
 
+	/**
+	 * sends Message
+	 * 
+	 * @param message
+	 */
+	public void sendMessage(ServerMessage message) {
+		try {
+			mOos.writeObject(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * gets name of player
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return mName;
+	}
+
+	/**
+	 * waits for messages
+	 */
 	private void waitForMessages() {
 		try {
-	
-			do {				
+
+			do {
 				ClientMessage message = (ClientMessage) mOis.readObject();
-			
+
 				switch (message.getMessageType()) {
 				case ClientMessage.LOGON:
 					System.out.println("Message Typ 'LOGON' empfangen");
 					logon(message);
 					break;
-					
+
 				case ClientMessage.MOVE:
-					mServer.move((Decision)message);
+					mServer.move((Decision) message);
 					break;
 
 				default:
@@ -49,19 +73,20 @@ public class ClientConnection implements Runnable {
 				}
 
 			} while (true);
-		}
-		catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} 
-		catch (IOException e) {
-			System.out.println("No message in object found");
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-
+	/**
+	 * Creates logonMessage and logs player
+	 * 
+	 * @param message
+	 */
 	private void logon(ClientMessage message) {
-		LogonMessage logonMessage =(LogonMessage) message;
+		LogonMessage logonMessage = (LogonMessage) message;
 		System.out.println("Logon Message erstellt");
 
 		mName = logonMessage.getName();
@@ -69,17 +94,4 @@ public class ClientConnection implements Runnable {
 
 	}
 
-	public void sendMessage(ServerMessage message) {
-		// TODO Auto-generated method stub
-		try {
-			mOos.writeObject(message);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public String getName() {
-		return mName;
-	}
 }

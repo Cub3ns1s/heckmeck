@@ -7,6 +7,6 @@ public abstract class Message {
 	 * 
 	 * @return
 	 */
-	public  abstract String getMessageType();
+	public abstract String getMessageType();
 
 }

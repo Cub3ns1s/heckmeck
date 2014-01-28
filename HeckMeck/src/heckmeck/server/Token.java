@@ -7,7 +7,6 @@ public class Token implements Comparable<Token> {
 	private int mWorms;
 	private boolean mActive;
 
-	
 	// Constructor
 	public Token(int m_value) {
 		this.mValue = m_value;
@@ -19,7 +18,7 @@ public class Token implements Comparable<Token> {
 	 * returns amount of worms for value
 	 * 
 	 * @param value
-	 * @return int
+	 * @return 
 	 */
 	private int getWormsForValue(int value) {
 
@@ -39,7 +38,7 @@ public class Token implements Comparable<Token> {
 	/**
 	 * returns if token is active or not
 	 * 
-	 * @return boolean
+	 * @return 
 	 */
 	public boolean isActive() {
 		return mActive;
@@ -48,7 +47,7 @@ public class Token implements Comparable<Token> {
 	/**
 	 * returns value of token
 	 * 
-	 * @return int
+	 * @return 
 	 */
 	public int getValue() {
 		return mValue;
@@ -57,7 +56,7 @@ public class Token implements Comparable<Token> {
 	/**
 	 * returns amount of worms of token
 	 * 
-	 * @return int
+	 * @return 
 	 */
 	public int getWorms() {
 		return mWorms;
@@ -73,7 +72,7 @@ public class Token implements Comparable<Token> {
 	/**
 	 * compares token to another token
 	 * 
-	 * @return int
+	 * @return 
 	 */
 	public int compareTo(Token other) {
 		Token otherToken = other;
