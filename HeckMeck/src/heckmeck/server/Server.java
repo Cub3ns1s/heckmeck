@@ -1,7 +1,6 @@
 package heckmeck.server;
 
-import heckmeck.exceptions.PlayerCountOne;
-import heckmeck.exceptions.PlayerCountZero;
+import heckmeck.exceptions.WrongPlayerCount;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,19 +25,47 @@ public class Server {
 			e.printStackTrace();
 		}
 
-		// Warten auf Anmeldung
+		try {
+			checkPlayerCount(playerCount);
+		} catch (WrongPlayerCount e1) {
+			return;
+		}
+		
+		startThreads(playerCount);
+
+		mClientManagement.sendMessage(new WelcomeMessage("Hallo"));
+
+		mGame = new Game(mClientManagement.getPlayerNames());
+	}
+	
+	
+	public static void log(String message) {
+		System.out.println(message);
+	}
+	
+	public void move(Decision decision) {
+		
+		GameStateMessage gameStateMessage = new GameStateMessage(mGame.move(decision));
+		mClientManagement.sendMessage(gameStateMessage);
+	}
+	
+	public void checkPlayerCount(int playerCount) throws WrongPlayerCount {
 		if (playerCount == 0) {
 			log("Mindestens zwei Spieler benötigt!");
-			return;
+			throw new WrongPlayerCount();
 		}
 		if (playerCount == 1) {
 			log("Mindestens zwei Spieler benötigt!");
-			return;
+			throw new WrongPlayerCount();
 		}
 
 		if (playerCount > 7) {
-			log("");
+			log("Maximal sieben Spieler erlaubt!");
+			throw new WrongPlayerCount();
 		}
+	}
+	
+	public void startThreads(int playerCount) {
 		log("Starte Server für " + playerCount + " Spieler");
 		for (int i = 0; i < playerCount; i++) {
 			Socket socket;
@@ -55,18 +82,10 @@ public class Server {
 				e.printStackTrace();
 			}
 		}
-
-		mClientManagement.sendMessage(new WelcomeMessage("Hallo"));
-
-		// Spiel starten
-		mGame = new Game(mClientManagement.getPlayerNames());
 	}
 	
-	// Log Message
-	public static void log(String message) {
-		System.out.println(message);
-	}
-
+	
+	
 	public static void main(String[] args) {
 
 		int playerCount = 2;
@@ -80,12 +99,5 @@ public class Server {
 		}
 
 		new Server(playerCount);
-	}
-	
-	// Move
-	public void move(Decision decision) {
-		
-		GameStateMessage gameStateMessage = new GameStateMessage(mGame.move(decision));
-		mClientManagement.sendMessage(gameStateMessage);
 	}
 }
