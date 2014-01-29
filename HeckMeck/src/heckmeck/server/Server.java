@@ -33,6 +33,7 @@ public class Server {
 
 		mClientManagement.sendMessage(new WelcomeMessage("Hallo"));
 
+		log("Starte Spiel");
 		mGame = new Game(mClientManagement.getPlayerNames());
 	}
 
