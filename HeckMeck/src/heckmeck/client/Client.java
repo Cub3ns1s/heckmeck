@@ -1,8 +1,10 @@
 package heckmeck.client;
 
+import heckmeck.exceptions.HeckmeckException;
 import heckmeck.server.LogonMessage;
 import heckmeck.server.ServerMessage;
 import heckmeck.server.WelcomeMessage;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -55,6 +57,7 @@ public class Client implements Runnable {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} catch (HeckmeckException e) {
 		}
 	}
 
@@ -62,16 +65,26 @@ public class Client implements Runnable {
 	 * processes Message
 	 * 
 	 * @param serverMessage
+	 * @throws HeckmeckException
 	 */
-	private void processMessage(ServerMessage serverMessage) {
+	private void processMessage(ServerMessage serverMessage)
+			throws HeckmeckException {
 		switch (serverMessage.getMessageType()) {
 		case ServerMessage.WELCOME:
 			processWelcomeMessage(serverMessage);
 			break;
+		case ServerMessage.FULL:
+			processFullMessage();
 
 		default:
 			break;
 		}
+	}
+
+	private void processFullMessage() throws HeckmeckException {
+		System.out.println("Server full!");
+		throw new HeckmeckException();
+
 	}
 
 	/**

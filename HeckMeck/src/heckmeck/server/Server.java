@@ -3,6 +3,7 @@ package heckmeck.server;
 import heckmeck.exceptions.WrongPlayerCount;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.*;
 import java.lang.Thread;
 import java.net.Socket;
@@ -13,28 +14,19 @@ public class Server {
 	private ServerSocket mServerSocket;
 	private ClientManagement mClientManagement;
 	private Game mGame;
+	private int mPlayerCount;
+	private static final int MINPLAYER = 2;
+	private static final int MAXPLAYER = 7;
 
 	// Constructor
-	private Server(int playerCount) {
-		mClientManagement = new ClientManagement(playerCount);
+	public Server(int playerCount) {
+		mPlayerCount = playerCount;
+		mClientManagement = new ClientManagement(mPlayerCount);
 		try {
 			mServerSocket = new ServerSocket(23534);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		try {
-			checkPlayerCount(playerCount);
-		} catch (WrongPlayerCount e1) {
-			return;
-		}
-
-		startThreads(playerCount);
-
-		mClientManagement.sendMessage(new WelcomeMessage("Hallo"));
-
-		log("Starte Spiel");
-		mGame = new Game(mClientManagement.getPlayerNames());
 	}
 
 	/**
@@ -53,8 +45,15 @@ public class Server {
 			}
 			;
 		}
-
-		new Server(playerCount);
+		
+		try {
+			checkPlayerCount(playerCount);
+		} catch (WrongPlayerCount e1) {
+			return;
+		}
+		
+		Server server = new Server(playerCount);
+		server.startThreads(playerCount);
 	}
 
 	/**
@@ -80,21 +79,17 @@ public class Server {
 
 	/**
 	 * checks player count
+	 * @param playerCount 
 	 * 
-	 * @param playerCount
 	 * @throws WrongPlayerCount
 	 */
-	public void checkPlayerCount(int playerCount) throws WrongPlayerCount {
-		if (playerCount == 0) {
-			log("Mindestens zwei Spieler benötigt!");
-			throw new WrongPlayerCount();
-		}
-		if (playerCount == 1) {
+	public static void checkPlayerCount(int playerCount) throws WrongPlayerCount {
+		if (playerCount < MINPLAYER) {
 			log("Mindestens zwei Spieler benötigt!");
 			throw new WrongPlayerCount();
 		}
 
-		if (playerCount > 7) {
+		if (playerCount > MAXPLAYER) {
 			log("Maximal sieben Spieler erlaubt!");
 			throw new WrongPlayerCount();
 		}
@@ -107,21 +102,56 @@ public class Server {
 	 */
 	public void startThreads(int playerCount) {
 		log("Starte Server für " + playerCount + " Spieler");
-		for (int i = 0; i < playerCount; i++) {
+		while (true) {
+
 			Socket socket;
 			try {
 				socket = mServerSocket.accept();
-				ClientConnection clientConnection = new ClientConnection(
-						socket, this);
 
-				mClientManagement.addClient(clientConnection);
-				new Thread(clientConnection).start();
-				log("Thread mit ClientConnection erstellt und gestartet");
+				if (mClientManagement.isPlayerCountReached()) {
+					sendFullMessage(socket);
+				} else {
+					addClient(socket);
+					if (mClientManagement.isPlayerCountReached()) {
+						mClientManagement.sendMessage(new WelcomeMessage(
+								"Hallo"));
+
+						log("Starte Spiel");
+						mGame = new Game(mClientManagement.getPlayerNames());
+					}
+				}
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				log(e);
 			}
+
+		}
+
+	}
+
+	private void log(IOException e) {
+		for (int i = 0; i < e.getStackTrace().length; i++) {
+			StackTraceElement ste = e.getStackTrace()[i];
+			log(ste.toString());
 		}
 	}
 
+	private void addClient(Socket socket) throws IOException {
+		ClientConnection clientConnection = new ClientConnection(socket, this);
+
+		mClientManagement.addClient(clientConnection);
+		new Thread(clientConnection).start();
+		log("Thread mit ClientConnection erstellt und gestartet");
+	}
+
+	private void sendFullMessage(Socket socket) {
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(
+					socket.getOutputStream());
+			oos.writeObject(new FullMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

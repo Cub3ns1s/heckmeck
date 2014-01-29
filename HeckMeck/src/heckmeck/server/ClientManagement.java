@@ -26,9 +26,11 @@ public class ClientManagement {
 	/**
 	 * checks number of players
 	 */
-	public void checkPlayerCount() {
+	public boolean isPlayerCountReached() {
 		if (mClients.size() == mPlayerCount) {
-			// Game.start();
+			return true;
+		}else{
+			return false;
 		}
 	}
 
