@@ -1,6 +1,6 @@
 package heckmeck.server;
 
-import heckmeck.exceptions.NoTokenFound;
+import heckmeck.exceptions.NoTokenFoundException;
 
 import java.util.*;
 
@@ -29,9 +29,9 @@ public class Grill {
 	 * 
 	 * @param tokenNr
 	 * @return 
-	 * @throws NoTokenFound
+	 * @throws NoTokenFoundException
 	 */
-	public Token remove(int tokenNr) throws NoTokenFound {
+	public Token remove(int tokenNr) throws NoTokenFoundException {
 		for (Iterator<Token> iterator = mt_token.iterator(); iterator.hasNext();) {
 			Token token = iterator.next();
 
@@ -41,7 +41,7 @@ public class Grill {
 			}
 		}
 
-		throw new NoTokenFound();
+		throw new NoTokenFoundException();
 	}
 
 	/**

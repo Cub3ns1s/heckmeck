@@ -1,7 +1,7 @@
 package heckmeck.unittests;
 
 import static org.junit.Assert.*;
-import heckmeck.exceptions.WrongPlayerCount;
+import heckmeck.exceptions.WrongPlayerCountException;
 import heckmeck.server.Server;
 
 import java.lang.reflect.Array;
@@ -29,7 +29,7 @@ public class UTServer_PlayerCount {
 		try {
 			Server.checkPlayerCount(0);
 			fail("Exception which is expected for zero players didn't occur.");
-		} catch (WrongPlayerCount e) {
+		} catch (WrongPlayerCountException e) {
 		}
 	}
 	
@@ -38,7 +38,7 @@ public class UTServer_PlayerCount {
 		try {
 			Server.checkPlayerCount(1);
 			fail("Exception which is expected for only one player didn't occur.");
-		} catch (WrongPlayerCount e) {
+		} catch (WrongPlayerCountException e) {
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class UTServer_PlayerCount {
 	public void checkPlayerCount2() {
 		try {
 			Server.checkPlayerCount(2);
-		} catch (WrongPlayerCount e) {
+		} catch (WrongPlayerCountException e) {
 			fail("Exception which is not expected for two players did occur.");
 		}
 	}
@@ -56,7 +56,7 @@ public class UTServer_PlayerCount {
 	public void checkPlayerCount7() {
 		try {
 			Server.checkPlayerCount(7);
-		} catch (WrongPlayerCount e) {
+		} catch (WrongPlayerCountException e) {
 			fail("Exception which is not expected for seven players did occur.");
 		}
 	}
@@ -66,7 +66,7 @@ public class UTServer_PlayerCount {
 		try {
 			Server.checkPlayerCount(8);
 			fail("Exception which is expected for eight players didn't occur.");
-		} catch (WrongPlayerCount e) {
+		} catch (WrongPlayerCountException e) {
 		}
 	}
 }

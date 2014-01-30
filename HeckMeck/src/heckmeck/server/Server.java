@@ -1,6 +1,6 @@
 package heckmeck.server;
 
-import heckmeck.exceptions.WrongPlayerCount;
+import heckmeck.exceptions.WrongPlayerCountException;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -48,7 +48,7 @@ public class Server {
 		
 		try {
 			checkPlayerCount(playerCount);
-		} catch (WrongPlayerCount e1) {
+		} catch (WrongPlayerCountException e1) {
 			return;
 		}
 		
@@ -81,17 +81,17 @@ public class Server {
 	 * checks player count
 	 * @param playerCount 
 	 * 
-	 * @throws WrongPlayerCount
+	 * @throws WrongPlayerCountException
 	 */
-	public static void checkPlayerCount(int playerCount) throws WrongPlayerCount {
+	public static void checkPlayerCount(int playerCount) throws WrongPlayerCountException {
 		if (playerCount < MINPLAYER) {
 			log("Mindestens zwei Spieler benötigt!");
-			throw new WrongPlayerCount();
+			throw new WrongPlayerCountException();
 		}
 
 		if (playerCount > MAXPLAYER) {
 			log("Maximal sieben Spieler erlaubt!");
-			throw new WrongPlayerCount();
+			throw new WrongPlayerCountException();
 		}
 	}
 

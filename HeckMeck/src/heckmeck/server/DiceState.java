@@ -1,8 +1,8 @@
 package heckmeck.server;
 
-import heckmeck.exceptions.AlreadyFixed;
-import heckmeck.exceptions.Misthrow;
-import heckmeck.exceptions.ValueNotFound;
+import heckmeck.exceptions.AlreadyFixedException;
+import heckmeck.exceptions.MisthrowException;
+import heckmeck.exceptions.ValueNotFoundException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -85,9 +85,9 @@ public class DiceState implements Serializable {
 	/**
 	 * dices all unfixed dices
 	 * 
-	 * @throws Misthrow
+	 * @throws MisthrowException
 	 */
-	public void dice() throws Misthrow {
+	public void dice() throws MisthrowException {
 
 		for (Iterator<Dice> iterator = mUnfixedDices.iterator(); iterator
 				.hasNext();) {
@@ -96,7 +96,7 @@ public class DiceState implements Serializable {
 			dice.dice();
 
 			if (isMisthrow()) {
-				throw new Misthrow();
+				throw new MisthrowException();
 			}
 		}
 	}
@@ -144,14 +144,14 @@ public class DiceState implements Serializable {
 	 * fixes all dices with given value
 	 * 
 	 * @param value
-	 * @throws AlreadyFixed
-	 * @throws ValueNotFound
+	 * @throws AlreadyFixedException
+	 * @throws ValueNotFoundException
 	 */
-	public void fixValue(int value) throws AlreadyFixed, ValueNotFound {
+	public void fixValue(int value) throws AlreadyFixedException, ValueNotFoundException {
 		boolean valueFound = false;
 
 		if (isValueFixed(value)) {
-			throw new AlreadyFixed();
+			throw new AlreadyFixedException();
 		}
 
 		for (Iterator<Dice> iterator = mUnfixedDices.iterator(); iterator
@@ -168,7 +168,7 @@ public class DiceState implements Serializable {
 		}
 
 		if (!valueFound) {
-			throw new ValueNotFound();
+			throw new ValueNotFoundException();
 		}
 	}
 
