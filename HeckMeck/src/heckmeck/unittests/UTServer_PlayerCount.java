@@ -1,11 +1,8 @@
 package heckmeck.unittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 import heckmeck.exceptions.WrongPlayerCountException;
 import heckmeck.server.Server;
-
-import java.lang.reflect.Array;
-import java.util.Scanner;
 
 import org.junit.After;
 import org.junit.Before;

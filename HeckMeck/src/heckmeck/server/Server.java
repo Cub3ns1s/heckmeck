@@ -17,6 +17,7 @@ public class Server {
 	private int mPlayerCount;
 	private static final int MINPLAYER = 2;
 	private static final int MAXPLAYER = 7;
+	private static Log mLog = new Log();
 
 	// Constructor
 	public Server(int playerCount) {
@@ -56,14 +57,6 @@ public class Server {
 		server.startThreads(playerCount);
 	}
 
-	/**
-	 * prints message
-	 * 
-	 * @param message
-	 */
-	public static void log(String message) {
-		System.out.println(message);
-	}
 
 	/**
 	 * initializes gameStateMessage and sends message
@@ -85,12 +78,12 @@ public class Server {
 	 */
 	public static void checkPlayerCount(int playerCount) throws WrongPlayerCountException {
 		if (playerCount < MINPLAYER) {
-			log("Mindestens zwei Spieler benötigt!");
+			mLog.log("Mindestens zwei Spieler benötigt!");
 			throw new WrongPlayerCountException();
 		}
 
 		if (playerCount > MAXPLAYER) {
-			log("Maximal sieben Spieler erlaubt!");
+			mLog.log("Maximal sieben Spieler erlaubt!");
 			throw new WrongPlayerCountException();
 		}
 	}
@@ -101,7 +94,7 @@ public class Server {
 	 * @param playerCount
 	 */
 	public void startThreads(int playerCount) {
-		log("Starte Server für " + playerCount + " Spieler");
+		mLog.log("Starte Server für " + playerCount + " Spieler");
 		while (true) {
 
 			Socket socket;
@@ -116,24 +109,17 @@ public class Server {
 						mClientManagement.sendMessage(new WelcomeMessage(
 								"Hallo"));
 
-						log("Starte Spiel");
+						mLog.log("Starte Spiel");
 						mGame = new Game(mClientManagement.getPlayerNames());
 					}
 				}
 
 			} catch (IOException e) {
-				log(e);
+				mLog.log(e);
 			}
 
 		}
 
-	}
-
-	private void log(IOException e) {
-		for (int i = 0; i < e.getStackTrace().length; i++) {
-			StackTraceElement ste = e.getStackTrace()[i];
-			log(ste.toString());
-		}
 	}
 
 	private void addClient(Socket socket) throws IOException {
@@ -141,7 +127,7 @@ public class Server {
 
 		mClientManagement.addClient(clientConnection);
 		new Thread(clientConnection).start();
-		log("Thread mit ClientConnection erstellt und gestartet");
+		mLog.log("Thread mit ClientConnection erstellt und gestartet");
 	}
 
 	private void sendFullMessage(Socket socket) {
