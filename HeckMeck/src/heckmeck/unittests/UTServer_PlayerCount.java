@@ -2,8 +2,8 @@ package heckmeck.unittests;
 
 import static org.junit.Assert.fail;
 import heckmeck.exceptions.WrongPlayerCountException;
-import heckmeck.server.DummyLog;
 import heckmeck.server.Server;
+import heckmeck.server.SysoLog;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,11 +15,12 @@ public class UTServer_PlayerCount {
 	
 	@Before
 	public void setUp() throws Exception {
-		mServer = new Server(2, new DummyLog());
+		mServer = new Server(2, new SysoLog());
 	}
 
 	@After
 	public void tearDown() throws Exception {
+//		mServer.shutdown();
 	}
 
 	@Test

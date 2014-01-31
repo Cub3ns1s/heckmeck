@@ -64,4 +64,20 @@ public class PlayerState implements Serializable {
 		this.mTurn = turn;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		sB.append("Player: " + mName + "\n");
+		sB.append("Tokens: " + mDeck.getSize() + "\n");
+		sB.append("Top Token: " + mDeck.getTopToken().toString() + "\n");
+		sB.append("********************\n");
+		
+		if (isTurn()) {
+			mDiceState.toString();
+		}
+		return sB.toString();
+	}
+	
+	
+
 }

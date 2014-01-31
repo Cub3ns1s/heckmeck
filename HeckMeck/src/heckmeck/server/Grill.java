@@ -7,7 +7,7 @@ import java.util.*;
 public class Grill {
 
 	// Attributes
-	private SortedSet<Token> mt_token;
+	private SortedSet<Token> mTokens;
 
 	// Constructor
 	public Grill() {
@@ -18,9 +18,9 @@ public class Grill {
 	 * initializes list with 16 tokens
 	 */
 	private void init() {
-		mt_token = new TreeSet<Token>();
+		mTokens = new TreeSet<Token>();
 		for (int i = 21; i < 37; i++) {
-			this.mt_token.add(new Token(i));
+			this.mTokens.add(new Token(i));
 		}
 	}
 
@@ -32,11 +32,11 @@ public class Grill {
 	 * @throws NoTokenFoundException
 	 */
 	public Token remove(int tokenNr) throws NoTokenFoundException {
-		for (Iterator<Token> iterator = mt_token.iterator(); iterator.hasNext();) {
+		for (Iterator<Token> iterator = mTokens.iterator(); iterator.hasNext();) {
 			Token token = iterator.next();
 
 			if (tokenNr == token.getValue()) {
-				mt_token.remove(token);
+				mTokens.remove(token);
 				return token;
 			}
 		}
@@ -51,8 +51,23 @@ public class Grill {
 	 */
 	public void failure(Token token) {
 		if (token != null) {
-			mt_token.add(token);
+			mTokens.add(token);
 		}
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		sB.append("GRILL \n");
+		
+		for (Iterator<Token> iterator = mTokens.iterator(); iterator.hasNext();) {
+			Token token = iterator.next();
+			sB.append(token.toString());
+		}
+		sB.append("\n********************\n");
+		return sB.toString();
+	}
+
+	
 
 }

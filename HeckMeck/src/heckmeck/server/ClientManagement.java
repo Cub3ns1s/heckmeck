@@ -65,4 +65,11 @@ public class ClientManagement {
 		return clientList;
 	}
 
+	public void shutdown() {
+		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator.hasNext();) {
+			ClientConnection clientConnection = iterator.next();
+			clientConnection.shutdown();
+		}
+	}
+
 }

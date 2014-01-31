@@ -78,4 +78,11 @@ public class Token implements Comparable<Token> {
 		Token otherToken = other;
 		return mValue - otherToken.mValue;
 	}
+
+	@Override
+	public String toString() {
+		return mValue + " - " + mWorms + "\n";
+	}
+	
+	
 }

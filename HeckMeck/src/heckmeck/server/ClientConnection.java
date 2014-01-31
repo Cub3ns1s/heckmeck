@@ -94,4 +94,12 @@ public class ClientConnection implements Runnable {
 
 	}
 
+	public void shutdown() {
+		try {
+			mClientSocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

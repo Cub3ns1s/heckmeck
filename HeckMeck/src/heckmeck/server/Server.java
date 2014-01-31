@@ -24,11 +24,7 @@ public class Server {
 		mPlayerCount = playerCount;
 		mLog = logger;
 		mClientManagement = new ClientManagement(mPlayerCount);
-		try {
-			mServerSocket = new ServerSocket(23534);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	/**
@@ -90,12 +86,23 @@ public class Server {
 	 */
 	public void start(int playerCount) {
 		try {
+			mServerSocket = new ServerSocket(23534);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
 			checkPlayerCount(playerCount);
 		} catch (WrongPlayerCountException e1) {
 			return;
 		}
 		
 		mLog.log("Starte Server für " + playerCount + " Spieler");
+		waitForNewClients();
+
+	}
+
+	private void waitForNewClients() {
 		while (true) {
 
 			Socket socket;
@@ -120,7 +127,6 @@ public class Server {
 			}
 
 		}
-
 	}
 
 	private void addClient(Socket socket) throws IOException {
@@ -138,6 +144,16 @@ public class Server {
 			oos.writeObject(new FullMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void shutdown() {
+		try {
+			mServerSocket.close();
+			mClientManagement.shutdown();
+			mLog.log("Server beendet.");
+		} catch (IOException e) {
+			mLog.log(e);
 		}
 	}
 }

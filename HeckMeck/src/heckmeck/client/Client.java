@@ -1,6 +1,8 @@
 package heckmeck.client;
 
 import heckmeck.exceptions.HeckmeckException;
+import heckmeck.server.GameState;
+import heckmeck.server.GameStateMessage;
 import heckmeck.server.LogonMessage;
 import heckmeck.server.ServerMessage;
 import heckmeck.server.WelcomeMessage;
@@ -9,7 +11,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client implements Runnable {
+public class Client {
 
 	// Attributes
 	private Socket mSocket;
@@ -26,14 +28,21 @@ public class Client implements Runnable {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Thread(new Client(args[0])).start();
+		new Client(args[0]).start();
 	}
 
-	@Override
-	public void run() {
+	private void start() {
+		logon();
+		waitForServerMessages();
+
+	}
+
+	private void logon() {
 		String ip = "127.0.0.1";
+
 		try {
 			mSocket = new Socket(ip, 23534);
+
 			LogonMessage message = new LogonMessage(mName);
 
 			ObjectOutputStream oos = new ObjectOutputStream(
@@ -42,6 +51,13 @@ public class Client implements Runnable {
 			oos.writeObject(message);
 
 			System.out.println("Client: Anmeldung abgeschickt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void waitForServerMessages() {
+		try {
 
 			do {
 				ObjectInputStream ios = new ObjectInputStream(
@@ -59,6 +75,7 @@ public class Client implements Runnable {
 			e.printStackTrace();
 		} catch (HeckmeckException e) {
 		}
+
 	}
 
 	/**
@@ -75,10 +92,26 @@ public class Client implements Runnable {
 			break;
 		case ServerMessage.FULL:
 			processFullMessage();
+			break;
+		case ServerMessage.GAMESTATE:
+			processGameStateMessage(serverMessage);
 
 		default:
 			break;
 		}
+	}
+
+	private void processGameStateMessage(ServerMessage serverMessage) {
+		GameStateMessage gameStateMessage = (GameStateMessage) serverMessage;
+		GameState gameState = gameStateMessage.getGameState();
+
+		printGameState(gameState);
+
+	}
+
+	private void printGameState(GameState gameState) {
+		// TODO Auto-generated method stub
+
 	}
 
 	private void processFullMessage() throws HeckmeckException {

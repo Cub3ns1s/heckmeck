@@ -20,7 +20,7 @@ public class Deck implements Serializable {
 	 * @return 
 	 */
 	public Token getTopToken() {
-		return this.mToken.get(this.mToken.size());
+		return mToken.get((mToken.size()-1));
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class Deck implements Serializable {
 	 * @return
 	 */
 	public int getSize() {
-		return this.mToken.size();
+		return mToken.size();
 	}
 
 	/**
@@ -38,14 +38,14 @@ public class Deck implements Serializable {
 	 * @param token
 	 */
 	public void addToken(Token token) {
-		this.mToken.add(token);
+		mToken.add(token);
 	}
 
 	/**
 	 * removes token from deck
 	 */
 	public void removeTopToken() {
-		this.mToken.remove(this.mToken.size());
+		mToken.remove(mToken.size());
 	}
 
 	/**

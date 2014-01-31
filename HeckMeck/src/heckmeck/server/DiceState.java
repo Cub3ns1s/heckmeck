@@ -182,4 +182,20 @@ public class DiceState implements Serializable {
 
 		assert (mUnfixedDices.size() == 8);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		List<Dice> fixedDices = getFixedDices();
+		List<Dice> unfixedDices  = getUnfixedDices();
+		
+		sB.append("Fixed: ");
+		for (Iterator iterator = fixedDices.iterator(); iterator.hasNext();) {
+			Dice dice = (Dice) iterator.next();
+			sB.append(dice.getValue() + " ");
+		}
+		return sB.toString();
+	}
+	
+	
 }

@@ -73,4 +73,18 @@ public class Game implements GameState {
 	public List<PlayerState> getPlayerStates() {
 		return mPlayers;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		sB.append(mGrill.toString());
+		
+		for (Iterator<PlayerState> iterator = mPlayers.iterator(); iterator.hasNext();) {
+			PlayerState playerState = iterator.next();
+			sB.append(playerState.toString());
+		}
+		return sB.toString();
+	}
+	
+	
 }
