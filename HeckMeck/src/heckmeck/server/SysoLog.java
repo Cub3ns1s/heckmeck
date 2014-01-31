@@ -2,7 +2,7 @@ package heckmeck.server;
 
 import java.io.IOException;
 
-public class Log implements Loggable {
+public class SysoLog implements Logger {
 
 	@Override
 	public void log(String message) {

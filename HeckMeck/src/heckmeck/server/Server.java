@@ -17,11 +17,12 @@ public class Server {
 	private int mPlayerCount;
 	private static final int MINPLAYER = 2;
 	private static final int MAXPLAYER = 7;
-	private static Log mLog = new Log();
+	private Logger mLog;
 
 	// Constructor
-	public Server(int playerCount) {
+	public Server(int playerCount, Logger logger) {
 		mPlayerCount = playerCount;
+		mLog = logger;
 		mClientManagement = new ClientManagement(mPlayerCount);
 		try {
 			mServerSocket = new ServerSocket(23534);
@@ -47,14 +48,8 @@ public class Server {
 			;
 		}
 		
-		try {
-			checkPlayerCount(playerCount);
-		} catch (WrongPlayerCountException e1) {
-			return;
-		}
-		
-		Server server = new Server(playerCount);
-		server.startThreads(playerCount);
+		Server server = new Server(playerCount, new SysoLog());
+		server.start(playerCount);
 	}
 
 
@@ -76,7 +71,7 @@ public class Server {
 	 * 
 	 * @throws WrongPlayerCountException
 	 */
-	public static void checkPlayerCount(int playerCount) throws WrongPlayerCountException {
+	public void checkPlayerCount(int playerCount) throws WrongPlayerCountException {
 		if (playerCount < MINPLAYER) {
 			mLog.log("Mindestens zwei Spieler benötigt!");
 			throw new WrongPlayerCountException();
@@ -93,7 +88,13 @@ public class Server {
 	 * 
 	 * @param playerCount
 	 */
-	public void startThreads(int playerCount) {
+	public void start(int playerCount) {
+		try {
+			checkPlayerCount(playerCount);
+		} catch (WrongPlayerCountException e1) {
+			return;
+		}
+		
 		mLog.log("Starte Server für " + playerCount + " Spieler");
 		while (true) {
 
@@ -136,7 +137,6 @@ public class Server {
 					socket.getOutputStream());
 			oos.writeObject(new FullMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

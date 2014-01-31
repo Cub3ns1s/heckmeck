@@ -4,10 +4,10 @@ public class GameStateMessage extends ServerMessage {
 
 	// Attributes
 	private static final long serialVersionUID = 479380160588633881L;
-	private GameStateable mGameState;
+	private GameState mGameState;
 
 	// Constructor
-	public GameStateMessage(GameStateable gameState) {
+	public GameStateMessage(GameState gameState) {
 		super();
 		this.mGameState = gameState;
 	}
@@ -17,7 +17,7 @@ public class GameStateMessage extends ServerMessage {
 	 * 
 	 * @return
 	 */
-	public GameStateable getGameState() {
+	public GameState getGameState() {
 		return mGameState;
 	}
 
