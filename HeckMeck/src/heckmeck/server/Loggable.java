@@ -2,7 +2,7 @@ package heckmeck.server;
 
 import java.io.IOException;
 
-public interface LogInterface {
+public interface Loggable {
 	
 	public void log(String message);
 	

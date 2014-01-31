@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Game implements GameStateInterface {
+public class Game implements GameStateable {
 
 	// Attributes
 	private Grill mGrill;
@@ -51,7 +51,7 @@ public class Game implements GameStateInterface {
 	 * @param decision
 	 * @return
 	 */
-	public GameStateInterface move(Decision decision) {
+	public GameStateable move(Decision decision) {
 		return this;
 	}
 
@@ -60,7 +60,7 @@ public class Game implements GameStateInterface {
 	 * 
 	 * @return
 	 */
-	public GameStateInterface getGameState() {
+	public GameStateable getGameState() {
 		return this;
 	}
 

@@ -2,7 +2,7 @@ package heckmeck.server;
 
 import java.util.List;
 
-public interface GameStateInterface {
+public interface GameStateable {
 
 	/**
 	 * abstract method for getting the grill
