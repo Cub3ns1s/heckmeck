@@ -54,7 +54,7 @@ public class Server {
 	 * 
 	 * @param decision
 	 */
-	public void move(Decision decision) {
+	public void move(DecisionMessage decision) {
 
 		GameStateMessage gameStateMessage = new GameStateMessage(
 				mGame.move(decision));

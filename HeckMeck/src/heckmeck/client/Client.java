@@ -1,6 +1,8 @@
 package heckmeck.client;
 
 import heckmeck.exceptions.HeckmeckException;
+import heckmeck.server.ClientMessage;
+import heckmeck.server.DecisionMessage;
 import heckmeck.server.GameState;
 import heckmeck.server.GameStateMessage;
 import heckmeck.server.LogonMessage;
@@ -10,12 +12,15 @@ import heckmeck.server.WelcomeMessage;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class Client {
 
 	// Attributes
 	private Socket mSocket;
 	private String mName;
+	private GameState mGameState;
+	private ObjectOutputStream mOOS;
 
 	// Constructor
 	public Client(String name) {
@@ -32,25 +37,33 @@ public class Client {
 	}
 
 	private void start() {
+		String ip = "127.0.0.1";
+		initConnection(ip);
 		logon();
 		waitForServerMessages();
 
 	}
 
 	private void logon() {
-		String ip = "127.0.0.1";
+		LogonMessage message = new LogonMessage(mName);
 
+		sendMessage(message);
+
+		System.out.println("Client: Anmeldung abgeschickt");
+	}
+
+	private void initConnection(String ip) {
 		try {
 			mSocket = new Socket(ip, 23534);
+			mOOS = new ObjectOutputStream(mSocket.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-			LogonMessage message = new LogonMessage(mName);
-
-			ObjectOutputStream oos = new ObjectOutputStream(
-					mSocket.getOutputStream());
-
-			oos.writeObject(message);
-
-			System.out.println("Client: Anmeldung abgeschickt");
+	private void sendMessage(ClientMessage message) {
+		try {
+			mOOS.writeObject(message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -103,21 +116,19 @@ public class Client {
 
 	private void processGameStateMessage(ServerMessage serverMessage) {
 		GameStateMessage gameStateMessage = (GameStateMessage) serverMessage;
-		GameState gameState = gameStateMessage.getGameState();
+		mGameState = gameStateMessage.getGameState();
 
-		printGameState(gameState);
+		printGameState();
 
 	}
 
-	private void printGameState(GameState gameState) {
-		// TODO Auto-generated method stub
-
+	private void printGameState() {
+		System.out.println(mGameState.toString());
 	}
 
 	private void processFullMessage() throws HeckmeckException {
 		System.out.println("Server full!");
 		throw new HeckmeckException();
-
 	}
 
 	/**
@@ -130,4 +141,15 @@ public class Client {
 		System.out.println(message.getText());
 	}
 
+	private void waitForUserInput() {
+		Scanner scanner = new Scanner(System.in);
+		String input = scanner.nextLine();
+
+		int dots = input.charAt(0);
+		boolean proceed = (input.charAt(1) == 'C');
+		DecisionMessage decision = new DecisionMessage(dots, proceed);
+
+		sendMessage(decision);
+
+	}
 }

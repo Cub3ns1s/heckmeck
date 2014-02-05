@@ -42,6 +42,8 @@ public class Game implements GameState {
 
 			mPlayers.add(new PlayerState(name));
 		}
+		
+		mPlayers.get(mPlayers.size() - 1).setTurn(true);
 
 	}
 
@@ -51,7 +53,7 @@ public class Game implements GameState {
 	 * @param decision
 	 * @return
 	 */
-	public GameState move(Decision decision) {
+	public GameState move(DecisionMessage decision) {
 		return this;
 	}
 

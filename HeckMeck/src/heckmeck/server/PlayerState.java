@@ -70,11 +70,11 @@ public class PlayerState implements Serializable {
 		sB.append("Player: " + mName + "\n");
 		sB.append("Tokens: " + mDeck.getSize() + "\n");
 		sB.append("Top Token: " + mDeck.getTopToken().toString() + "\n");
-		sB.append("********************\n");
 		
 		if (isTurn()) {
-			mDiceState.toString();
+			sB.append(mDiceState.toString());
 		}
+		sB.append("\n********************\n");
 		return sB.toString();
 	}
 	

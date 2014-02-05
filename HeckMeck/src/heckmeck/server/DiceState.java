@@ -6,6 +6,7 @@ import heckmeck.exceptions.ValueNotFoundException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,6 +25,11 @@ public class DiceState implements Serializable {
 
 		for (int i = 0; i < 8; i++) {
 			mUnfixedDices.add(new Dice());
+		}
+		try {
+			dice();
+		} catch (MisthrowException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -94,11 +100,12 @@ public class DiceState implements Serializable {
 			Dice dice = iterator.next();
 
 			dice.dice();
-
 			if (isMisthrow()) {
 				throw new MisthrowException();
 			}
 		}
+		
+		sort();
 	}
 
 	/**
@@ -167,6 +174,8 @@ public class DiceState implements Serializable {
 			}
 		}
 
+		sort();
+		
 		if (!valueFound) {
 			throw new ValueNotFoundException();
 		}
@@ -190,12 +199,21 @@ public class DiceState implements Serializable {
 		List<Dice> unfixedDices  = getUnfixedDices();
 		
 		sB.append("Fixed: ");
-		for (Iterator iterator = fixedDices.iterator(); iterator.hasNext();) {
-			Dice dice = (Dice) iterator.next();
+		for (Iterator<Dice> iterator = fixedDices.iterator(); iterator.hasNext();) {
+			Dice dice =iterator.next();
+			sB.append(dice.getValue() + " ");
+		}
+		sB.append("\nUnfixed: ");
+		for (Iterator<Dice> iterator = unfixedDices.iterator(); iterator.hasNext();) {
+			Dice dice = iterator.next();
 			sB.append(dice.getValue() + " ");
 		}
 		return sB.toString();
 	}
 	
 	
+	private void sort() {
+		Collections.sort(mFixedDices);
+		Collections.sort(mUnfixedDices);
+	}
 }

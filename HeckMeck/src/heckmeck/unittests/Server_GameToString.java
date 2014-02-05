@@ -39,6 +39,7 @@ public class Server_GameToString {
 			
 			playerStates.get(0).getDeck().addToken(token28);
 			playerStates.get(1).getDeck().addToken(token25);
+			
 		} catch (NoTokenFoundException e) {
 		}
 		

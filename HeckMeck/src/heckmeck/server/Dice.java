@@ -2,7 +2,7 @@ package heckmeck.server;
 
 import java.io.Serializable;
 
-public class Dice implements Serializable {
+public class Dice implements Serializable, Comparable<Dice>{
 
 	// Attributes
 	private static final long serialVersionUID = 7745295383873720798L;
@@ -36,6 +36,16 @@ public class Dice implements Serializable {
 	 */
 	public void dice() {
 		mValue = (int) (Math.random() * 6 + 1);
+	}
+
+	@Override
+	public int compareTo(Dice otherDice) {		
+		return (getValue() - otherDice.getValue());
+	}
+
+	@Override
+	public String toString() {
+		return "Dice [mValue=" + mValue + "]";
 	}
 
 }

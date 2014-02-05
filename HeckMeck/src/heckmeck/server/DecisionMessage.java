@@ -2,7 +2,7 @@ package heckmeck.server;
 
 import java.io.Serializable;
 
-public class Decision extends ClientMessage implements Serializable {
+public class DecisionMessage extends ClientMessage implements Serializable {
 
 	// Attributes
 	private static final long serialVersionUID = -7511837159574504708L;
@@ -10,7 +10,7 @@ public class Decision extends ClientMessage implements Serializable {
 	private boolean mProceed;
 
 	// Constructor
-	public Decision(int dots, boolean proceed) {
+	public DecisionMessage(int dots, boolean proceed) {
 		super();
 		this.mDots = dots;
 		this.mProceed = proceed;
