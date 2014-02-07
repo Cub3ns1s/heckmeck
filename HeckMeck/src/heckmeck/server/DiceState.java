@@ -1,14 +1,8 @@
 package heckmeck.server;
 
-import heckmeck.exceptions.AlreadyFixedException;
-import heckmeck.exceptions.MisthrowException;
-import heckmeck.exceptions.ValueNotFoundException;
-
+import heckmeck.exceptions.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class DiceState implements Serializable {
 
@@ -72,7 +66,7 @@ public class DiceState implements Serializable {
 	/**
 	 * returns sum of diced dices
 	 * 
-	 * @return 
+	 * @return
 	 */
 	public int getDicedValue() {
 
@@ -104,14 +98,14 @@ public class DiceState implements Serializable {
 				throw new MisthrowException();
 			}
 		}
-		
+
 		sort();
 	}
 
 	/**
 	 * checks whether a misthrow occured
 	 * 
-	 * @return 
+	 * @return
 	 */
 	private boolean isMisthrow() {
 
@@ -131,7 +125,7 @@ public class DiceState implements Serializable {
 	 * checks whether value is fixed
 	 * 
 	 * @param value
-	 * @return 
+	 * @return
 	 */
 	private boolean isValueFixed(int value) {
 		for (Iterator<Dice> iterator = mFixedDices.iterator(); iterator
@@ -154,7 +148,8 @@ public class DiceState implements Serializable {
 	 * @throws AlreadyFixedException
 	 * @throws ValueNotFoundException
 	 */
-	public void fixValue(int value) throws AlreadyFixedException, ValueNotFoundException {
+	public void fixValue(int value) throws AlreadyFixedException,
+			ValueNotFoundException {
 		boolean valueFound = false;
 
 		if (isValueFixed(value)) {
@@ -166,16 +161,16 @@ public class DiceState implements Serializable {
 			Dice dice = iterator.next();
 
 			if (dice.getValue() == value) {
-
 				mFixedDices.add(dice);
-				mUnfixedDices.remove(dice);
-
 				valueFound = true;
 			}
 		}
 
+		mUnfixedDices.removeAll(mFixedDices);
 		sort();
-		
+
+		System.out.println("Fertig in fixValue!");
+
 		if (!valueFound) {
 			throw new ValueNotFoundException();
 		}
@@ -196,22 +191,26 @@ public class DiceState implements Serializable {
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		List<Dice> fixedDices = getFixedDices();
-		List<Dice> unfixedDices  = getUnfixedDices();
-		
+		List<Dice> unfixedDices = getUnfixedDices();
+
 		sB.append("Fixed: ");
-		for (Iterator<Dice> iterator = fixedDices.iterator(); iterator.hasNext();) {
-			Dice dice =iterator.next();
+		for (Iterator<Dice> iterator = fixedDices.iterator(); iterator
+				.hasNext();) {
+			Dice dice = iterator.next();
 			sB.append(dice.getValue() + " ");
 		}
 		sB.append("\nUnfixed: ");
-		for (Iterator<Dice> iterator = unfixedDices.iterator(); iterator.hasNext();) {
+		for (Iterator<Dice> iterator = unfixedDices.iterator(); iterator
+				.hasNext();) {
 			Dice dice = iterator.next();
 			sB.append(dice.getValue() + " ");
 		}
 		return sB.toString();
 	}
-	
-	
+
+	/**
+	 * sorts lists of fixed and unfixed dices
+	 */
 	private void sort() {
 		Collections.sort(mFixedDices);
 		Collections.sort(mUnfixedDices);

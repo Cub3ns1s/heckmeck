@@ -1,8 +1,6 @@
 package heckmeck.server;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class ClientConnection implements Runnable {
@@ -96,6 +94,9 @@ public class ClientConnection implements Runnable {
 
 	}
 
+	/**
+	 * shuts Client connection down
+	 */
 	public void shutdown() {
 		try {
 			mClientSocket.close();
@@ -104,6 +105,7 @@ public class ClientConnection implements Runnable {
 		}
 	}
 
+	@Override
 	public String toString() {
 		return mName;
 	}

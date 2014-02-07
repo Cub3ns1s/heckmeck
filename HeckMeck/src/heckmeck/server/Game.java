@@ -1,13 +1,8 @@
 package heckmeck.server;
 
-import heckmeck.exceptions.AlreadyFixedException;
-import heckmeck.exceptions.MisthrowException;
-import heckmeck.exceptions.ValueNotFoundException;
-
+import heckmeck.exceptions.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Game implements GameState, Serializable {
 
@@ -49,16 +44,19 @@ public class Game implements GameState, Serializable {
 
 			mPlayers.add(new PlayerState(name));
 		}
-		
-		setCurrentPlayer( mPlayers.size() - 1);
+
+		setCurrentPlayer(mPlayers.size() - 1);
 
 	}
 
+	/**
+	 * sets current player
+	 * 
+	 * @param index
+	 */
 	private void setCurrentPlayer(int index) {
-
-		mCurrentPlayer = mPlayers.get( index );
+		mCurrentPlayer = mPlayers.get(index);
 		mCurrentPlayer.setTurn(true);
-		
 	}
 
 	/**
@@ -71,14 +69,12 @@ public class Game implements GameState, Serializable {
 		try {
 			mCurrentPlayer.getDiceState().fixValue(decision.getDots());
 			mCurrentPlayer.getDiceState().dice();
+
 		} catch (MisthrowException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (AlreadyFixedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ValueNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return this;
@@ -107,13 +103,13 @@ public class Game implements GameState, Serializable {
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		sB.append(mGrill.toString());
-		
-		for (Iterator<PlayerState> iterator = mPlayers.iterator(); iterator.hasNext();) {
+
+		for (Iterator<PlayerState> iterator = mPlayers.iterator(); iterator
+				.hasNext();) {
 			PlayerState playerState = iterator.next();
 			sB.append(playerState.toString());
 		}
 		return sB.toString();
 	}
-	
-	
+
 }

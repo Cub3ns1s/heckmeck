@@ -1,7 +1,6 @@
 package heckmeck.server;
 
 import heckmeck.exceptions.NoTokenFoundException;
-
 import java.io.Serializable;
 import java.util.*;
 

@@ -1,19 +1,11 @@
 package heckmeck.client;
 
-import heckmeck.exceptions.HeckmeckException;
+import heckmeck.exceptions.*;
 import heckmeck.server.*;
-import heckmeck.server.DecisionMessage;
-import heckmeck.server.GameState;
-import heckmeck.server.GameStateMessage;
-import heckmeck.server.LogonMessage;
-import heckmeck.server.ServerMessage;
-import heckmeck.server.SysoLog;
-import heckmeck.server.WelcomeMessage;
 
 import java.io.*;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
+import java.net.*;
+import java.util.*;
 
 public class Client {
 
@@ -40,6 +32,9 @@ public class Client {
 		new Client(args[0]).start();
 	}
 
+	/**
+	 * starts client
+	 */
 	private void start() {
 		String ip = "127.0.0.1";
 		initConnection(ip);
@@ -47,6 +42,9 @@ public class Client {
 		waitForServerMessages();
 	}
 
+	/**
+	 * logs client on and sends message to server
+	 */
 	private void logon() {
 		LogonMessage message = new LogonMessage(mName);
 
@@ -55,6 +53,11 @@ public class Client {
 		mLog.log("Client: Anmeldung abgeschickt");
 	}
 
+	/**
+	 * inits connection of client
+	 * 
+	 * @param ip
+	 */
 	private void initConnection(String ip) {
 		try {
 			mSocket = new Socket(ip, 23534);
@@ -65,6 +68,11 @@ public class Client {
 		}
 	}
 
+	/**
+	 * sends message to server
+	 * 
+	 * @param message
+	 */
 	private void sendMessage(ClientMessage message) {
 		try {
 			mOOS.writeObject(message);
@@ -73,14 +81,17 @@ public class Client {
 		}
 	}
 
+	/**
+	 * waits for message from server
+	 */
 	private void waitForServerMessages() {
 		try {
 			do {
 				ServerMessage serverMessage = (ServerMessage) mOIS.readObject();
-if (serverMessage != null) {
 
-	processMessage(serverMessage);
-}
+				if (serverMessage != null) {
+					processMessage(serverMessage);
+				}
 
 			} while (true);
 		} catch (UnknownHostException e) {
@@ -117,6 +128,11 @@ if (serverMessage != null) {
 		}
 	}
 
+	/**
+	 * processes GameStateMessage
+	 * 
+	 * @param serverMessage
+	 */
 	private void processGameStateMessage(ServerMessage serverMessage) {
 		GameStateMessage gameStateMessage = (GameStateMessage) serverMessage;
 		mGameState = gameStateMessage.getGameState();
@@ -126,10 +142,18 @@ if (serverMessage != null) {
 		waitForUserInput();
 	}
 
+	/**
+	 * prints Game State
+	 */
 	private void printGameState() {
 		mLog.log(mGameState.toString());
 	}
 
+	/**
+	 * processes Message when server is full
+	 * 
+	 * @throws HeckmeckException
+	 */
 	private void processFullMessage() throws HeckmeckException {
 		mLog.log("Server full!");
 		throw new HeckmeckException();
@@ -145,11 +169,15 @@ if (serverMessage != null) {
 		mLog.log(message.getText());
 	}
 
+	/**
+	 * waits for keyboard input from user to make move
+	 */
+	@SuppressWarnings("resource")
 	private void waitForUserInput() {
 		Scanner scanner = new Scanner(System.in);
 		String input = scanner.nextLine();
 
-		int dots = input.charAt(0);
+		int dots = Integer.parseInt(input.substring(0, 1));
 		boolean proceed = (input.charAt(1) == 'C');
 		DecisionMessage decision = new DecisionMessage(dots, proceed);
 

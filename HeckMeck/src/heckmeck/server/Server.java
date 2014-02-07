@@ -1,12 +1,9 @@
 package heckmeck.server;
 
 import heckmeck.exceptions.WrongPlayerCountException;
-
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.*;
 import java.lang.Thread;
-import java.net.Socket;
 
 public class Server {
 
@@ -42,11 +39,10 @@ public class Server {
 			}
 			;
 		}
-		
+
 		Server server = new Server(playerCount, new SysoLog());
 		server.start(playerCount);
 	}
-
 
 	/**
 	 * initializes gameStateMessage and sends message
@@ -54,17 +50,21 @@ public class Server {
 	 * @param decision
 	 */
 	public void move(DecisionMessage decision) {
-		GameStateMessage gameStateMessage = new GameStateMessage(mGame.move(decision));
+		GameStateMessage gameStateMessage = new GameStateMessage(
+				mGame.move(decision));
+		mLog.log("Sende GameState Message nach move!");
 		mClientManagement.sendMessage(gameStateMessage);
 	}
 
 	/**
 	 * checks player count
-	 * @param playerCount 
+	 * 
+	 * @param playerCount
 	 * 
 	 * @throws WrongPlayerCountException
 	 */
-	public void checkPlayerCount(int playerCount) throws WrongPlayerCountException {
+	public void checkPlayerCount(int playerCount)
+			throws WrongPlayerCountException {
 		if (playerCount < MINPLAYER) {
 			mLog.log("Mindestens zwei Spieler benötigt!");
 			throw new WrongPlayerCountException();
@@ -87,18 +87,21 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			checkPlayerCount(playerCount);
 		} catch (WrongPlayerCountException e1) {
 			return;
 		}
-		
+
 		mLog.log("Starte Server für " + playerCount + " Spieler");
 		waitForNewClients();
 
 	}
 
+	/**
+	 * waits for new clients to start game
+	 */
 	private void waitForNewClients() {
 		while (true) {
 
@@ -111,7 +114,8 @@ public class Server {
 				} else {
 					addClient(socket);
 					if (mClientManagement.isPlayerCountReached()) {
-						mClientManagement.sendMessage(new WelcomeMessage("Hallo"));
+						mClientManagement.sendMessage(new WelcomeMessage(
+								"Hallo"));
 
 						mLog.log("Starte Spiel");
 						mGame = new Game(mClientManagement.getPlayerNames());
@@ -126,12 +130,22 @@ public class Server {
 		}
 	}
 
+	/**
+	 * sends initial GameStateMessage
+	 */
 	private void sendInitialGameStateMessage() {
-		GameStateMessage gameStateMessage = new GameStateMessage(mGame.getGameState());
+		GameStateMessage gameStateMessage = new GameStateMessage(
+				mGame.getGameState());
 		mLog.log("GameStateMessage erzeugt.");
-		mClientManagement.sendMessage(gameStateMessage);	
+		mClientManagement.sendMessage(gameStateMessage);
 	}
 
+	/**
+	 * adds Client Connection to Client Management
+	 * 
+	 * @param socket
+	 * @throws IOException
+	 */
 	private void addClient(Socket socket) throws IOException {
 		ClientConnection clientConnection = new ClientConnection(socket, this);
 
@@ -140,6 +154,11 @@ public class Server {
 		mLog.log("Thread mit ClientConnection erstellt und gestartet");
 	}
 
+	/**
+	 * sends Message when server is full
+	 * 
+	 * @param socket
+	 */
 	private void sendFullMessage(Socket socket) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
@@ -150,6 +169,9 @@ public class Server {
 		}
 	}
 
+	/**
+	 * shuts server down
+	 */
 	public void shutdown() {
 		try {
 			mServerSocket.close();

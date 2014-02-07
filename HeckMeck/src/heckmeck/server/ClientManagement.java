@@ -29,7 +29,7 @@ public class ClientManagement {
 	public boolean isPlayerCountReached() {
 		if (mClients.size() == mPlayerCount) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -40,7 +40,8 @@ public class ClientManagement {
 	 * @param message
 	 */
 	public void sendMessage(ServerMessage message) {
-		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator.hasNext();) {
+		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator
+				.hasNext();) {
 			SysoLog log = new SysoLog();
 			ClientConnection client = iterator.next();
 			log.log("Versende " + message + " für Client " + client);
@@ -66,8 +67,12 @@ public class ClientManagement {
 		return clientList;
 	}
 
+	/**
+	 * shuts Client Connections down
+	 */
 	public void shutdown() {
-		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator.hasNext();) {
+		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator
+				.hasNext();) {
 			ClientConnection clientConnection = iterator.next();
 			clientConnection.shutdown();
 		}
