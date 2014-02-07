@@ -1,8 +1,11 @@
 package heckmeck.server;
 
-public class Token implements Comparable<Token> {
+import java.io.Serializable;
+
+public class Token implements Comparable<Token>, Serializable {
 
 	// Attributes
+	private static final long serialVersionUID = 4613913251186739276L;
 	private int mValue;
 	private int mWorms;
 	private boolean mActive;

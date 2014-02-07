@@ -7,6 +7,7 @@ import heckmeck.server.GameState;
 import heckmeck.server.GameStateMessage;
 import heckmeck.server.LogonMessage;
 import heckmeck.server.ServerMessage;
+import heckmeck.server.SysoLog;
 import heckmeck.server.WelcomeMessage;
 
 import java.io.*;
@@ -21,10 +22,12 @@ public class Client {
 	private String mName;
 	private GameState mGameState;
 	private ObjectOutputStream mOOS;
+	private SysoLog mLog;
 
 	// Constructor
 	public Client(String name) {
 		mName = name;
+		mLog = new SysoLog();
 	}
 
 	/**
@@ -41,7 +44,6 @@ public class Client {
 		initConnection(ip);
 		logon();
 		waitForServerMessages();
-
 	}
 
 	private void logon() {
@@ -49,7 +51,7 @@ public class Client {
 
 		sendMessage(message);
 
-		System.out.println("Client: Anmeldung abgeschickt");
+		mLog.log("Client: Anmeldung abgeschickt");
 	}
 
 	private void initConnection(String ip) {
@@ -71,7 +73,6 @@ public class Client {
 
 	private void waitForServerMessages() {
 		try {
-
 			do {
 				ObjectInputStream ios = new ObjectInputStream(
 						mSocket.getInputStream());
@@ -119,15 +120,14 @@ public class Client {
 		mGameState = gameStateMessage.getGameState();
 
 		printGameState();
-
 	}
 
 	private void printGameState() {
-		System.out.println(mGameState.toString());
+		mLog.log(mGameState.toString());
 	}
 
 	private void processFullMessage() throws HeckmeckException {
-		System.out.println("Server full!");
+		mLog.log("Server full!");
 		throw new HeckmeckException();
 	}
 
@@ -138,7 +138,7 @@ public class Client {
 	 */
 	private void processWelcomeMessage(ServerMessage serverMessage) {
 		WelcomeMessage message = (WelcomeMessage) serverMessage;
-		System.out.println(message.getText());
+		mLog.log(message.getText());
 	}
 
 	private void waitForUserInput() {

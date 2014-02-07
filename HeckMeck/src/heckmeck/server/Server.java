@@ -24,7 +24,6 @@ public class Server {
 		mPlayerCount = playerCount;
 		mLog = logger;
 		mClientManagement = new ClientManagement(mPlayerCount);
-
 	}
 
 	/**
@@ -55,9 +54,7 @@ public class Server {
 	 * @param decision
 	 */
 	public void move(DecisionMessage decision) {
-
-		GameStateMessage gameStateMessage = new GameStateMessage(
-				mGame.move(decision));
+		GameStateMessage gameStateMessage = new GameStateMessage(mGame.move(decision));
 		mClientManagement.sendMessage(gameStateMessage);
 	}
 
@@ -114,11 +111,11 @@ public class Server {
 				} else {
 					addClient(socket);
 					if (mClientManagement.isPlayerCountReached()) {
-						mClientManagement.sendMessage(new WelcomeMessage(
-								"Hallo"));
+						mClientManagement.sendMessage(new WelcomeMessage("Hallo"));
 
 						mLog.log("Starte Spiel");
 						mGame = new Game(mClientManagement.getPlayerNames());
+//						sendInitialGameStateMessage(socket);
 					}
 				}
 
@@ -128,6 +125,12 @@ public class Server {
 
 		}
 	}
+
+//	private void sendInitialGameStateMessage(Socket socket) {
+//		GameStateMessage gameStateMessage = new GameStateMessage(mGame);
+//		mLog.log("GameStateMessage erzeugt.");
+//		mClientManagement.sendMessage(gameStateMessage);	
+//	}
 
 	private void addClient(Socket socket) throws IOException {
 		ClientConnection clientConnection = new ClientConnection(socket, this);

@@ -1,12 +1,14 @@
 package heckmeck.server;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Game implements GameState {
+public class Game implements GameState, Serializable {
 
 	// Attributes
+	private static final long serialVersionUID = 8767133807326500588L;
 	private Grill mGrill;
 	private List<PlayerState> mPlayers;
 

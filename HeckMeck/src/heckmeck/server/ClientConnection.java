@@ -13,6 +13,7 @@ public class ClientConnection implements Runnable {
 	private ObjectInputStream mOis;
 	private Server mServer;
 	private String mName;
+	private SysoLog mLog;
 
 	// Constructor
 	public ClientConnection(Socket socket, Server server) throws IOException {
@@ -20,6 +21,7 @@ public class ClientConnection implements Runnable {
 		mServer = server;
 		mOos = new ObjectOutputStream(socket.getOutputStream());
 		mOis = new ObjectInputStream(mClientSocket.getInputStream());
+		mLog = new SysoLog();
 	}
 
 	@Override
@@ -35,6 +37,7 @@ public class ClientConnection implements Runnable {
 	public void sendMessage(ServerMessage message) {
 		try {
 			mOos.writeObject(message);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,13 +57,12 @@ public class ClientConnection implements Runnable {
 	 */
 	private void waitForMessages() {
 		try {
-
 			do {
 				ClientMessage message = (ClientMessage) mOis.readObject();
 
 				switch (message.getMessageType()) {
 				case ClientMessage.LOGON:
-					System.out.println("Message Typ 'LOGON' empfangen");
+					mLog.log("Message Typ 'LOGON' empfangen");
 					logon(message);
 					break;
 
@@ -87,10 +89,10 @@ public class ClientConnection implements Runnable {
 	 */
 	private void logon(ClientMessage message) {
 		LogonMessage logonMessage = (LogonMessage) message;
-		System.out.println("Logon Message erstellt");
+		mLog.log("Logon Message erstellt");
 
 		mName = logonMessage.getName();
-		System.out.println("New Player: " + mName);
+		mLog.log("New Player: " + mName);
 
 	}
 
@@ -100,6 +102,10 @@ public class ClientConnection implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String toString() {
+		return mName;
 	}
 
 }

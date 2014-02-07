@@ -2,11 +2,13 @@ package heckmeck.server;
 
 import heckmeck.exceptions.NoTokenFoundException;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Grill {
+public class Grill implements Serializable{
 
 	// Attributes
+	private static final long serialVersionUID = 5888357567911676482L;
 	private SortedSet<Token> mTokens;
 
 	// Constructor
