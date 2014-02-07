@@ -1,7 +1,7 @@
 package heckmeck.client;
 
 import heckmeck.exceptions.HeckmeckException;
-import heckmeck.server.ClientMessage;
+import heckmeck.server.*;
 import heckmeck.server.DecisionMessage;
 import heckmeck.server.GameState;
 import heckmeck.server.GameStateMessage;
@@ -22,6 +22,7 @@ public class Client {
 	private String mName;
 	private GameState mGameState;
 	private ObjectOutputStream mOOS;
+	private ObjectInputStream mOIS;
 	private SysoLog mLog;
 
 	// Constructor
@@ -58,6 +59,7 @@ public class Client {
 		try {
 			mSocket = new Socket(ip, 23534);
 			mOOS = new ObjectOutputStream(mSocket.getOutputStream());
+			mOIS = new ObjectInputStream(mSocket.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,11 +76,11 @@ public class Client {
 	private void waitForServerMessages() {
 		try {
 			do {
-				ObjectInputStream ios = new ObjectInputStream(
-						mSocket.getInputStream());
-				ServerMessage serverMessage = (ServerMessage) ios.readObject();
+				ServerMessage serverMessage = (ServerMessage) mOIS.readObject();
+if (serverMessage != null) {
 
-				processMessage(serverMessage);
+	processMessage(serverMessage);
+}
 
 			} while (true);
 		} catch (UnknownHostException e) {
@@ -120,6 +122,8 @@ public class Client {
 		mGameState = gameStateMessage.getGameState();
 
 		printGameState();
+		mLog.log(mName);
+		waitForUserInput();
 	}
 
 	private void printGameState() {

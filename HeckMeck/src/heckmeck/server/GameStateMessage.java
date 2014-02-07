@@ -23,7 +23,7 @@ public class GameStateMessage extends ServerMessage {
 
 	@Override
 	public String getMessageType() {
-		return null;
+		return GAMESTATE;
 	}
 
 }

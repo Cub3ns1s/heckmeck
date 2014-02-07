@@ -1,5 +1,7 @@
 package heckmeck.server;
 
+import heckmeck.exceptions.NoTokenFoundException;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -18,9 +20,15 @@ public class Deck implements Serializable {
 	 * returns token on top of deck
 	 * 
 	 * @return 
+	 * @throws NoTokenFoundException 
 	 */
-	public Token getTopToken() {
+	public Token getTopToken() throws NoTokenFoundException {
+		if(mToken.size() != 0) {
 		return mToken.get((mToken.size()-1));
+		}
+		else {
+			throw new NoTokenFoundException();
+		}
 	}
 
 	/**

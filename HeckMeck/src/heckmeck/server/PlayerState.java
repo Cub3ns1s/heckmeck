@@ -1,5 +1,7 @@
 package heckmeck.server;
 
+import heckmeck.exceptions.NoTokenFoundException;
+
 import java.io.Serializable;
 
 public class PlayerState implements Serializable {
@@ -69,7 +71,10 @@ public class PlayerState implements Serializable {
 		StringBuilder sB = new StringBuilder();
 		sB.append("Player: " + mName + "\n");
 		sB.append("Tokens: " + mDeck.getSize() + "\n");
-		sB.append("Top Token: " + mDeck.getTopToken().toString() + "\n");
+		try {
+			sB.append("Top Token: " + mDeck.getTopToken().toString() + "\n");
+		} catch (NoTokenFoundException e) {
+		}
 		
 		if (isTurn()) {
 			sB.append(mDiceState.toString());
