@@ -1,6 +1,7 @@
 package heckmeck.server;
 
 import heckmeck.exceptions.*;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -59,6 +60,10 @@ public class Game implements GameState, Serializable {
 		mCurrentPlayer.setTurn(true);
 	}
 
+	private int getPlayerPosition() {
+		return mPlayers.indexOf(mCurrentPlayer);
+	}
+
 	/**
 	 * modifys game state dependent on decision
 	 * 
@@ -67,8 +72,11 @@ public class Game implements GameState, Serializable {
 	 */
 	public GameState move(DecisionMessage decision) {
 		try {
+			
 			mCurrentPlayer.getDiceState().fixValue(decision.getDots());
 			mCurrentPlayer.getDiceState().dice();
+		
+			mPlayers.set(getPlayerPosition(), mCurrentPlayer);
 
 		} catch (MisthrowException e) {
 			e.printStackTrace();
