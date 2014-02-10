@@ -1,8 +1,6 @@
 package heckmeck.server;
 
-import java.io.Serializable;
-
-public class LogonMessage extends ClientMessage implements Serializable {
+public class LogonMessage extends ClientMessage {
 
 	// Attributes
 	private static final long serialVersionUID = -2490711427776617424L;
@@ -11,6 +9,7 @@ public class LogonMessage extends ClientMessage implements Serializable {
 	// Constructor
 	public LogonMessage(String name) {
 		this.mName = name;
+		this.mType = LOGON;
 	}
 
 	/**
@@ -24,7 +23,7 @@ public class LogonMessage extends ClientMessage implements Serializable {
 
 	@Override
 	public String getMessageType() {
-		return LOGON;
+		return mType;
 	}
 
 }

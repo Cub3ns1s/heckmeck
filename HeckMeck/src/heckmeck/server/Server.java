@@ -1,6 +1,7 @@
 package heckmeck.server;
 
 import heckmeck.exceptions.WrongPlayerCountException;
+
 import java.io.*;
 import java.net.*;
 import java.lang.Thread;
@@ -50,9 +51,8 @@ public class Server {
 	 * @param decision
 	 */
 	public void move(DecisionMessage decision) {
-		GameStateMessage gameStateMessage = new GameStateMessage(
-				mGame.move(decision));
-		mLog.log("Sende GameState Message nach move!");
+		GameStateMessage gameStateMessage = new GameStateMessage(mGame.move(decision));
+
 		mClientManagement.sendMessage(gameStateMessage);
 	}
 
@@ -151,6 +151,7 @@ public class Server {
 
 		mClientManagement.addClient(clientConnection);
 		new Thread(clientConnection).start();
+
 		mLog.log("Thread mit ClientConnection erstellt und gestartet");
 	}
 

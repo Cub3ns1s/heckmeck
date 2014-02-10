@@ -46,10 +46,9 @@ public class Client {
 	 * logs client on and sends message to server
 	 */
 	private void logon() {
-		LogonMessage message = new LogonMessage(mName);
+		LogonMessage logonMessage = new LogonMessage(mName);
 
-		sendMessage(message);
-
+		sendMessage(logonMessage);
 		mLog.log("Client: Anmeldung abgeschickt");
 	}
 
@@ -87,8 +86,8 @@ public class Client {
 	private void waitForServerMessages() {
 		try {
 			do {
-				ServerMessage serverMessage = (ServerMessage) mOIS.readObject();
-
+				ServerMessage serverMessage =(ServerMessage) mOIS.readObject();
+				
 				if (serverMessage != null) {
 					processMessage(serverMessage);
 				}
@@ -113,6 +112,10 @@ public class Client {
 	 */
 	private void processMessage(ServerMessage serverMessage)
 			throws HeckmeckException {
+		
+		mLog.log("RCVD: " + serverMessage);
+		
+		
 		switch (serverMessage.getMessageType()) {
 		case ServerMessage.WELCOME:
 			processWelcomeMessage(serverMessage);
@@ -165,7 +168,7 @@ public class Client {
 	 * @param serverMessage
 	 */
 	private void processWelcomeMessage(ServerMessage serverMessage) {
-		WelcomeMessage message = (WelcomeMessage) serverMessage;
+		WelcomeMessage message =(WelcomeMessage) serverMessage;
 		mLog.log(message.getText());
 	}
 

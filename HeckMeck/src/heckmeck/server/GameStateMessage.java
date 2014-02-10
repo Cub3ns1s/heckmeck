@@ -1,5 +1,7 @@
 package heckmeck.server;
 
+import java.util.Date;
+
 public class GameStateMessage extends ServerMessage {
 
 	// Attributes
@@ -10,6 +12,8 @@ public class GameStateMessage extends ServerMessage {
 	public GameStateMessage(GameState gameState) {
 		super();
 		this.mGameState = gameState;
+		this.mDate = new Date();
+		this.mType = GAMESTATE;
 	}
 
 	/**
@@ -23,7 +27,11 @@ public class GameStateMessage extends ServerMessage {
 
 	@Override
 	public String getMessageType() {
-		return GAMESTATE;
+		return mType;
+	}
+	
+	public String toString() {		
+		return "MESSAGE: " + getMessageType() + "; CREATED: " + mDate + "; GAMESTATE: " + mGameState;
 	}
 
 }

@@ -1,8 +1,9 @@
 package heckmeck.server;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface GameState{
+public interface GameState extends Serializable{
 
 	/**
 	 * abstract method for getting the grill

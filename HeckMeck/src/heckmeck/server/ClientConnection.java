@@ -34,6 +34,7 @@ public class ClientConnection implements Runnable {
 	 */
 	public void sendMessage(ServerMessage message) {
 		try {
+			mOos.reset();
 			mOos.writeObject(message);
 
 		} catch (IOException e) {
@@ -56,16 +57,16 @@ public class ClientConnection implements Runnable {
 	private void waitForMessages() {
 		try {
 			do {
-				ClientMessage message = (ClientMessage) mOis.readObject();
+				ClientMessage clientMessage = (ClientMessage) mOis.readObject();
+				System.out.println("CLCON:" + clientMessage.getMessageType());
 
-				switch (message.getMessageType()) {
+				switch (clientMessage.getMessageType()) {
 				case ClientMessage.LOGON:
-					mLog.log("Message Typ 'LOGON' empfangen");
-					logon(message);
+					logon((LogonMessage) clientMessage);
 					break;
 
-				case ClientMessage.MOVE:
-					mServer.move((DecisionMessage) message);
+				case ClientMessage.DECISION:
+					mServer.move((DecisionMessage) clientMessage);
 					break;
 
 				default:
@@ -85,13 +86,9 @@ public class ClientConnection implements Runnable {
 	 * 
 	 * @param message
 	 */
-	private void logon(ClientMessage message) {
-		LogonMessage logonMessage = (LogonMessage) message;
-		mLog.log("Logon Message erstellt");
-
+	private void logon(LogonMessage logonMessage) {
 		mName = logonMessage.getName();
 		mLog.log("New Player: " + mName);
-
 	}
 
 	/**

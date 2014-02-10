@@ -1,8 +1,6 @@
 package heckmeck.server;
 
-import java.io.Serializable;
-
-public class DecisionMessage extends ClientMessage implements Serializable {
+public class DecisionMessage extends ClientMessage {
 
 	// Attributes
 	private static final long serialVersionUID = -7511837159574504708L;
@@ -14,6 +12,7 @@ public class DecisionMessage extends ClientMessage implements Serializable {
 		super();
 		this.mDots = dots;
 		this.mProceed = proceed;
+		this.mType = DECISION;
 	}
 
 	/**
@@ -36,7 +35,7 @@ public class DecisionMessage extends ClientMessage implements Serializable {
 
 	@Override
 	public String getMessageType() {
-		return MOVE;
+		return mType;
 	}
 
 }

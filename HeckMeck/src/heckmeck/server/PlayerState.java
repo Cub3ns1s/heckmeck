@@ -68,7 +68,7 @@ public class PlayerState implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
-		sB.append("Player: " + mName + "\n");
+		sB.append("Player: " + this.getName() + "\n");
 		sB.append("Tokens: " + mDeck.getSize() + "\n");
 		try {
 			sB.append("Top Token: " + mDeck.getTopToken().toString() + "\n");

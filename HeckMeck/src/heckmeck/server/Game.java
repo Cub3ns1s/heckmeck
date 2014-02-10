@@ -2,10 +2,9 @@ package heckmeck.server;
 
 import heckmeck.exceptions.*;
 
-import java.io.Serializable;
 import java.util.*;
 
-public class Game implements GameState, Serializable {
+public class Game implements GameState {
 
 	// Attributes
 	private static final long serialVersionUID = 8767133807326500588L;
@@ -44,9 +43,11 @@ public class Game implements GameState, Serializable {
 			String name = iterator.next();
 
 			mPlayers.add(new PlayerState(name));
+			System.out.println("GAME: Neuer Spieler ist: " + name);
 		}
 
 		setCurrentPlayer(mPlayers.size() - 1);
+		System.out.println("GAME: Aktueller Spieler ist: " + mCurrentPlayer.getName());
 
 	}
 
@@ -58,6 +59,7 @@ public class Game implements GameState, Serializable {
 	private void setCurrentPlayer(int index) {
 		mCurrentPlayer = mPlayers.get(index);
 		mCurrentPlayer.setTurn(true);
+		System.out.println("Current Player: " + mCurrentPlayer.getName());
 	}
 
 	private int getPlayerPosition() {

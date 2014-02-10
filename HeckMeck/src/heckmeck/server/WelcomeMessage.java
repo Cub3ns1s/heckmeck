@@ -8,12 +8,14 @@ public class WelcomeMessage extends ServerMessage {
 
 	// Constructor
 	public WelcomeMessage(String text) {
-		mText = text;
+		super();
+		this.mText = text;
+		this.mType = WELCOME;
 	}
 
 	@Override
 	public String getMessageType() {
-		return WELCOME;
+		return mType;
 	}
 
 	/**
