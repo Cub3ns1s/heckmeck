@@ -51,7 +51,8 @@ public class Server {
 	 * @param decision
 	 */
 	public void move(DecisionMessage decision) {
-		GameStateMessage gameStateMessage = new GameStateMessage(mGame.move(decision));
+		GameStateMessage gameStateMessage = new GameStateMessage(
+				mGame.move(decision));
 
 		mClientManagement.sendMessage(gameStateMessage);
 	}
@@ -113,14 +114,6 @@ public class Server {
 					sendFullMessage(socket);
 				} else {
 					addClient(socket);
-					if (mClientManagement.isPlayerCountReached()) {
-						mClientManagement.sendMessage(new WelcomeMessage(
-								"Hallo"));
-
-						mLog.log("Starte Spiel");
-						mGame = new Game(mClientManagement.getPlayerNames());
-						sendInitialGameStateMessage();
-					}
 				}
 
 			} catch (IOException e) {
@@ -168,6 +161,19 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Checks if all the clients are conntected and starts the game if they are
+	 */
+	public void startGameIfAllClientsConnected() {
+
+		if (mClientManagement.isPlayerCountReached()) {
+			mLog.log("Alle verbunden. Starte Spiel");
+			mGame = new Game(mClientManagement.getPlayerNames());
+			sendInitialGameStateMessage();
+		}
+
 	}
 
 	/**

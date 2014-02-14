@@ -29,9 +29,6 @@ public class GameStateMessage extends ServerMessage {
 	public String getMessageType() {
 		return mType;
 	}
-	
-	public String toString() {		
-		return "MESSAGE: " + getMessageType() + "; CREATED: " + mDate + "; GAMESTATE: " + mGameState;
-	}
+
 
 }

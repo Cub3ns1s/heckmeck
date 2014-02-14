@@ -86,8 +86,8 @@ public class Client {
 	private void waitForServerMessages() {
 		try {
 			do {
-				ServerMessage serverMessage =(ServerMessage) mOIS.readObject();
-				
+				ServerMessage serverMessage = (ServerMessage) mOIS.readObject();
+
 				if (serverMessage != null) {
 					processMessage(serverMessage);
 				}
@@ -112,10 +112,9 @@ public class Client {
 	 */
 	private void processMessage(ServerMessage serverMessage)
 			throws HeckmeckException {
-		
+
 		mLog.log("RCVD: " + serverMessage);
-		
-		
+
 		switch (serverMessage.getMessageType()) {
 		case ServerMessage.WELCOME:
 			processWelcomeMessage(serverMessage);
@@ -142,7 +141,14 @@ public class Client {
 
 		printGameState();
 		mLog.log(mName);
-		waitForUserInput();
+
+		for (Iterator<PlayerState> iterator = mGameState.getPlayerStates()
+				.iterator(); iterator.hasNext();) {
+			PlayerState playerState = iterator.next();
+			if (playerState.getName().equals(mName) && playerState.isTurn()) {
+				waitForUserInput();
+			}
+		}
 	}
 
 	/**
@@ -168,7 +174,7 @@ public class Client {
 	 * @param serverMessage
 	 */
 	private void processWelcomeMessage(ServerMessage serverMessage) {
-		WelcomeMessage message =(WelcomeMessage) serverMessage;
+		WelcomeMessage message = (WelcomeMessage) serverMessage;
 		mLog.log(message.getText());
 	}
 

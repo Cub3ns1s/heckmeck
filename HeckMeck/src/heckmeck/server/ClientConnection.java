@@ -82,13 +82,15 @@ public class ClientConnection implements Runnable {
 	}
 
 	/**
-	 * Creates logonMessage and logs player
+	 * Called after receiving the logon message from one of the clients
 	 * 
 	 * @param message
 	 */
 	private void logon(LogonMessage logonMessage) {
 		mName = logonMessage.getName();
 		mLog.log("New Player: " + mName);
+
+		mServer.startGameIfAllClientsConnected();
 	}
 
 	/**

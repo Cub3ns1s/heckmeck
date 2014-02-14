@@ -24,14 +24,17 @@ public class ClientManagement {
 	}
 
 	/**
-	 * checks number of players
+	 * checks if all players are connected and have sent their logon messages
 	 */
 	public boolean isPlayerCountReached() {
-		if (mClients.size() == mPlayerCount) {
-			return true;
-		} else {
-			return false;
+
+		boolean result = (mClients.size() == mPlayerCount);
+
+		for (ClientConnection client : mClients) {
+			result = result && (client.getName() != null);
 		}
+
+		return result;
 	}
 
 	/**
