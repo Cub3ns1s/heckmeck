@@ -78,11 +78,10 @@ public class Game implements GameState {
 				mCurrentPlayer.getDiceState().dice();
 
 				mPlayers.set(getPlayerPosition(), mCurrentPlayer);
+			} else if (decision.proceeds() == false) {
+				validateThrowContainsWorm();
+				validateThrowHigherExposedToken();
 			}
-//			else if (decision.proceeds() == false) {
-//				validateThrowContainsWorm();
-//				validateThrowHigherExposedToken();
-//			}
 		} catch (MisthrowException e) {
 			e.printStackTrace();
 		} catch (AlreadyFixedException e) {
@@ -91,6 +90,72 @@ public class Game implements GameState {
 			e.printStackTrace();
 		}
 		return this;
+	}
+
+	private void validateThrowHigherExposedToken() throws MisthrowException {
+		int amount = getThrowAmount();
+		checkExposedTokens(amount);
+	}
+
+	private void checkExposedTokens(int amount) throws MisthrowException {
+
+		if (!checkGrill(amount)) {
+			if (!checkPlayerTopToken(amount)) {
+				throw new MisthrowException();
+			}
+		}
+
+	}
+
+	private boolean checkPlayerTopToken(int amount) {
+		for (int i = 0; i < mPlayers.size(); i++) {
+			PlayerState playerState = mPlayers.get(i);
+			try {
+				if (amount == playerState.getDeck().getTopToken().getValue()) {
+					return true;
+				}
+			} catch (NoTokenFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	private boolean checkGrill(int amount) {
+		for (Iterator<Token> iterator = mGrill.getTokens().iterator(); iterator
+				.hasNext();) {
+			Token token = iterator.next();
+			if (amount >= token.getValue()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private int getThrowAmount() {
+		int amount = 0;
+
+		for (Iterator<Dice> iterator = mCurrentPlayer.getDiceState()
+				.getFixedDices().iterator(); iterator.hasNext();) {
+			Dice dice = iterator.next();
+			if (dice.getValue() == 6) {
+				amount += 5;
+			} else {
+				amount += dice.getValue();
+			}
+		}
+		return amount;
+	}
+
+	private void validateThrowContainsWorm() throws MisthrowException {
+		for (Iterator<Dice> iterator = mCurrentPlayer.getDiceState()
+				.getFixedDices().iterator(); iterator.hasNext();) {
+			Dice dice = iterator.next();
+			if (dice.getValue() == 6) {
+				return;
+			}
+		}
+		throw new MisthrowException();
 	}
 
 	/**

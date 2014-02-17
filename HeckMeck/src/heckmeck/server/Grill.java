@@ -56,6 +56,14 @@ public class Grill implements Serializable{
 		}
 	}
 
+	public SortedSet<Token> getTokens() {
+		return mTokens;
+	}
+
+	public void setTokens(SortedSet<Token> mTokens) {
+		this.mTokens = mTokens;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
