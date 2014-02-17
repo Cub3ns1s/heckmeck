@@ -75,9 +75,13 @@ public class Game implements GameState {
 
 			if (decision.proceeds() == true) {
 				mCurrentPlayer.getDiceState().fixValue(decision.getDots());
-				mCurrentPlayer.getDiceState().dice();
+
+				if (mCurrentPlayer.getDiceState().getUnfixedDices().size() != 0) {
+					mCurrentPlayer.getDiceState().dice();
+				}
 
 				mPlayers.set(getPlayerPosition(), mCurrentPlayer);
+
 			} else if (decision.proceeds() == false) {
 				validateThrowContainsWorm();
 				validateThrowHigherExposedToken();
