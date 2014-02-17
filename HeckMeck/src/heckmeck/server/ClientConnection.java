@@ -97,8 +97,6 @@ public class ClientConnection implements Runnable {
 	private void logon(LogonMessage logonMessage) {
 		mName = logonMessage.getName();
 		mLog.log("New Player: " + mName);
-//
-//		mServer.startGameIfAllClientsConnected();
 	}
 
 	/**

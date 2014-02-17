@@ -1,6 +1,5 @@
 package heckmeck.unittests;
 
-import static org.junit.Assert.*;
 import heckmeck.server.Grill;
 
 import org.junit.After;

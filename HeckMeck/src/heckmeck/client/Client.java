@@ -116,19 +116,27 @@ public class Client {
 		case ServerMessage.WELCOME:
 			processWelcomeMessage(serverMessage);
 			break;
+			
 		case ServerMessage.FULL:
 			processFullMessage();
 			break;
+			
 		case ServerMessage.GAMESTATE:
 			processGameStateMessage(serverMessage);
+			break;
+			
 		case ServerMessage.CONTINUE:
 			processContinueMessage(serverMessage);
+			break;
+			
 		default:
 			break;
 		}
 	}
 
 	private void processContinueMessage(ServerMessage serverMessage) {
+		ContinueMessage continueMessage = (ContinueMessage) serverMessage;
+		mLog.log(continueMessage.getText());
 	}
 
 	/**

@@ -11,13 +11,11 @@ public class Game implements GameState {
 	private Grill mGrill;
 	private List<PlayerState> mPlayers;
 	private PlayerState mCurrentPlayer;
-	private Server mServer;
 
 	// Constructor
-	public Game(List<String> playerList, Server server) {
+	public Game(List<String> playerList) {
 
 		initPlayerStates(playerList);
-		mServer = server;
 		mGrill = new Grill();
 	}
 
@@ -89,15 +87,20 @@ public class Game implements GameState {
 			try {
 				mGrill.failure(mCurrentPlayer.getDeck().getTopToken());
 				mCurrentPlayer.getDeck().removeTopToken();
-				mGrill.deactivateHighestToken();
-				setNextTurn();
 			} catch (NoTokenFoundException e1) {
-				e1.printStackTrace();
 			}
+			mGrill.deactivateHighestToken();
+			setNextTurn();
 		} catch (MisthrowDecisionException e) {
-			ContinueMessage continueMessage = new ContinueMessage("Go on! No worm included or amount not adequate!");
-			mServer.sendContinueMessage(continueMessage);
+			// ContinueMessage continueMessage = new
+			// ContinueMessage("Go on! No worm included or amount not adequate!");
+			// mClientManagement.sendMessage(continueMessage);
+			System.out
+					.println("Go on! No worm included or amount not adequate!");
 		} catch (AlreadyFixedException e) {
+			// ContinueMessage continueMessage = new
+			// ContinueMessage("Repeat decision! Chosen value already fixed!");
+			// mClientManagement.sendMessage(continueMessage);
 			System.out.println("Repeat decision! Chosen value already fixed!");
 		} catch (ValueNotFoundException e) {
 			e.printStackTrace();
@@ -123,7 +126,11 @@ public class Game implements GameState {
 			throws MisthrowDecisionException {
 		int amount = getThrowAmount();
 
-		if (!checkGrill(amount) && !checkPlayerTopToken(amount)) {
+		if (checkGrill(amount) & checkPlayerTopToken(amount)) {
+			System.out
+					.println("An dieser Stelle müsste dem Spieler ein Token gegeben werden!");
+			// nimm entsprechenden Token weg
+		} else if (!checkGrill(amount) || !checkPlayerTopToken(amount)) {
 			throw new MisthrowDecisionException();
 		}
 	}
@@ -133,11 +140,11 @@ public class Game implements GameState {
 			if (i != getPlayerPosition()) {
 				PlayerState playerState = mPlayers.get(i);
 				try {
-					if (amount == playerState.getDeck().getTopToken().getValue()) {
+					if (amount == playerState.getDeck().getTopToken()
+							.getValue()) {
 						return true;
 					}
 				} catch (NoTokenFoundException e) {
-					e.printStackTrace();
 				}
 			}
 		}

@@ -161,10 +161,6 @@ public class Server {
 		}
 	}
 
-	public void sendContinueMessage(ContinueMessage continueMessage) {
-		mClientManagement.sendMessage(continueMessage);
-	}
-
 	/**
 	 * Checks if all the clients are conntected and starts the game if they are
 	 */
@@ -172,7 +168,7 @@ public class Server {
 
 		if (mClientManagement.isPlayerCountReached()) {
 			mLog.log("All players connected. Start game!");
-			mGame = new Game(mClientManagement.getPlayerNames(), this);
+			mGame = new Game(mClientManagement.getPlayerNames());
 			sendInitialGameStateMessage();
 		}
 

@@ -2,11 +2,11 @@ package heckmeck.server;
 
 public class ContinueMessage extends ServerMessage {
 
-	private static final long serialVersionUID = 3639508661272578527L;
+	private static final long serialVersionUID = -6821078629415858213L;
 	private String mText;
 	
 	
-	public String getmText() {
+	public String getText() {
 		return mText;
 	}
 

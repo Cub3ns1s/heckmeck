@@ -29,12 +29,6 @@ public class ClientManagement {
 	public boolean isPlayerCountReached() {
 
 		return (mClients.size() == mPlayerCount);
-
-//		for (ClientConnection client : mClients) {
-//			result = result && (client.getName() != null);
-//		}
-//
-//		return result;
 	}
 
 	/**
