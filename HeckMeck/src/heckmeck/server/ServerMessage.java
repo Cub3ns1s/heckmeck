@@ -10,6 +10,7 @@ public abstract class ServerMessage extends Message {
 	public static final String WELCOME = "WELCOME";
 	public static final String FULL = "FULL";
 	public static final String GAMESTATE = "GAMESTATE";
+	public static final String CONTINUE = "CONTINUE";
 	public String mType;
 	
 }

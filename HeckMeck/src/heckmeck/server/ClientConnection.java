@@ -20,6 +20,12 @@ public class ClientConnection implements Runnable {
 		mOos = new ObjectOutputStream(socket.getOutputStream());
 		mOis = new ObjectInputStream(mClientSocket.getInputStream());
 		mLog = new SysoLog();
+		
+		try {
+			waitForMessage();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -57,26 +63,29 @@ public class ClientConnection implements Runnable {
 	private void waitForMessages() {
 		try {
 			do {
-				ClientMessage clientMessage = (ClientMessage) mOis.readObject();
-				
-				switch (clientMessage.getMessageType()) {
-				case ClientMessage.LOGON:
-					logon((LogonMessage) clientMessage);
-					break;
-
-				case ClientMessage.DECISION:
-					mServer.move((DecisionMessage) clientMessage);
-					break;
-
-				default:
-					break;
-				}
-
+				waitForMessage();
 			} while (true);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void waitForMessage() throws IOException, ClassNotFoundException {
+		ClientMessage clientMessage = (ClientMessage) mOis.readObject();
+
+		switch (clientMessage.getMessageType()) {
+		case ClientMessage.LOGON:
+			logon((LogonMessage) clientMessage);
+			break;
+
+		case ClientMessage.DECISION:
+			mServer.move((DecisionMessage) clientMessage);
+			break;
+
+		default:
+			break;
 		}
 	}
 
@@ -88,8 +97,8 @@ public class ClientConnection implements Runnable {
 	private void logon(LogonMessage logonMessage) {
 		mName = logonMessage.getName();
 		mLog.log("New Player: " + mName);
-
-		mServer.startGameIfAllClientsConnected();
+//
+//		mServer.startGameIfAllClientsConnected();
 	}
 
 	/**

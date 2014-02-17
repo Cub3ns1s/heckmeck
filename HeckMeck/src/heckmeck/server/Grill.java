@@ -1,6 +1,7 @@
 package heckmeck.server;
 
 import heckmeck.exceptions.NoTokenFoundException;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -64,6 +65,10 @@ public class Grill implements Serializable{
 		this.mTokens = mTokens;
 	}
 
+	public void deactivateHighestToken() {
+		mTokens.last().deactivate();
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();

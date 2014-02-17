@@ -88,7 +88,7 @@ public class DiceState implements Serializable {
 	 * 
 	 * @throws MisthrowException
 	 */
-	public void dice() throws MisthrowException {
+	public void dice() throws MisthrowThrowException {
 
 		for (Iterator<Dice> iterator = mUnfixedDices.iterator(); iterator
 				.hasNext();) {
@@ -96,7 +96,7 @@ public class DiceState implements Serializable {
 
 			dice.dice();
 			if (isMisthrow()) {
-				throw new MisthrowException();
+				throw new MisthrowThrowException();
 			}
 		}
 

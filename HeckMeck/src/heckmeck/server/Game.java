@@ -11,12 +11,13 @@ public class Game implements GameState {
 	private Grill mGrill;
 	private List<PlayerState> mPlayers;
 	private PlayerState mCurrentPlayer;
+	private Server mServer;
 
 	// Constructor
-	public Game(List<String> playerList) {
+	public Game(List<String> playerList, Server server) {
 
 		initPlayerStates(playerList);
-
+		mServer = server;
 		mGrill = new Grill();
 	}
 
@@ -72,54 +73,72 @@ public class Game implements GameState {
 	 */
 	public GameState move(DecisionMessage decision) {
 		try {
-
+			mCurrentPlayer.getDiceState().fixValue(decision.getDots());
 			if (decision.proceeds() == true) {
-				mCurrentPlayer.getDiceState().fixValue(decision.getDots());
 
 				if (mCurrentPlayer.getDiceState().getUnfixedDices().size() != 0) {
 					mCurrentPlayer.getDiceState().dice();
+					mPlayers.set(getPlayerPosition(), mCurrentPlayer);
 				}
-
-				mPlayers.set(getPlayerPosition(), mCurrentPlayer);
 
 			} else if (decision.proceeds() == false) {
 				validateThrowContainsWorm();
-				validateThrowHigherExposedToken();
+				validateThrowHigherExposedTokens();
 			}
-		} catch (MisthrowException e) {
-			e.printStackTrace();
+		} catch (MisthrowThrowException e) {
+			try {
+				mGrill.failure(mCurrentPlayer.getDeck().getTopToken());
+				mCurrentPlayer.getDeck().removeTopToken();
+				mGrill.deactivateHighestToken();
+				setNextTurn();
+			} catch (NoTokenFoundException e1) {
+				e1.printStackTrace();
+			}
+		} catch (MisthrowDecisionException e) {
+			ContinueMessage continueMessage = new ContinueMessage("Go on! No worm included or amount not adequate!");
+			mServer.sendContinueMessage(continueMessage);
 		} catch (AlreadyFixedException e) {
-			e.printStackTrace();
+			System.out.println("Repeat decision! Chosen value already fixed!");
 		} catch (ValueNotFoundException e) {
 			e.printStackTrace();
 		}
 		return this;
 	}
 
-	private void validateThrowHigherExposedToken() throws MisthrowException {
-		int amount = getThrowAmount();
-		checkExposedTokens(amount);
-	}
+	private void setNextTurn() {
+		mCurrentPlayer.setTurn(false);
+		mPlayers.set(getPlayerPosition(), mCurrentPlayer);
 
-	private void checkExposedTokens(int amount) throws MisthrowException {
-
-		if (!checkGrill(amount)) {
-			if (!checkPlayerTopToken(amount)) {
-				throw new MisthrowException();
+		if (getPlayerPosition() == mPlayers.size()) {
+			setCurrentPlayer(0);
+		} else {
+			for (int i = getPlayerPosition(); i < mPlayers.size(); i++) {
+				setCurrentPlayer(i);
 			}
 		}
 
 	}
 
+	private void validateThrowHigherExposedTokens()
+			throws MisthrowDecisionException {
+		int amount = getThrowAmount();
+
+		if (!checkGrill(amount) && !checkPlayerTopToken(amount)) {
+			throw new MisthrowDecisionException();
+		}
+	}
+
 	private boolean checkPlayerTopToken(int amount) {
 		for (int i = 0; i < mPlayers.size(); i++) {
-			PlayerState playerState = mPlayers.get(i);
-			try {
-				if (amount == playerState.getDeck().getTopToken().getValue()) {
-					return true;
+			if (i != getPlayerPosition()) {
+				PlayerState playerState = mPlayers.get(i);
+				try {
+					if (amount == playerState.getDeck().getTopToken().getValue()) {
+						return true;
+					}
+				} catch (NoTokenFoundException e) {
+					e.printStackTrace();
 				}
-			} catch (NoTokenFoundException e) {
-				e.printStackTrace();
 			}
 		}
 		return false;
@@ -151,7 +170,7 @@ public class Game implements GameState {
 		return amount;
 	}
 
-	private void validateThrowContainsWorm() throws MisthrowException {
+	private void validateThrowContainsWorm() throws MisthrowDecisionException {
 		for (Iterator<Dice> iterator = mCurrentPlayer.getDiceState()
 				.getFixedDices().iterator(); iterator.hasNext();) {
 			Dice dice = iterator.next();
@@ -159,7 +178,7 @@ public class Game implements GameState {
 				return;
 			}
 		}
-		throw new MisthrowException();
+		throw new MisthrowDecisionException();
 	}
 
 	/**

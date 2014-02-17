@@ -28,13 +28,13 @@ public class ClientManagement {
 	 */
 	public boolean isPlayerCountReached() {
 
-		boolean result = (mClients.size() == mPlayerCount);
+		return (mClients.size() == mPlayerCount);
 
-		for (ClientConnection client : mClients) {
-			result = result && (client.getName() != null);
-		}
-
-		return result;
+//		for (ClientConnection client : mClients) {
+//			result = result && (client.getName() != null);
+//		}
+//
+//		return result;
 	}
 
 	/**

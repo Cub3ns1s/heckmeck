@@ -121,10 +121,14 @@ public class Client {
 			break;
 		case ServerMessage.GAMESTATE:
 			processGameStateMessage(serverMessage);
-
+		case ServerMessage.CONTINUE:
+			processContinueMessage(serverMessage);
 		default:
 			break;
 		}
+	}
+
+	private void processContinueMessage(ServerMessage serverMessage) {
 	}
 
 	/**
