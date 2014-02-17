@@ -168,7 +168,7 @@ public class Server {
 
 		if (mClientManagement.isPlayerCountReached()) {
 			mLog.log("All players connected. Start game!");
-			mGame = new Game(mClientManagement.getPlayerNames());
+			mGame = new Game(mClientManagement.getPlayerNames(), mClientManagement);
 			sendInitialGameStateMessage();
 		}
 

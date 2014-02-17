@@ -195,7 +195,7 @@ public class Client {
 		Scanner scanner = new Scanner(System.in);
 		String input = scanner.nextLine();
 
-		int dots = Integer.parseInt(input.substring(0, 1));
+		String dots = input.substring(0, 1);
 		boolean proceed = (input.charAt(1) == 'C');
 		DecisionMessage decision = new DecisionMessage(dots, proceed);
 

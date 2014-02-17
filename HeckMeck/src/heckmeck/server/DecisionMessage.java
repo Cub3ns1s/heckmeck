@@ -4,11 +4,11 @@ public class DecisionMessage extends ClientMessage {
 
 	// Attributes
 	private static final long serialVersionUID = -7511837159574504708L;
-	private int mDots;
+	private String mDots;
 	private boolean mProceed;
 
 	// Constructor
-	public DecisionMessage(int dots, boolean proceed) {
+	public DecisionMessage(String dots, boolean proceed) {
 		super();
 		this.mDots = dots;
 		this.mProceed = proceed;
@@ -20,7 +20,7 @@ public class DecisionMessage extends ClientMessage {
 	 * 
 	 * @return
 	 */
-	public int getDots() {
+	public String getDots() {
 		return mDots;
 	}
 

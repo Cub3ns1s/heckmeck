@@ -117,7 +117,7 @@ public class DiceState implements Serializable {
 				.hasNext();) {
 			Dice dice = iterator.next();
 
-			if (!isValueFixed(dice.getValue())) {
+			if (!isValueFixed(dice.getLabel())) {
 				return false;
 			}
 		}
@@ -131,13 +131,13 @@ public class DiceState implements Serializable {
 	 * @param value
 	 * @return
 	 */
-	private boolean isValueFixed(int value) {
+	private boolean isValueFixed(String label) {
 		for (Iterator<Dice> iterator = mFixedDices.iterator(); iterator
 				.hasNext();) {
 
 			Dice dice = iterator.next();
 
-			if (dice.getValue() == value) {
+			if (dice.getLabel().equals(label)) {
 				return true;
 			}
 		}
@@ -152,11 +152,11 @@ public class DiceState implements Serializable {
 	 * @throws AlreadyFixedException
 	 * @throws ValueNotFoundException
 	 */
-	public void fixValue(int value) throws AlreadyFixedException,
+	public void fixValue(String label) throws AlreadyFixedException,
 			ValueNotFoundException {
 		boolean valueFound = false;
 
-		if (isValueFixed(value)) {
+		if (isValueFixed(label)) {
 			throw new AlreadyFixedException();
 		}
 
@@ -164,7 +164,7 @@ public class DiceState implements Serializable {
 				.hasNext();) {
 			Dice dice = iterator.next();
 
-			if (dice.getValue() == value) {
+			if (dice.getLabel().equals(label)) {
 				mFixedDices.add(dice);
 				valueFound = true;
 			}
@@ -199,13 +199,13 @@ public class DiceState implements Serializable {
 		for (Iterator<Dice> iterator = fixedDices.iterator(); iterator
 				.hasNext();) {
 			Dice dice = iterator.next();
-			sB.append(dice.getValue() + " ");
+			sB.append(dice.getLabel() + " ");
 		}
 		sB.append("\nUnfixed: ");
 		for (Iterator<Dice> iterator = unfixedDices.iterator(); iterator
 				.hasNext();) {
 			Dice dice = iterator.next();
-			sB.append(dice.getValue() + " ");
+			sB.append(dice.getLabel() + " ");
 		}
 		return sB.toString();
 	}

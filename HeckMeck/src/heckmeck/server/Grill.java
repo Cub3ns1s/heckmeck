@@ -76,7 +76,9 @@ public class Grill implements Serializable{
 		
 		for (Iterator<Token> iterator = mTokens.iterator(); iterator.hasNext();) {
 			Token token = iterator.next();
-			sB.append(token.toString());
+			if (token.isActive()) {
+				sB.append(token.toString());
+			}
 		}
 		sB.append("\n********************\n");
 		return sB.toString();

@@ -21,11 +21,11 @@ public class Deck implements Serializable {
 	 * @return
 	 * @throws NoTokenFoundException
 	 */
-	public Token getTopToken() throws NoTokenFoundException {
+	public Token getTopToken() {
 		if (mToken.size() != 0) {
 			return mToken.get((mToken.size() - 1));
 		} else {
-			throw new NoTokenFoundException();
+			return null;
 		}
 	}
 
@@ -51,7 +51,9 @@ public class Deck implements Serializable {
 	 * removes token from deck
 	 */
 	public void removeTopToken() {
-		mToken.remove(mToken.size());
+		if(mToken.size() > 0) {
+		mToken.remove(mToken.size() - 1);
+		}
 	}
 
 	/**
