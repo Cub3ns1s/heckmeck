@@ -1,6 +1,7 @@
 package heckmeck.server;
 
 import heckmeck.exceptions.*;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -108,7 +109,10 @@ public class DiceState implements Serializable {
 	 * @return
 	 */
 	private boolean isMisthrow() {
+		return validateValueFixed();
+	}
 
+	private boolean validateValueFixed() {
 		for (Iterator<Dice> iterator = mUnfixedDices.iterator(); iterator
 				.hasNext();) {
 			Dice dice = iterator.next();

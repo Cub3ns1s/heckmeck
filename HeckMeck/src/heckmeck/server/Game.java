@@ -72,12 +72,17 @@ public class Game implements GameState {
 	 */
 	public GameState move(DecisionMessage decision) {
 		try {
-			
-			mCurrentPlayer.getDiceState().fixValue(decision.getDots());
-			mCurrentPlayer.getDiceState().dice();
-		
-			mPlayers.set(getPlayerPosition(), mCurrentPlayer);
 
+			if (decision.proceeds() == true) {
+				mCurrentPlayer.getDiceState().fixValue(decision.getDots());
+				mCurrentPlayer.getDiceState().dice();
+
+				mPlayers.set(getPlayerPosition(), mCurrentPlayer);
+			}
+//			else if (decision.proceeds() == false) {
+//				validateThrowContainsWorm();
+//				validateThrowHigherExposedToken();
+//			}
 		} catch (MisthrowException e) {
 			e.printStackTrace();
 		} catch (AlreadyFixedException e) {
