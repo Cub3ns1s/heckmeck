@@ -45,9 +45,7 @@ public class ClientManagement {
 	public void sendMessage(ServerMessage message) {
 		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator
 				.hasNext();) {
-			SysoLog log = new SysoLog();
 			ClientConnection client = iterator.next();
-			log.log("Versende " + message + " für Client " + client);
 			client.sendMessage(message);
 		}
 	}

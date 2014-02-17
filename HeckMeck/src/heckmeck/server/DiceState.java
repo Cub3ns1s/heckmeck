@@ -169,8 +169,6 @@ public class DiceState implements Serializable {
 		mUnfixedDices.removeAll(mFixedDices);
 		sort();
 
-		System.out.println("Fertig in fixValue!");
-
 		if (!valueFound) {
 			throw new ValueNotFoundException();
 		}

@@ -43,11 +43,9 @@ public class Game implements GameState {
 			String name = iterator.next();
 
 			mPlayers.add(new PlayerState(name));
-			System.out.println("GAME: Neuer Spieler ist: " + name);
 		}
 
 		setCurrentPlayer(mPlayers.size() - 1);
-		System.out.println("GAME: Aktueller Spieler ist: " + mCurrentPlayer.getName());
 
 	}
 
@@ -59,7 +57,7 @@ public class Game implements GameState {
 	private void setCurrentPlayer(int index) {
 		mCurrentPlayer = mPlayers.get(index);
 		mCurrentPlayer.setTurn(true);
-		System.out.println("Current Player: " + mCurrentPlayer.getName());
+		System.out.println(mCurrentPlayer.getName() + "'s turn!");
 	}
 
 	private int getPlayerPosition() {

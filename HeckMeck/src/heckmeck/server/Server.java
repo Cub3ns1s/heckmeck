@@ -95,7 +95,7 @@ public class Server {
 			return;
 		}
 
-		mLog.log("Starte Server für " + playerCount + " Spieler");
+		mLog.log("Start server for " + playerCount + " players");
 		waitForNewClients();
 
 	}
@@ -129,7 +129,6 @@ public class Server {
 	private void sendInitialGameStateMessage() {
 		GameStateMessage gameStateMessage = new GameStateMessage(
 				mGame.getGameState());
-		mLog.log("GameStateMessage erzeugt.");
 		mClientManagement.sendMessage(gameStateMessage);
 	}
 
@@ -144,8 +143,6 @@ public class Server {
 
 		mClientManagement.addClient(clientConnection);
 		new Thread(clientConnection).start();
-
-		mLog.log("Thread mit ClientConnection erstellt und gestartet");
 	}
 
 	/**
@@ -169,7 +166,7 @@ public class Server {
 	public void startGameIfAllClientsConnected() {
 
 		if (mClientManagement.isPlayerCountReached()) {
-			mLog.log("Alle verbunden. Starte Spiel");
+			mLog.log("All players connected. Start game!");
 			mGame = new Game(mClientManagement.getPlayerNames());
 			sendInitialGameStateMessage();
 		}

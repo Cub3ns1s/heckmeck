@@ -58,8 +58,7 @@ public class ClientConnection implements Runnable {
 		try {
 			do {
 				ClientMessage clientMessage = (ClientMessage) mOis.readObject();
-				System.out.println("CLCON:" + clientMessage.getMessageType());
-
+				
 				switch (clientMessage.getMessageType()) {
 				case ClientMessage.LOGON:
 					logon((LogonMessage) clientMessage);

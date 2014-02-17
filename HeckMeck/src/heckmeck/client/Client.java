@@ -49,7 +49,6 @@ public class Client {
 		LogonMessage logonMessage = new LogonMessage(mName);
 
 		sendMessage(logonMessage);
-		mLog.log("Client: Anmeldung abgeschickt");
 	}
 
 	/**
@@ -113,8 +112,6 @@ public class Client {
 	private void processMessage(ServerMessage serverMessage)
 			throws HeckmeckException {
 
-		mLog.log("RCVD: " + serverMessage);
-
 		switch (serverMessage.getMessageType()) {
 		case ServerMessage.WELCOME:
 			processWelcomeMessage(serverMessage);
@@ -140,7 +137,7 @@ public class Client {
 		mGameState = gameStateMessage.getGameState();
 
 		printGameState();
-		mLog.log(mName);
+		mLog.log("Current player: " + mName);
 
 		for (Iterator<PlayerState> iterator = mGameState.getPlayerStates()
 				.iterator(); iterator.hasNext();) {
