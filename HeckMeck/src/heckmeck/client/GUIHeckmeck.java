@@ -98,7 +98,7 @@ public class GUIHeckmeck extends JFrame {
 	}
 
 	public static void main(GameState[] args) {
-		GUIHeckmeck gui = new GUIHeckmeck(args[0]);
+		new GUIHeckmeck(args[0]);
 	}
 
 }
