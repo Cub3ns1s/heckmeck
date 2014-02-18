@@ -26,7 +26,7 @@ public class GUIHeckmeck extends JFrame {
 	}
 
 	private void createCenterPanel() {
-		JPanel pCenter = new JPanel(new GridBagLayout());
+		JPanel pCenter = new JPanel();
 		pCenter.setBackground(new Color(122, 6, 39));
 
 		insertGrillTokenImages(pCenter);
@@ -36,9 +36,9 @@ public class GUIHeckmeck extends JFrame {
 	}
 
 	private void insertGrillTokenImages(JPanel pCenter) {
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.ipadx = 5;
-		gbc.ipady = 5;
+//		GridBagConstraints gbc = new GridBagConstraints();
+//		gbc.ipadx = 5;
+//		gbc.ipady = 5;
 
 		for (Iterator<Token> iterator = mGameState.getGrill().getTokens()
 				.iterator(); iterator.hasNext();) {
@@ -46,7 +46,7 @@ public class GUIHeckmeck extends JFrame {
 
 			String path = "L:/Ausbildung/Heckmeck/" + token.getValue() + ".png";
 
-			pCenter.add(new JLabel(new ImageIcon(path)), gbc);
+			pCenter.add(new JLabel(new ImageIcon(path)));
 			mFrame.revalidate();
 		}
 	}
