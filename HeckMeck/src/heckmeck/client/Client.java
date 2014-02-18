@@ -165,6 +165,7 @@ public class Client {
 	 */
 	private void printGameState() {
 		mLog.log(mGameState.toString());
+		new GUIHeckmeck(mGameState);
 	}
 
 	/**
@@ -195,10 +196,11 @@ public class Client {
 		if (mGameState.getCurrentPlayer().getName().equals(mName)) {
 			Scanner scanner = new Scanner(System.in);
 			String input = scanner.nextLine();
+			
 			if (input.length() != 2) {
 				mLog.log("Please repeat your decision! It has to contain two characters!");
 			} else {
-				input.toUpperCase();
+				input = input.toUpperCase();
 				String dots = input.substring(0, 1);
 				boolean proceed = (input.charAt(1) == 'C');
 				DecisionMessage decision = new DecisionMessage(dots, proceed);
