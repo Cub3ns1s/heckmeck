@@ -116,19 +116,19 @@ public class Client {
 		case ServerMessage.WELCOME:
 			processWelcomeMessage(serverMessage);
 			break;
-			
+
 		case ServerMessage.FULL:
 			processFullMessage();
 			break;
-			
+
 		case ServerMessage.GAMESTATE:
 			processGameStateMessage(serverMessage);
 			break;
-			
+
 		case ServerMessage.CONTINUE:
 			processContinueMessage(serverMessage);
 			break;
-			
+
 		default:
 			break;
 		}
@@ -192,14 +192,19 @@ public class Client {
 	 */
 	@SuppressWarnings("resource")
 	private void waitForUserInput() {
-		Scanner scanner = new Scanner(System.in);
-		String input = scanner.nextLine();
+		if (mGameState.getCurrentPlayer().getName().equals(mName)) {
+			Scanner scanner = new Scanner(System.in);
+			String input = scanner.nextLine();
+			if (input.length() != 2) {
+				mLog.log("Please repeat your decision! It has to contain two characters!");
+			} else {
+				input.toUpperCase();
+				String dots = input.substring(0, 1);
+				boolean proceed = (input.charAt(1) == 'C');
+				DecisionMessage decision = new DecisionMessage(dots, proceed);
 
-		String dots = input.substring(0, 1);
-		boolean proceed = (input.charAt(1) == 'C');
-		DecisionMessage decision = new DecisionMessage(dots, proceed);
-
-		sendMessage(decision);
-
+				sendMessage(decision);
+			}
+		}
 	}
 }

@@ -18,4 +18,6 @@ public interface GameState extends Serializable{
 	 * @return
 	 */
 	public List<PlayerState> getPlayerStates();
+	
+	public PlayerState getCurrentPlayer();
 }

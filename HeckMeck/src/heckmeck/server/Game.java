@@ -95,19 +95,33 @@ public class Game implements GameState {
 
 	private void finalizeTurn() {
 		try {
-			validate();
+			validateThrowContainsWorm();
+			transferTokenToCurrentPlayer();
 
 		} catch (MisthrowDecisionException e) {
-			mLog.log("Caught MissthrowDecisionException!");
-			ContinueMessage continueMessage = new ContinueMessage(
-					"Go on! No worm included or amount not adequate!");
-			mClientManagement.sendMessage(continueMessage);
+			handleMissthrowDecisionException();
 		}
 	}
 
-	private void validate() throws MisthrowDecisionException {
-		validateThrowContainsWorm();
-		transferTokenToCurrentPlayer();
+	private void handleMissthrowDecisionException() {
+		mLog.log("Caught MissthrowDecisionException because of worm or throw amount!");
+		if (mCurrentPlayer.getDiceState().getUnfixedDices().size() != 0) {
+		ContinueMessage continueMessage = new ContinueMessage(
+				"Go on! No worm included or amount not adequate!");
+		mClientManagement.sendMessage(continueMessage);
+		}
+		else {
+			try {
+				transferTokenToCurrentPlayer();
+			} catch (MisthrowDecisionException e) {
+			mLog.log("Caught MissthrowDecisionException because no adequate token was found!");
+			ContinueMessage continueMessage = new ContinueMessage("No token matching your throw found!");
+			mClientManagement.sendMessage(continueMessage);
+			
+			setNextTurn();
+			}
+		}
+
 	}
 
 	private void continueTurn() {
@@ -150,22 +164,22 @@ public class Game implements GameState {
 
 		int amount = getThrowAmount();
 
-		if ((!transferTokenFromOtherPlayer(amount)) && (!transferTokenFromGrill(amount))) {
+		if ((!transferTokenFromOtherPlayer(amount))
+				&& (!transferTokenFromGrill(amount))) {
 			throw new MisthrowDecisionException();
-		}
-		else {
+		} else {
 			setNextTurn();
 		}
 	}
 
 	private boolean transferTokenFromOtherPlayer(int amount) {
 		Token token = null;
-		
+
 		for (int i = 0; i < mPlayers.size(); i++) {
 			if (i != getPlayerPosition()) {
 				PlayerState playerState = mPlayers.get(i);
 				token = playerState.getDeck().getTopToken();
-				if ((token != null ) && (amount == token.getValue())) {
+				if ((token != null) && (amount == token.getValue())) {
 					transferTokenFromPlayer(token, playerState);
 					return true;
 				}
@@ -176,32 +190,31 @@ public class Game implements GameState {
 
 	private void transferTokenFromPlayer(Token token, PlayerState playerState) {
 		mCurrentPlayer.getDeck().addToken(token);
-		playerState.getDeck().removeTopToken();		
+		playerState.getDeck().removeTopToken();
 	}
 
 	private boolean transferTokenFromGrill(int amount) {
 		Token tmpToken = null;
-		
+
 		for (Iterator<Token> iterator = mGrill.getTokens().iterator(); iterator
 				.hasNext();) {
 			Token token = iterator.next();
-			
-			if (amount >= token.getValue()) {	
+
+			if (amount >= token.getValue()) {
 				tmpToken = token;
 			}
 		}
-		
+
 		if (tmpToken != null) {
 			try {
 				mGrill.remove(tmpToken.getValue());
 			} catch (NoTokenFoundException e) {
 				e.printStackTrace();
 			}
-			
+
 			mCurrentPlayer.getDeck().addToken(tmpToken);
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -236,7 +249,12 @@ public class Game implements GameState {
 	public GameState getGameState() {
 		return this;
 	}
-
+	
+	@Override
+	public PlayerState getCurrentPlayer() {
+		return mCurrentPlayer;
+	}
+	
 	@Override
 	public Grill getGrill() {
 		return mGrill;
@@ -246,7 +264,7 @@ public class Game implements GameState {
 	public List<PlayerState> getPlayerStates() {
 		return mPlayers;
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
