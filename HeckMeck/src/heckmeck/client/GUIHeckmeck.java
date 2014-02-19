@@ -54,7 +54,7 @@ public class GUIHeckmeck extends JFrame {
 	private void createRightPanel() {
 		JPanel pRight = new JPanel();
 		pRight.setBackground(Color.cyan);
-		pRight.setPreferredSize(new Dimension(300, 1000));
+		pRight.setPreferredSize(new Dimension(100, 1000));
 		pRight.add(new JLabel("RIGHT"));
 		mFrame.add(BorderLayout.LINE_END, pRight);
 		mFrame.revalidate();
@@ -63,7 +63,7 @@ public class GUIHeckmeck extends JFrame {
 	private void createLeftPanel() {
 		JPanel pLeft = new JPanel();
 		pLeft.setBackground(Color.cyan);
-		pLeft.setPreferredSize(new Dimension(300, 1000));
+		pLeft.setPreferredSize(new Dimension(100, 1000));
 		pLeft.add(new JLabel("LEFT"));
 		mFrame.add(BorderLayout.LINE_START, pLeft);
 		mFrame.revalidate();
@@ -72,7 +72,7 @@ public class GUIHeckmeck extends JFrame {
 	private void createBottomPanel() {
 		JPanel pBottom = new JPanel();
 		pBottom.setBackground(Color.yellow);
-		pBottom.setPreferredSize(new Dimension(1000, 300));
+		pBottom.setPreferredSize(new Dimension(1000, 100));
 		pBottom.add(new JLabel("BOTTOM"));
 		mFrame.add(BorderLayout.PAGE_END, pBottom);
 		mFrame.revalidate();
@@ -81,7 +81,7 @@ public class GUIHeckmeck extends JFrame {
 	private void createTopPanel() {
 		JPanel pTop = new JPanel();
 		pTop.setBackground(Color.yellow);
-		pTop.setPreferredSize(new Dimension(1000, 300));
+		pTop.setPreferredSize(new Dimension(1000, 100));
 		pTop.add(new JLabel("TOP"));
 		mFrame.add(BorderLayout.PAGE_START, pTop);
 		mFrame.revalidate();

@@ -36,7 +36,7 @@ public class Client {
 	 * starts client
 	 */
 	private void start() {
-		String ip = "127.0.0.1";
+		String ip = "172.17.40.29";
 		initConnection(ip);
 		logon();
 		waitForServerMessages();
