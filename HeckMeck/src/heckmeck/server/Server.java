@@ -16,12 +16,22 @@ public class Server {
 	private static final int MINPLAYER = 2;
 	private static final int MAXPLAYER = 7;
 	private Logger mLog;
+	private String mServerIP;
 
 	// Constructor
 	public Server(int playerCount, Logger logger) {
 		mPlayerCount = playerCount;
 		mLog = logger;
+		mServerIP = getServerIP();
 		mClientManagement = new ClientManagement(mPlayerCount);
+	}
+
+	private String getServerIP() {
+		try {
+			return InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			return null;
+		}
 	}
 
 	/**
