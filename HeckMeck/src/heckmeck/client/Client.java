@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Client {
+public class Client implements Runnable{
 
 	// Attributes
 	private Socket mSocket;
@@ -16,27 +16,29 @@ public class Client {
 	private ObjectOutputStream mOOS;
 	private ObjectInputStream mOIS;
 	private SysoLog mLog;
+	private HeckmeckUI mUI;
 
 	// Constructor
-	public Client(String name) {
+	public Client(String name, HeckmeckUI ui) {
 		mName = name;
 		mLog = new SysoLog();
+		mUI = ui;
 	}
 
-	/**
-	 * Main Method - starts new Thread with new Client
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		new Client(args[0]).start();
-	}
+//	/**
+//	 * Main Method - starts new Thread with new Client
+//	 * 
+//	 * @param args
+//	 */
+//	public static void main(String[] args) {
+//		new Client(args[0]).start();
+//	}
 
 	/**
 	 * starts client
 	 */
-	private void start() {
-		String ip = "172.17.40.29";
+	public void run() {
+		String ip = "127.0.0.1";
 		initConnection(ip);
 		logon();
 		waitForServerMessages();
@@ -149,23 +151,15 @@ public class Client {
 		mGameState = gameStateMessage.getGameState();
 
 		printGameState();
-		mLog.log("Current player: " + mName);
 
-		for (Iterator<PlayerState> iterator = mGameState.getPlayerStates()
-				.iterator(); iterator.hasNext();) {
-			PlayerState playerState = iterator.next();
-			if (playerState.getName().equals(mName) && playerState.isTurn()) {
-				waitForUserInput();
-			}
-		}
+
 	}
 
 	/**
 	 * prints Game State
 	 */
 	private void printGameState() {
-		mLog.log(mGameState.toString());
-		new GUIHeckmeck(mGameState);
+		mUI.update(mGameState);
 	}
 
 	/**
@@ -174,7 +168,7 @@ public class Client {
 	 * @throws HeckmeckException
 	 */
 	private void processFullMessage() throws HeckmeckException {
-		mLog.log("Server full!");
+		mUI.showMessage("Server full!");
 		throw new HeckmeckException();
 	}
 
@@ -185,28 +179,16 @@ public class Client {
 	 */
 	private void processWelcomeMessage(ServerMessage serverMessage) {
 		WelcomeMessage message = (WelcomeMessage) serverMessage;
-		mLog.log(message.getText());
+		mUI.showMessage(message.getText());
 	}
 
-	/**
-	 * waits for keyboard input from user to make move
-	 */
-	@SuppressWarnings("resource")
-	private void waitForUserInput() {
-		if (mGameState.getCurrentPlayer().getName().equals(mName)) {
-			Scanner scanner = new Scanner(System.in);
-			String input = scanner.nextLine();
-			
-			if (input.length() != 2) {
-				mLog.log("Please repeat your decision! It has to contain two characters!");
-			} else {
-				input = input.toUpperCase();
-				String dots = input.substring(0, 1);
-				boolean proceed = (input.charAt(1) == 'C');
-				DecisionMessage decision = new DecisionMessage(dots, proceed);
+	public void createDecisionMessage(String input) {
+		String decisionString = input.toUpperCase();
+		String dots = decisionString.substring(0, 1);
+		boolean proceed = (decisionString.charAt(1) == 'C');
+		DecisionMessage decision = new DecisionMessage(dots, proceed);
 
-				sendMessage(decision);
-			}
-		}
+		sendMessage(decision);
 	}
+
 }

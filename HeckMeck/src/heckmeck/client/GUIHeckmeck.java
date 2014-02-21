@@ -4,24 +4,39 @@ import heckmeck.server.GameState;
 import heckmeck.server.Token;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 
 import javax.swing.*;
 
-public class GUIHeckmeck extends JFrame {
+public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private static final long serialVersionUID = 4220957201237157813L;
 	private JFrame mFrame;
 	private GameState mGameState;
+	private Client mClient;
+	private String mName;
+	
+	public static void main(String[] args) {
+		new GUIHeckmeck(args[0]);
+	}
+	
+	private GUIHeckmeck(String name) {
 
-	public GUIHeckmeck(GameState gameState) {
-		mGameState = gameState;
-
+		mClient = new Client(name, this);
+		mName = name; 
+		new Thread(mClient).start();
+		
 		createFrame();
 		createTopPanel();
 		createBottomPanel();
 		createLeftPanel();
 		createRightPanel();
+		
+	}
+	
+	private void updateUI( ){
 		createCenterPanel();
 	}
 
@@ -83,6 +98,17 @@ public class GUIHeckmeck extends JFrame {
 		pTop.setBackground(Color.yellow);
 		pTop.setPreferredSize(new Dimension(1000, 100));
 		pTop.add(new JLabel("TOP"));
+		Button moveButton = new Button("Move");
+		moveButton.addActionListener(new ActionListener( ){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Button pressed");
+				
+			}
+			
+		});
+		pTop.add(moveButton);
 		mFrame.add(BorderLayout.PAGE_START, pTop);
 		mFrame.revalidate();
 	}
@@ -97,8 +123,18 @@ public class GUIHeckmeck extends JFrame {
 		mFrame.setVisible(true);
 	}
 
-	public static void main(GameState[] args) {
-		new GUIHeckmeck(args[0]);
+	@Override
+	public void update(GameState gameState) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	@Override
+	public void showMessage(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 }
