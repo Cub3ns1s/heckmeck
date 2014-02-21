@@ -14,9 +14,7 @@ public class TextHeckmeck implements HeckmeckUI {
 	private String mName;
 	
 	public static void main( String[] args ){
-		
 		new TextHeckmeck(args[0]);
-		
 	}
 	
 	private TextHeckmeck( String name){

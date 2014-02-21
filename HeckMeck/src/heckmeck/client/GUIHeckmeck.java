@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
+import java.util.SortedSet;
 
 import javax.swing.*;
 
@@ -17,28 +18,27 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private GameState mGameState;
 	private Client mClient;
 	private String mName;
-	
+
 	public static void main(String[] args) {
 		new GUIHeckmeck(args[0]);
 	}
-	
+
 	private GUIHeckmeck(String name) {
 
 		mClient = new Client(name, this);
-		mName = name; 
+		mName = name;
 		new Thread(mClient).start();
-		
+
 		createFrame();
 		createTopPanel();
 		createBottomPanel();
 		createLeftPanel();
 		createRightPanel();
-		
 	}
-	
-	private void updateUI( ){
-		createCenterPanel();
-	}
+
+	// private void updateUI( ){
+	// createCenterPanel();
+	// }
 
 	private void createCenterPanel() {
 		JPanel pCenter = new JPanel();
@@ -51,14 +51,12 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void insertGrillTokenImages(JPanel pCenter) {
-//		GridBagConstraints gbc = new GridBagConstraints();
-//		gbc.ipadx = 5;
-//		gbc.ipady = 5;
+		// GridBagConstraints gbc = new GridBagConstraints();
+		// gbc.ipadx = 5;
+		// gbc.ipady = 5;
+		SortedSet<Token> tokenList = mGameState.getGrill().getTokens();
 
-		for (Iterator<Token> iterator = mGameState.getGrill().getTokens()
-				.iterator(); iterator.hasNext();) {
-			Token token = iterator.next();
-
+		for (Token token : tokenList) {
 			String path = "L:/Ausbildung/Heckmeck/" + token.getValue() + ".png";
 
 			pCenter.add(new JLabel(new ImageIcon(path)));
@@ -99,14 +97,14 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		pTop.setPreferredSize(new Dimension(1000, 100));
 		pTop.add(new JLabel("TOP"));
 		Button moveButton = new Button("Move");
-		moveButton.addActionListener(new ActionListener( ){
+		moveButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Button pressed");
-				
+
 			}
-			
+
 		});
 		pTop.add(moveButton);
 		mFrame.add(BorderLayout.PAGE_START, pTop);
@@ -125,16 +123,14 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	@Override
 	public void update(GameState gameState) {
-		// TODO Auto-generated method stub
-		
+		createCenterPanel();
+
 	}
 
 	@Override
 	public void showMessage(String message) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 }
