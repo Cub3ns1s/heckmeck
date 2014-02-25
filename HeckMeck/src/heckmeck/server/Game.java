@@ -72,22 +72,30 @@ public class Game implements GameState {
 	 * @param decision
 	 * @return
 	 */
-	public GameState move(DecisionMessage decision) {
-		try {
-			mCurrentPlayer.getDiceState().fixValue(decision.getDots());
+	public GameState move(DecisionMessage decision, String playerName) {
+		if (mCurrentPlayer.getName() != playerName) {
 
-			if (decision.proceeds()) {
-				continueTurn();
-			} else {
-				finalizeTurn();
-			}
-
-		} catch (AlreadyFixedException e) {
 			ContinueMessage continueMessage = new ContinueMessage(
-					"Repeat decision! Chosen value already fixed!");
+					"Wrong player, it's " + mCurrentPlayer.getName()
+							+ "'s turn!");
 			mClientManagement.sendMessage(continueMessage);
+		} else {
+			try {
+				mCurrentPlayer.getDiceState().fixValue(decision.getDots());
 
-		} catch (ValueNotFoundException e) {
+				if (decision.proceeds()) {
+					continueTurn();
+				} else {
+					finalizeTurn();
+				}
+
+			} catch (AlreadyFixedException e) {
+				ContinueMessage continueMessage = new ContinueMessage(
+						"Repeat decision! Chosen value already fixed!");
+				mClientManagement.sendMessage(continueMessage);
+
+			} catch (ValueNotFoundException e) {
+			}
 		}
 
 		return this;
@@ -106,19 +114,19 @@ public class Game implements GameState {
 	private void handleMissthrowDecisionException() {
 		mLog.log("Caught MissthrowDecisionException because of worm or throw amount!");
 		if (mCurrentPlayer.getDiceState().getUnfixedDices().size() != 0) {
-		ContinueMessage continueMessage = new ContinueMessage(
-				"Go on! No worm included or amount not adequate!");
-		mClientManagement.sendMessage(continueMessage);
-		}
-		else {
+			ContinueMessage continueMessage = new ContinueMessage(
+					"Go on! No worm included or amount not adequate!");
+			mClientManagement.sendMessage(continueMessage);
+		} else {
 			try {
 				transferTokenToCurrentPlayer();
 			} catch (MisthrowDecisionException e) {
-			mLog.log("Caught MissthrowDecisionException because no adequate token was found!");
-			ContinueMessage continueMessage = new ContinueMessage("No token matching your throw found!");
-			mClientManagement.sendMessage(continueMessage);
-			
-			setNextTurn();
+				mLog.log("Caught MissthrowDecisionException because no adequate token was found!");
+				ContinueMessage continueMessage = new ContinueMessage(
+						"No token matching your throw found!");
+				mClientManagement.sendMessage(continueMessage);
+
+				setNextTurn();
 			}
 		}
 
@@ -249,12 +257,12 @@ public class Game implements GameState {
 	public GameState getGameState() {
 		return this;
 	}
-	
+
 	@Override
 	public PlayerState getCurrentPlayer() {
 		return mCurrentPlayer;
 	}
-	
+
 	@Override
 	public Grill getGrill() {
 		return mGrill;
@@ -264,7 +272,7 @@ public class Game implements GameState {
 	public List<PlayerState> getPlayerStates() {
 		return mPlayers;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();

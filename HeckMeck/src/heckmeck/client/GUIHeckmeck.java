@@ -14,13 +14,17 @@ import javax.swing.*;
 public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private static final long serialVersionUID = 4220957201237157813L;
+	
 	private JFrame mFrame;
+	private JTextField mTextField;
+	
 	private GameState mGameState;
 	private Client mClient;
 	private String mName;
 
 	public static void main(String[] args) {
 		new GUIHeckmeck(args[0]);
+		
 	}
 
 	private GUIHeckmeck(String name) {
@@ -54,11 +58,16 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		// GridBagConstraints gbc = new GridBagConstraints();
 		// gbc.ipadx = 5;
 		// gbc.ipady = 5;
+		String path = "";
 		SortedSet<Token> tokenList = mGameState.getGrill().getTokens();
 
 		for (Token token : tokenList) {
-			String path = "L:/Ausbildung/Heckmeck/" + token.getValue() + ".png";
+			if (token.isActive()){
+			 path = "L:/Ausbildung/Heckmeck/" + token.getValue() + ".png";		
 
+			}else{
+				 path = "L:/Ausbildung/Heckmeck/inactiveToken.png";		
+			}
 			pCenter.add(new JLabel(new ImageIcon(path)));
 			mFrame.revalidate();
 		}
@@ -96,17 +105,18 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		pTop.setBackground(Color.yellow);
 		pTop.setPreferredSize(new Dimension(1000, 100));
 		pTop.add(new JLabel("TOP"));
-		Button moveButton = new Button("Move");
+		pTop.add( new JLabel( "Decision:"));
+		mTextField = new JTextField( "5C" );
+		JButton moveButton = new JButton("Move");
 		moveButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Button pressed");
-
+				mClient.createDecisionMessage(mTextField.getText());
 			}
-
 		});
 		pTop.add(moveButton);
+		pTop.add(mTextField);
 		mFrame.add(BorderLayout.PAGE_START, pTop);
 		mFrame.revalidate();
 	}
@@ -114,7 +124,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private void createFrame() {
 		mFrame = new JFrame("Heckmeck");
 		mFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		mFrame.setResizable(false);
+		mFrame.setResizable(true);
 		mFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mFrame.getContentPane().setBackground(new Color(122, 6, 39));
 		mFrame.setLayout(new BorderLayout());
@@ -123,6 +133,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	@Override
 	public void update(GameState gameState) {
+		mGameState = gameState;
 		createCenterPanel();
 
 	}

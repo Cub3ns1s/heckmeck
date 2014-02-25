@@ -16,24 +16,15 @@ public class Server {
 	private static final int MINPLAYER = 2;
 	private static final int MAXPLAYER = 7;
 	private Logger mLog;
-//	private String mServerIP;
-
+	
 	// Constructor
 	public Server(int playerCount, Logger logger) {
 		mPlayerCount = playerCount;
 		mLog = logger;
 		mClientManagement = new ClientManagement(mPlayerCount);
 		
-//		mServerIP = getServerIP();
 	}
 
-//	private String getServerIP() {
-//		try {
-//			return InetAddress.getLocalHost().getHostAddress();
-//		} catch (UnknownHostException e) {
-//			return null;
-//		}
-//	}
 
 	/**
 	 * Main method - gets player count and starts server
@@ -61,9 +52,9 @@ public class Server {
 	 * 
 	 * @param decision
 	 */
-	public void move(DecisionMessage decision) {
+	public void move(DecisionMessage decision, String playerName) {
 		GameStateMessage gameStateMessage = new GameStateMessage(
-				mGame.move(decision));
+				mGame.move(decision, playerName));
 
 		mClientManagement.sendMessage(gameStateMessage);
 	}
@@ -131,7 +122,6 @@ public class Server {
 			} catch (IOException e) {
 				mLog.log(e);
 			}
-
 		}
 	}
 

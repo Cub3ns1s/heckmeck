@@ -81,7 +81,7 @@ public class ClientConnection implements Runnable {
 			break;
 
 		case ClientMessage.DECISION:
-			mServer.move((DecisionMessage) clientMessage);
+			mServer.move((DecisionMessage) clientMessage, mName);
 			break;
 
 		default:
