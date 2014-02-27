@@ -42,10 +42,6 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		createRightPanel();
 	}
 
-	// private void updateUI( ){
-	// createCenterPanel();
-	// }
-
 	private void createCenterPanel() {
 		JPanel pCenterTopPane = new JPanel();
 		JPanel pCenterBottomPane = new JPanel();
