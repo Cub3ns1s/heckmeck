@@ -1,30 +1,32 @@
 package heckmeck.client;
 
-import heckmeck.server.GameState;
-import heckmeck.server.Token;
+import heckmeck.server.*;
 
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.SortedSet;
+import java.util.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private static final long serialVersionUID = 4220957201237157813L;
-	
+
 	private JFrame mFrame;
 	private JTextField mTextField;
-	
+
 	private GameState mGameState;
 	private Client mClient;
 	private String mName;
 
 	public static void main(String[] args) {
 		new GUIHeckmeck(args[0]);
-		
+
 	}
 
 	private GUIHeckmeck(String name) {
@@ -45,30 +47,72 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	// }
 
 	private void createCenterPanel() {
-		JPanel pCenter = new JPanel();
-		pCenter.setBackground(new Color(122, 6, 39));
+		JPanel pCenterTopPane = new JPanel();
+		JPanel pCenterBottomPane = new JPanel();
 
-		insertGrillTokenImages(pCenter);
+		pCenterTopPane.setBackground(new Color(122, 6, 39));
+		pCenterBottomPane.setBackground(new Color(122, 6, 39));
 
-		mFrame.getContentPane().add(pCenter);
+		JSplitPane pCenterSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+				pCenterTopPane, pCenterBottomPane);
+		pCenterSplitPane.setResizeWeight(0.5);
+		setDivider(pCenterSplitPane);
+
+		insertGrillTokenImages(pCenterTopPane);
+		insertDices(pCenterBottomPane);
+
+		mFrame.getContentPane().add(pCenterSplitPane);
 		mFrame.revalidate();
 	}
 
-	private void insertGrillTokenImages(JPanel pCenter) {
-		// GridBagConstraints gbc = new GridBagConstraints();
-		// gbc.ipadx = 5;
-		// gbc.ipady = 5;
+	private void setDivider(JSplitPane pCenterSplitPane) {
+		// setze den Divider auf Hintergrundfarbe
+		pCenterSplitPane.setUI(new BasicSplitPaneUI() {
+			public BasicSplitPaneDivider createDefaultDivider() {
+				return new BasicSplitPaneDivider(this) {
+
+					public void setBorder(Border b) {
+					}
+
+					@Override
+					public void paint(Graphics g) {
+						g.setColor(new Color(122, 6, 39));
+						g.fillRect(0, 0, getSize().width, getSize().height);
+						super.paint(g);
+					}
+				};
+			}
+		});
+		
+		pCenterSplitPane.setBorder(null);
+	}
+
+	private void insertDices(JPanel pCenterBottomPane) {
+		String path = "";
+		java.util.List<Dice> unfixedDices = mGameState.getCurrentPlayer()
+				.getDiceState().getUnfixedDices();
+
+		for (Dice dice : unfixedDices) {
+			path = "W" + dice.getLabel() + ".png";
+
+			pCenterBottomPane.add(new JLabel(new ImageIcon(path)));
+			mFrame.revalidate();
+		}
+
+	}
+
+	private void insertGrillTokenImages(JPanel pCenterTopPane) {
 		String path = "";
 		SortedSet<Token> tokenList = mGameState.getGrill().getTokens();
 
 		for (Token token : tokenList) {
-			if (token.isActive()){
-			 path = "L:/Ausbildung/Heckmeck/" + token.getValue() + ".png";		
+			if (token.isActive()) {
+				path = token.getValue() + ".png";
 
-			}else{
-				 path = "L:/Ausbildung/Heckmeck/inactiveToken.png";		
+			} else {
+				path = "inactiveToken.png";
 			}
-			pCenter.add(new JLabel(new ImageIcon(path)));
+			pCenterTopPane.add(new JLabel(new ImageIcon(path)));
 			mFrame.revalidate();
 		}
 	}
@@ -105,8 +149,8 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		pTop.setBackground(Color.yellow);
 		pTop.setPreferredSize(new Dimension(1000, 100));
 		pTop.add(new JLabel("TOP"));
-		pTop.add( new JLabel( "Decision:"));
-		mTextField = new JTextField( "5C" );
+		pTop.add(new JLabel("Decision:"));
+		mTextField = new JTextField("5C");
 		JButton moveButton = new JButton("Move");
 		moveButton.addActionListener(new ActionListener() {
 
