@@ -3,7 +3,6 @@ package heckmeck.client;
 import heckmeck.server.*;
 
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -115,7 +114,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private void createRightPanel() {
 		JPanel pRight = new JPanel();
-		pRight.setBackground(Color.cyan);
+		pRight.setBackground(new Color(122, 6, 39));
 		pRight.setPreferredSize(new Dimension(100, 1000));
 		pRight.add(new JLabel("RIGHT"));
 		mFrame.add(BorderLayout.LINE_END, pRight);
@@ -124,7 +123,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private void createLeftPanel() {
 		JPanel pLeft = new JPanel();
-		pLeft.setBackground(Color.cyan);
+		pLeft.setBackground(new Color(122, 6, 39));
 		pLeft.setPreferredSize(new Dimension(100, 1000));
 		pLeft.add(new JLabel("LEFT"));
 		mFrame.add(BorderLayout.LINE_START, pLeft);
@@ -133,7 +132,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private void createBottomPanel() {
 		JPanel pBottom = new JPanel();
-		pBottom.setBackground(Color.yellow);
+		pBottom.setBackground(new Color(122, 6, 39));
 		pBottom.setPreferredSize(new Dimension(1000, 100));
 		pBottom.add(new JLabel("BOTTOM"));
 		mFrame.add(BorderLayout.PAGE_END, pBottom);
@@ -142,7 +141,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private void createTopPanel() {
 		JPanel pTop = new JPanel();
-		pTop.setBackground(Color.yellow);
+		pTop.setBackground(new Color(122, 6, 39));
 		pTop.setPreferredSize(new Dimension(1000, 100));
 		pTop.add(new JLabel("TOP"));
 		pTop.add(new JLabel("Decision:"));
