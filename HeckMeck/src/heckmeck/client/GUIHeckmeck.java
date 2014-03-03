@@ -42,45 +42,57 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void createCenterPanel() {
-		JPanel pCenterTopPane = new JPanel();
-		JPanel pCenterBottomPane = new JPanel();
-
-		pCenterTopPane.setBackground(new Color(122, 6, 39));
-		pCenterBottomPane.setBackground(new Color(122, 6, 39));
-
-		JSplitPane pCenterSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				pCenterTopPane, pCenterBottomPane);
-		pCenterSplitPane.setResizeWeight(0.5);
-		setDivider(pCenterSplitPane);
-
-		insertGrillTokenImages(pCenterTopPane);
-		insertDices(pCenterBottomPane);
-
-		mFrame.getContentPane().add(pCenterSplitPane);
-		mFrame.revalidate();
-	}
-
-	private void setDivider(JSplitPane pCenterSplitPane) {
-		// setze den Divider auf Hintergrundfarbe
-		pCenterSplitPane.setUI(new BasicSplitPaneUI() {
-			public BasicSplitPaneDivider createDefaultDivider() {
-				return new BasicSplitPaneDivider(this) {
-
-					public void setBorder(Border b) {
-					}
-
-					@Override
-					public void paint(Graphics g) {
-						g.setColor(new Color(122, 6, 39));
-						g.fillRect(0, 0, getSize().width, getSize().height);
-						super.paint(g);
-					}
-				};
-			}
-		});
+		JPanel pCenter = new JPanel(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridwidth = 1;
+		gbc.gridheight = 2;
 		
-		pCenterSplitPane.setBorder(null);
+		insertGrillTokenImages(pCenter, gbc);
+		insertDices(pCenter);
+		mFrame.getContentPane().add(pCenter);
+		mFrame.revalidate();
+		
+//		JPanel pCenterTopPane = new JPanel();
+//		JPanel pCenterBottomPane = new JPanel();
+//
+//		pCenterTopPane.setBackground(new Color(122, 6, 39));
+//		pCenterBottomPane.setBackground(new Color(122, 6, 39));
+//
+//		JSplitPane pCenterSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+//				pCenterTopPane, pCenterBottomPane);
+//		pCenterSplitPane.setResizeWeight(0.5);
+//		setDivider(pCenterSplitPane);
+//
+//		insertGrillTokenImages(pCenterTopPane);
+//		insertDices(pCenterBottomPane);
+//
+//		mFrame.getContentPane().add(pCenterSplitPane);
+//		mFrame.revalidate();
 	}
+
+//	private void setDivider(JSplitPane pCenterSplitPane) {
+//		// setze den Divider auf Hintergrundfarbe
+//		pCenterSplitPane.setUI(new BasicSplitPaneUI() {
+//			public BasicSplitPaneDivider createDefaultDivider() {
+//				return new BasicSplitPaneDivider(this) {
+//
+//					public void setBorder(Border b) {
+//					}
+//
+//					@Override
+//					public void paint(Graphics g) {
+//						g.setColor(new Color(122, 6, 39));
+//						g.fillRect(0, 0, getSize().width, getSize().height);
+//						super.paint(g);
+//					}
+//				
+//				
+//				};
+//			}
+//		});
+//		
+//		pCenterSplitPane.setBorder(null);
+//	}
 
 	private void insertDices(JPanel pCenterBottomPane) {
 		String path = "";
@@ -96,7 +108,10 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	}
 
-	private void insertGrillTokenImages(JPanel pCenterTopPane) {
+	private void insertGrillTokenImages(JPanel pCenterTopPane, GridBagConstraints gbc) {
+		
+		
+		
 		String path = "";
 		SortedSet<Token> tokenList = mGameState.getGrill().getTokens();
 
@@ -107,33 +122,18 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			} else {
 				path = "inactiveToken.png";
 			}
-			pCenterTopPane.add(new JLabel(new ImageIcon(path)));
+			pCenterTopPane.add(new JLabel(new ImageIcon(path)), gbc);
 			mFrame.revalidate();
 		}
 	}
 
 	private void createRightPanel() {
-		JPanel pRightTopPane = new JPanel();
-		JPanel pRightBottomPane = new JPanel();
-
-		pRightTopPane.setBackground(new Color(122, 6, 39));
-		pRightBottomPane.setBackground(new Color(122, 6, 39));
-
-		JSplitPane pRightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				pRightTopPane, pRightBottomPane);
-		pRightSplitPane.setPreferredSize(new Dimension(100, 1000));
-		pRightSplitPane.setResizeWeight(0.5);
-		setDivider(pRightSplitPane);
-
-		mFrame.getContentPane().add(pRightSplitPane);
+		JPanel pRight = new JPanel();
+		pRight.setBackground(new Color(122, 6, 39));
+		pRight.setPreferredSize(new Dimension(100, 1000));
+		pRight.add(new JLabel("RIGHT"));
+		mFrame.add(BorderLayout.LINE_END, pRight);
 		mFrame.revalidate();
-		
-//		JPanel pRight = new JPanel();
-//		pRight.setBackground(new Color(122, 6, 39));
-//		pRight.setPreferredSize(new Dimension(100, 1000));
-//		pRight.add(new JLabel("RIGHT"));
-//		mFrame.add(BorderLayout.LINE_END, pRight);
-//		mFrame.revalidate();
 	}
 
 	private void createLeftPanel() {
