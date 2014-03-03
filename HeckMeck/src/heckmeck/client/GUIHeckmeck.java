@@ -113,12 +113,27 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void createRightPanel() {
-		JPanel pRight = new JPanel();
-		pRight.setBackground(new Color(122, 6, 39));
-		pRight.setPreferredSize(new Dimension(100, 1000));
-		pRight.add(new JLabel("RIGHT"));
-		mFrame.add(BorderLayout.LINE_END, pRight);
+		JPanel pRightTopPane = new JPanel();
+		JPanel pRightBottomPane = new JPanel();
+
+		pRightTopPane.setBackground(new Color(122, 6, 39));
+		pRightBottomPane.setBackground(new Color(122, 6, 39));
+
+		JSplitPane pRightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+				pRightTopPane, pRightBottomPane);
+		pRightSplitPane.setPreferredSize(new Dimension(100, 1000));
+		pRightSplitPane.setResizeWeight(0.5);
+		setDivider(pRightSplitPane);
+
+		mFrame.getContentPane().add(pRightSplitPane);
 		mFrame.revalidate();
+		
+//		JPanel pRight = new JPanel();
+//		pRight.setBackground(new Color(122, 6, 39));
+//		pRight.setPreferredSize(new Dimension(100, 1000));
+//		pRight.add(new JLabel("RIGHT"));
+//		mFrame.add(BorderLayout.LINE_END, pRight);
+//		mFrame.revalidate();
 	}
 
 	private void createLeftPanel() {
