@@ -19,6 +19,13 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private JFrame mFrame;
 	private JTextField mTextField;
 
+	private JPanel mTopPanel;
+	private JPanel mBottomPanel;
+	private JPanel mLeftPanel;
+
+	private JSplitPane mRightSplitPane;
+	private JSplitPane mTopSplitPane;
+
 	private GameState mGameState;
 	private Client mClient;
 	private String mName;
@@ -52,7 +59,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 				pCenterTopPane, pCenterBottomPane);
 		pCenterSplitPane.setResizeWeight(0.5);
 		setDivider(pCenterSplitPane);
-				
+
 		insertGrillTokenImages(pCenterTopPane);
 		insertDices(pCenterBottomPane);
 
@@ -78,10 +85,10 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 				};
 			}
 		});
-		
+
 		pCenterSplitPane.setDividerSize(0);
 		pCenterSplitPane.setBorder(null);
-		
+
 	}
 
 	private void insertDices(JPanel pCenterBottomPane) {
@@ -121,60 +128,72 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		pRightTopPane.setBackground(new Color(122, 6, 39));
 		pRightBottomPane.setBackground(new Color(122, 6, 39));
 
-		JSplitPane pRightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+		mRightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				pRightTopPane, pRightBottomPane);
-		pRightSplitPane.setPreferredSize(new Dimension(100, 1000));
-		pRightSplitPane.setResizeWeight(0.5);
-		setDivider(pRightSplitPane);
+		mRightSplitPane.setPreferredSize(new Dimension(100, 1000));
+		mRightSplitPane.setResizeWeight(0.5);
+		setDivider(mRightSplitPane);
 
-		mFrame.getContentPane().add(pRightSplitPane);
+		mFrame.getContentPane().add(BorderLayout.LINE_END, mRightSplitPane);
 		mFrame.revalidate();
-		
-//		JPanel pRight = new JPanel();
-//		pRight.setBackground(new Color(122, 6, 39));
-//		pRight.setPreferredSize(new Dimension(100, 1000));
-//		pRight.add(new JLabel("RIGHT"));
-//		mFrame.add(BorderLayout.LINE_END, pRight);
-//		mFrame.revalidate();
 	}
 
 	private void createLeftPanel() {
-		JPanel pLeft = new JPanel();
-		pLeft.setBackground(new Color(122, 6, 39));
-		pLeft.setPreferredSize(new Dimension(100, 1000));
-		pLeft.add(new JLabel("LEFT"));
-		mFrame.add(BorderLayout.LINE_START, pLeft);
+		mLeftPanel = new JPanel();
+		mLeftPanel.setBackground(new Color(122, 6, 39));
+		mLeftPanel.setPreferredSize(new Dimension(100, 1000));
+		mLeftPanel.add(new JLabel("LEFT"));
+		mFrame.add(BorderLayout.LINE_START, mLeftPanel);
 		mFrame.revalidate();
 	}
 
 	private void createBottomPanel() {
-		JPanel pBottom = new JPanel();
-		pBottom.setBackground(new Color(122, 6, 39));
-		pBottom.setPreferredSize(new Dimension(1000, 100));
-		pBottom.add(new JLabel("BOTTOM"));
-		mFrame.add(BorderLayout.PAGE_END, pBottom);
+		mBottomPanel = new JPanel();
+		mBottomPanel.setBackground(new Color(122, 6, 39));
+		mBottomPanel.setPreferredSize(new Dimension(1000, 100));
+		mBottomPanel.add(new JLabel("BOTTOM"));
+		mFrame.add(BorderLayout.PAGE_END, mBottomPanel);
 		mFrame.revalidate();
 	}
 
 	private void createTopPanel() {
-		JPanel pTop = new JPanel();
-		pTop.setBackground(new Color(122, 6, 39));
-		pTop.setPreferredSize(new Dimension(1000, 100));
-		pTop.add(new JLabel("TOP"));
-		pTop.add(new JLabel("Decision:"));
-		mTextField = new JTextField("5C");
-		JButton moveButton = new JButton("Move");
-		moveButton.addActionListener(new ActionListener() {
+		JPanel pTopLeftPane = new JPanel();
+		JPanel pTopRightPane = new JPanel();
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				mClient.createDecisionMessage(mTextField.getText());
-			}
-		});
-		pTop.add(moveButton);
-		pTop.add(mTextField);
-		mFrame.add(BorderLayout.PAGE_START, pTop);
+		pTopLeftPane.setBackground(new Color(122, 6, 39));
+		pTopLeftPane.setVisible(true);
+
+		pTopRightPane.setBackground(new Color(122, 6, 39));
+		pTopRightPane.setVisible(true);
+
+		mTopSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				pTopRightPane, pTopLeftPane);
+		mTopSplitPane.setPreferredSize(new Dimension(100, 1000));
+		mTopSplitPane.setResizeWeight(0.5);
+		setDivider(mTopSplitPane);
+
+		mTopSplitPane.setVisible(true);
+		mFrame.getContentPane().add(BorderLayout.PAGE_START, mTopSplitPane);
 		mFrame.revalidate();
+
+		// mTopPanel = new JPanel();
+		// mTopPanel.setBackground(new Color(122, 6, 39));
+		// mTopPanel.setPreferredSize(new Dimension(1000, 100));
+		// mTopPanel.add(new JLabel("TOP"));
+		// mTopPanel.add(new JLabel("Decision:"));
+		// mTextField = new JTextField("5C");
+		// JButton moveButton = new JButton("Move");
+		// moveButton.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent arg0) {
+		// mClient.createDecisionMessage(mTextField.getText());
+		// }
+		// });
+		// mTopPanel.add(moveButton);
+		// mTopPanel.add(mTextField);
+		// mFrame.add(BorderLayout.PAGE_START, mTopPanel);
+		// mFrame.revalidate();
 	}
 
 	private void createFrame() {
@@ -191,7 +210,46 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	public void update(GameState gameState) {
 		mGameState = gameState;
 		createCenterPanel();
+		createPlayerAreas();
+		mFrame.pack();
+	}
 
+	private void createPlayerAreas() {
+
+		switch (mGameState.getPlayerStates().size()) {
+		case 2:
+			set2players();
+			break;
+
+		case 3:
+			// set3players();
+			break;
+
+		case 4:
+			// set4players();
+			break;
+
+		case 5:
+			// set5players();
+			break;
+
+		case 6:
+			// set6players();
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	private void set2players() {
+		JPanel leftComp = (JPanel) mTopSplitPane.getLeftComponent();
+		leftComp.add(new JLabel(mGameState.getPlayerStates().get(0).getName()));
+
+		JPanel rightComp = (JPanel) mTopSplitPane.getRightComponent();
+		rightComp
+				.add(new JLabel(mGameState.getPlayerStates().get(1).getName()));
 	}
 
 	@Override
