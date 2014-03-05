@@ -157,6 +157,10 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void createTopPanel() {
+		JPanel topPanel = new JPanel();
+		topPanel.setBackground(new Color(122, 6, 39));
+		topPanel.setPreferredSize(new Dimension(1000, 100));
+		
 		JPanel pTopLeftPane = new JPanel();
 		JPanel pTopRightPane = new JPanel();
 
@@ -173,27 +177,11 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		setDivider(mTopSplitPane);
 
 		mTopSplitPane.setVisible(true);
-		mFrame.getContentPane().add(BorderLayout.PAGE_START, mTopSplitPane);
+		
+		topPanel.add(mTopSplitPane);
+		mFrame.add(BorderLayout.PAGE_START, topPanel);
 		mFrame.revalidate();
 
-		// mTopPanel = new JPanel();
-		// mTopPanel.setBackground(new Color(122, 6, 39));
-		// mTopPanel.setPreferredSize(new Dimension(1000, 100));
-		// mTopPanel.add(new JLabel("TOP"));
-		// mTopPanel.add(new JLabel("Decision:"));
-		// mTextField = new JTextField("5C");
-		// JButton moveButton = new JButton("Move");
-		// moveButton.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent arg0) {
-		// mClient.createDecisionMessage(mTextField.getText());
-		// }
-		// });
-		// mTopPanel.add(moveButton);
-		// mTopPanel.add(mTextField);
-		// mFrame.add(BorderLayout.PAGE_START, mTopPanel);
-		// mFrame.revalidate();
 	}
 
 	private void createFrame() {
