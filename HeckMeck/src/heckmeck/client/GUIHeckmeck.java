@@ -19,11 +19,10 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private JFrame mFrame;
 	private JTextField mTextField;
 
-	private JPanel mTopPanel;
 	private JPanel mBottomPanel;
 	private JPanel mLeftPanel;
+	private JPanel mRightPanel;
 
-	private JSplitPane mRightSplitPane;
 	private JSplitPane mTopSplitPane;
 
 	private GameState mGameState;
@@ -122,19 +121,11 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void createRightPanel() {
-		JPanel pRightTopPane = new JPanel();
-		JPanel pRightBottomPane = new JPanel();
-
-		pRightTopPane.setBackground(new Color(122, 6, 39));
-		pRightBottomPane.setBackground(new Color(122, 6, 39));
-
-		mRightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				pRightTopPane, pRightBottomPane);
-		mRightSplitPane.setPreferredSize(new Dimension(100, 1000));
-		mRightSplitPane.setResizeWeight(0.5);
-		setDivider(mRightSplitPane);
-
-		mFrame.getContentPane().add(BorderLayout.LINE_END, mRightSplitPane);
+		mRightPanel = new JPanel();
+		mRightPanel.setBackground(new Color(122, 6, 39));
+		mRightPanel.setPreferredSize(new Dimension(100, 1000));
+		mRightPanel.add(new JLabel("RIGHT"));
+		mFrame.add(BorderLayout.LINE_END, mRightPanel);
 		mFrame.revalidate();
 	}
 
@@ -160,24 +151,17 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(122, 6, 39));
 		topPanel.setPreferredSize(new Dimension(1000, 100));
-		
+
 		JPanel pTopLeftPane = new JPanel();
 		JPanel pTopRightPane = new JPanel();
 
 		pTopLeftPane.setBackground(new Color(122, 6, 39));
-		pTopLeftPane.setVisible(true);
-
 		pTopRightPane.setBackground(new Color(122, 6, 39));
-		pTopRightPane.setVisible(true);
 
 		mTopSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				pTopRightPane, pTopLeftPane);
-		mTopSplitPane.setPreferredSize(new Dimension(100, 1000));
-		mTopSplitPane.setResizeWeight(0.5);
 		setDivider(mTopSplitPane);
 
-		mTopSplitPane.setVisible(true);
-		
 		topPanel.add(mTopSplitPane);
 		mFrame.add(BorderLayout.PAGE_START, topPanel);
 		mFrame.revalidate();
@@ -235,9 +219,22 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		JPanel leftComp = (JPanel) mTopSplitPane.getLeftComponent();
 		leftComp.add(new JLabel(mGameState.getPlayerStates().get(0).getName()));
 
+		Token topToken = mGameState.getPlayerStates().get(0).getDeck()
+				.getTopToken();
+		if (topToken != null) {
+			String path = topToken.getValue() + ".png";
+			leftComp.add(new JLabel(new ImageIcon(path)));
+		}
+
 		JPanel rightComp = (JPanel) mTopSplitPane.getRightComponent();
 		rightComp
 				.add(new JLabel(mGameState.getPlayerStates().get(1).getName()));
+
+		topToken = mGameState.getPlayerStates().get(1).getDeck().getTopToken();
+		if (topToken != null) {
+			String path = topToken.getValue() + ".png";
+			rightComp.add(new JLabel(new ImageIcon(path)));
+		}
 	}
 
 	@Override
