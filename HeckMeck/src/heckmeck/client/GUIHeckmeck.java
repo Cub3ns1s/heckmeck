@@ -28,6 +28,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private GameState mGameState;
 	private Client mClient;
 	private String mName;
+	private Dimension mScreenSize;
 
 	public static void main(String[] args) {
 		new GUIHeckmeck(args[0]);
@@ -38,6 +39,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 		mClient = new Client(name, this);
 		mName = name;
+		mScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		new Thread(mClient).start();
 
 		createFrame();
@@ -98,7 +100,12 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		for (Dice dice : unfixedDices) {
 			path = "W" + dice.getLabel() + ".png";
 
-			pCenterBottomPane.add(new JLabel(new ImageIcon(path)));
+			ImageIcon imageIcon = new ImageIcon(path);
+			Image image = imageIcon.getImage();
+			Dimension dimension = new Dimension(getNewDimension(0.025, 0.04));
+			Image scaledImage = image.getScaledInstance((int)dimension.getWidth(), (int)dimension.getHeight(), 4);
+			
+			pCenterBottomPane.add(new JLabel(new ImageIcon(scaledImage)));
 			mFrame.revalidate();
 		}
 
@@ -115,7 +122,13 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			} else {
 				path = "inactiveToken.png";
 			}
-			pCenterTopPane.add(new JLabel(new ImageIcon(path)));
+			
+			ImageIcon imageIcon = new ImageIcon(path);
+			Image image = imageIcon.getImage();
+			Dimension dimension = new Dimension(getNewDimension(0.15, 0.025));
+			Image scaledImage = image.getScaledInstance((int)dimension.getWidth(), (int)dimension.getHeight(), 4);
+			
+			pCenterTopPane.add(new JLabel(new ImageIcon(scaledImage)));
 			mFrame.revalidate();
 		}
 	}
@@ -123,7 +136,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private void createRightPanel() {
 		mRightPanel = new JPanel();
 		mRightPanel.setBackground(new Color(122, 6, 39));
-		mRightPanel.setPreferredSize(new Dimension(100, 1000));
+		mRightPanel.setPreferredSize(new Dimension(getNewDimension(1, 0.25)));
 		mRightPanel.add(new JLabel("RIGHT"));
 		mFrame.add(BorderLayout.LINE_END, mRightPanel);
 		mFrame.revalidate();
@@ -132,7 +145,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private void createLeftPanel() {
 		mLeftPanel = new JPanel();
 		mLeftPanel.setBackground(new Color(122, 6, 39));
-		mLeftPanel.setPreferredSize(new Dimension(100, 1000));
+		mLeftPanel.setPreferredSize(new Dimension(getNewDimension(1, 0.25)));
 		mLeftPanel.add(new JLabel("LEFT"));
 		mFrame.add(BorderLayout.LINE_START, mLeftPanel);
 		mFrame.revalidate();
@@ -141,7 +154,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private void createBottomPanel() {
 		mBottomPanel = new JPanel();
 		mBottomPanel.setBackground(new Color(122, 6, 39));
-		mBottomPanel.setPreferredSize(new Dimension(1000, 100));
+		mBottomPanel.setPreferredSize(new Dimension(getNewDimension(0.25, 1)));
 		mBottomPanel.add(new JLabel("BOTTOM"));
 		mFrame.add(BorderLayout.PAGE_END, mBottomPanel);
 		mFrame.revalidate();
@@ -150,7 +163,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private void createTopPanel() {
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(122, 6, 39));
-		topPanel.setPreferredSize(new Dimension(1000, 100));
+		topPanel.setPreferredSize(new Dimension(getNewDimension(0.25, 1)));
 
 		JPanel pTopLeftPane = new JPanel();
 		JPanel pTopRightPane = new JPanel();
@@ -168,9 +181,15 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	}
 
+	private Dimension getNewDimension(double percentageHeight, double percentageWidth) {
+		double height = (mScreenSize.getHeight() * percentageHeight );
+		double width = (mScreenSize.getWidth() * percentageWidth );
+		return new Dimension((int) width, (int) height);
+	}
+
 	private void createFrame() {
 		mFrame = new JFrame("Heckmeck");
-		mFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		mFrame.setSize(mScreenSize);
 		mFrame.setResizable(true);
 		mFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mFrame.getContentPane().setBackground(new Color(122, 6, 39));
