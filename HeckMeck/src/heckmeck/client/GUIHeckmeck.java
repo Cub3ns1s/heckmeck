@@ -14,6 +14,9 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
+	private final int SCREENWIDTH = 1024;
+	private final int SCREENHEIGHT = 768;
+	
 	private static final long serialVersionUID = 4220957201237157813L;
 
 	private JFrame mFrame;
@@ -101,11 +104,8 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			path = "W" + dice.getLabel() + ".png";
 
 			ImageIcon imageIcon = new ImageIcon(path);
-			Image image = imageIcon.getImage();
-			Dimension dimension = new Dimension(getNewDimension(0.025, 0.04));
-			Image scaledImage = image.getScaledInstance((int)dimension.getWidth(), (int)dimension.getHeight(), 4);
-			
-			pCenterBottomPane.add(new JLabel(new ImageIcon(scaledImage)));
+			resizeImageIcon( imageIcon );
+			pCenterBottomPane.add(new JLabel(imageIcon));
 			mFrame.revalidate();
 		}
 
@@ -124,22 +124,25 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			}
 			
 			ImageIcon imageIcon = new ImageIcon(path);
-			Image image = imageIcon.getImage();
-			Dimension dimension = new Dimension(getNewDimension(0.15, 0.025));
-			Image scaledImage = image.getScaledInstance((int)dimension.getWidth(), (int)dimension.getHeight(), 4);
-		
-//			imageIcon.setImage(imageIcon.getImage().getScaledInstance(pCenterTopPane.getWidth()/10, pCenterTopPane.getHeight()/10, Image.SCALE_DEFAULT));
-//			pCenterTopPane.add(new JLabel(imageIcon));
-		
-			pCenterTopPane.add(new JLabel(new ImageIcon(scaledImage)));
+			resizeImageIcon( imageIcon );
+	
+			pCenterTopPane.add(new JLabel( imageIcon ));
 			mFrame.revalidate();
 		}
+	}
+	
+	private void resizeImageIcon( ImageIcon imageIcon ){
+		Image image = imageIcon.getImage( );
+		Image scaledImage = image.getScaledInstance((int)(imageIcon.getIconWidth() * getScreenFactor()), 
+													(int)(imageIcon.getIconHeight() * getScreenFactor())
+													, 4);
+		imageIcon.setImage(scaledImage);
 	}
 
 	private void createRightPanel() {
 		mRightPanel = new JPanel();
 		mRightPanel.setBackground(new Color(122, 6, 39));
-		mRightPanel.setPreferredSize(new Dimension(getNewDimension(1, 0.25)));
+		mRightPanel.setPreferredSize(new Dimension(getNewDimension(100, 25)));
 		mRightPanel.add(new JLabel("RIGHT"));
 		mFrame.add(BorderLayout.LINE_END, mRightPanel);
 		mFrame.revalidate();
@@ -148,7 +151,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private void createLeftPanel() {
 		mLeftPanel = new JPanel();
 		mLeftPanel.setBackground(new Color(122, 6, 39));
-		mLeftPanel.setPreferredSize(new Dimension(getNewDimension(1, 0.25)));
+		mLeftPanel.setPreferredSize(new Dimension(getNewDimension(100, 25)));
 		mLeftPanel.add(new JLabel("LEFT"));
 		mFrame.add(BorderLayout.LINE_START, mLeftPanel);
 		mFrame.revalidate();
@@ -157,7 +160,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private void createBottomPanel() {
 		mBottomPanel = new JPanel();
 		mBottomPanel.setBackground(new Color(122, 6, 39));
-		mBottomPanel.setPreferredSize(new Dimension(getNewDimension(0.25, 1)));
+		mBottomPanel.setPreferredSize(new Dimension(getNewDimension(25, 100)));
 		mBottomPanel.add(new JLabel("BOTTOM"));
 		mFrame.add(BorderLayout.PAGE_END, mBottomPanel);
 		mFrame.revalidate();
@@ -166,7 +169,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private void createTopPanel() {
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(122, 6, 39));
-		topPanel.setPreferredSize(new Dimension(getNewDimension(0.25, 1)));
+		topPanel.setPreferredSize(new Dimension(getNewDimension(25, 100)));
 
 		JPanel pTopLeftPane = new JPanel();
 		JPanel pTopRightPane = new JPanel();
@@ -184,10 +187,22 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	}
 
-	private Dimension getNewDimension(double percentageHeight, double percentageWidth) {
-		double height = (mScreenSize.getHeight() * percentageHeight );
-		double width = (mScreenSize.getWidth() * percentageWidth );
-		return new Dimension((int) width, (int) height);
+	private Dimension getNewDimension(int percentageHeight, int percentageWidth) {
+		
+		int height = (int) (mScreenSize.getHeight() * percentageHeight / 100);
+		int width =  (int) (mScreenSize.getWidth() * percentageWidth / 100);
+		return new Dimension( width,  height);
+	}
+	
+	private double getScreenFactor(){
+		double xFactor = SCREENWIDTH / mScreenSize.getWidth();
+		double yFactor = SCREENHEIGHT / mScreenSize.getHeight();
+		
+		if ( xFactor > yFactor ){
+		return yFactor;
+		}else{
+		return xFactor;
+		}
 	}
 
 	private void createFrame() {
