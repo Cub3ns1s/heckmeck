@@ -128,6 +128,9 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			Dimension dimension = new Dimension(getNewDimension(0.15, 0.025));
 			Image scaledImage = image.getScaledInstance((int)dimension.getWidth(), (int)dimension.getHeight(), 4);
 			
+//			imageIcon.setImage(imageIcon.getImage().getScaledInstance((int)dimension.getWidth(), (int)dimension.getHeight(), Image.SCALE_DEFAULT));
+//			pCenterTopPane.add(new JLabel(imageIcon));
+			
 			pCenterTopPane.add(new JLabel(new ImageIcon(scaledImage)));
 			mFrame.revalidate();
 		}
