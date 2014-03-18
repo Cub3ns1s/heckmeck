@@ -3,8 +3,12 @@ package heckmeck.client;
 import heckmeck.server.*;
 
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
 
 import javax.swing.*;
@@ -16,7 +20,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private final int SCREENWIDTH = 1024;
 	private final int SCREENHEIGHT = 768;
-	
+
 	private static final long serialVersionUID = 4220957201237157813L;
 
 	private JFrame mFrame;
@@ -104,8 +108,10 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			path = "W" + dice.getLabel() + ".png";
 
 			ImageIcon imageIcon = new ImageIcon(path);
-			resizeImageIcon( imageIcon );
-			pCenterBottomPane.add(new JLabel(imageIcon));
+			resizeImageIcon(imageIcon);
+			JLabel label = new JLabel(imageIcon);
+			label.addMouseListener(new MouseHandler());
+			pCenterBottomPane.add(label);
 			mFrame.revalidate();
 		}
 
@@ -122,20 +128,20 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			} else {
 				path = "inactiveToken.png";
 			}
-			
+
 			ImageIcon imageIcon = new ImageIcon(path);
-			resizeImageIcon( imageIcon );
-	
-			pCenterTopPane.add(new JLabel( imageIcon ));
+			resizeImageIcon(imageIcon);
+
+			pCenterTopPane.add(new JLabel(imageIcon));
 			mFrame.revalidate();
 		}
 	}
-	
-	private void resizeImageIcon( ImageIcon imageIcon ){
-		Image image = imageIcon.getImage( );
-		Image scaledImage = image.getScaledInstance((int)(imageIcon.getIconWidth() * getScreenFactor()), 
-													(int)(imageIcon.getIconHeight() * getScreenFactor())
-													, 4);
+
+	private void resizeImageIcon(ImageIcon imageIcon) {
+		Image image = imageIcon.getImage();
+		Image scaledImage = image.getScaledInstance(
+				(int) (imageIcon.getIconWidth() * getScreenFactor()),
+				(int) (imageIcon.getIconHeight() * getScreenFactor()), 4);
 		imageIcon.setImage(scaledImage);
 	}
 
@@ -188,20 +194,20 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private Dimension getNewDimension(int percentageHeight, int percentageWidth) {
-		
+
 		int height = (int) (mScreenSize.getHeight() * percentageHeight / 100);
-		int width =  (int) (mScreenSize.getWidth() * percentageWidth / 100);
-		return new Dimension( width,  height);
+		int width = (int) (mScreenSize.getWidth() * percentageWidth / 100);
+		return new Dimension(width, height);
 	}
-	
-	private double getScreenFactor(){
+
+	private double getScreenFactor() {
 		double xFactor = SCREENWIDTH / mScreenSize.getWidth();
 		double yFactor = SCREENHEIGHT / mScreenSize.getHeight();
-		
-		if ( xFactor > yFactor ){
-		return yFactor;
-		}else{
-		return xFactor;
+
+		if (xFactor > yFactor) {
+			return yFactor;
+		} else {
+			return xFactor;
 		}
 	}
 
@@ -253,6 +259,8 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void set2players() {
+		
+		//linker Spieler
 		JPanel leftComp = (JPanel) mTopSplitPane.getLeftComponent();
 		leftComp.add(new JLabel(mGameState.getPlayerStates().get(0).getName()));
 
@@ -263,6 +271,15 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			leftComp.add(new JLabel(new ImageIcon(path)));
 		}
 
+		java.util.List<Dice> fixedDices1 = mGameState.getPlayerStates().get(0).getDiceState().getFixedDices();
+		for (Iterator iterator = fixedDices1.iterator(); iterator.hasNext();) {
+			Dice dice = (Dice) iterator.next();
+			String path = dice.getLabel() + ".png";
+			leftComp.add(new JLabel(new ImageIcon(path)));
+		}
+		
+		
+		//rechter Spieler
 		JPanel rightComp = (JPanel) mTopSplitPane.getRightComponent();
 		rightComp
 				.add(new JLabel(mGameState.getPlayerStates().get(1).getName()));
@@ -272,12 +289,30 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			String path = topToken.getValue() + ".png";
 			rightComp.add(new JLabel(new ImageIcon(path)));
 		}
+		
+		java.util.List<Dice> fixedDices2 = mGameState.getPlayerStates().get(1).getDiceState().getFixedDices();
+		for (Iterator iterator = fixedDices2.iterator(); iterator.hasNext();) {
+			Dice dice = (Dice) iterator.next();
+			String path = dice.getLabel() + ".png";
+			rightComp.add(new JLabel(new ImageIcon(path)));
+		}
+		
 	}
 
 	@Override
 	public void showMessage(String message) {
-		// TODO Auto-generated method stub
+	}
 
+	
+	private class MouseHandler extends MouseAdapter {
+		public void mouseClicked(MouseEvent event) {
+			JLabel label = (JLabel) event.getSource();
+			ImageIcon imageIcon = (ImageIcon) label.getIcon();
+			String path = imageIcon.getDescription();
+			
+			String input = path.substring(1, 2) + 'C';
+			mClient.createDecisionMessage(input);
+		}
 	}
 
 }
