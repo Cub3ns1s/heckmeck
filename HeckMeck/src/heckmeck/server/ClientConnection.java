@@ -74,7 +74,8 @@ public class ClientConnection implements Runnable {
 
 	private void waitForMessage() throws IOException, ClassNotFoundException {
 		ClientMessage clientMessage = (ClientMessage) mOis.readObject();
-
+		mLog.log(clientMessage.toString());
+		
 		switch (clientMessage.getMessageType()) {
 		case ClientMessage.LOGON:
 			logon((LogonMessage) clientMessage);

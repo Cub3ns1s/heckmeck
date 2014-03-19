@@ -31,11 +31,13 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private JPanel mRightPanel;
 
 	private JSplitPane mTopSplitPane;
-
+	private JSplitPane mCenterSplitPane;
+	
 	private GameState mGameState;
 	private Client mClient;
 	private String mName;
 	private Dimension mScreenSize;
+
 
 	public static void main(String[] args) {
 		new GUIHeckmeck(args[0]);
@@ -47,6 +49,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		mClient = new Client(name, this);
 		mName = name;
 		mScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		mCenterSplitPane = new JSplitPane();
 		new Thread(mClient).start();
 
 		createFrame();
@@ -56,22 +59,25 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		createRightPanel();
 	}
 
-	private void createCenterPanel() {
+	private void createCenterPanel() {		
+		mFrame.remove(mCenterSplitPane);
+		
 		JPanel pCenterTopPane = new JPanel();
 		JPanel pCenterBottomPane = new JPanel();
 
 		pCenterTopPane.setBackground(new Color(122, 6, 39));
 		pCenterBottomPane.setBackground(new Color(122, 6, 39));
 
-		JSplitPane pCenterSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+		mCenterSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				pCenterTopPane, pCenterBottomPane);
-		pCenterSplitPane.setResizeWeight(0.5);
-		setDivider(pCenterSplitPane);
+		mCenterSplitPane.setResizeWeight(0.5);
+		setDivider(mCenterSplitPane);
 
 		insertGrillTokenImages(pCenterTopPane);
 		insertDices(pCenterBottomPane);
-
-		mFrame.getContentPane().add(pCenterSplitPane);
+		
+		
+		mFrame.add(mCenterSplitPane);
 		mFrame.revalidate();
 	}
 
@@ -100,12 +106,13 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void insertDices(JPanel pCenterBottomPane) {
-		String path = "";
+		pCenterBottomPane.removeAll();
+
 		java.util.List<Dice> unfixedDices = mGameState.getCurrentPlayer()
 				.getDiceState().getUnfixedDices();
 
 		for (Dice dice : unfixedDices) {
-			path = "W" + dice.getLabel() + ".png";
+			String path = "W" + dice.getLabel() + ".png";
 
 			ImageIcon imageIcon = new ImageIcon(path);
 			resizeImageIcon(imageIcon);
@@ -118,6 +125,8 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void insertGrillTokenImages(JPanel pCenterTopPane) {
+		pCenterTopPane.removeAll();
+
 		String path = "";
 		SortedSet<Token> tokenList = mGameState.getGrill().getTokens();
 
@@ -212,12 +221,15 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void createFrame() {
-		mFrame = new JFrame("Heckmeck");
+		mFrame = new JFrame("Heckmeck - " + mName);
 		mFrame.setSize(mScreenSize);
-		mFrame.setResizable(true);
+		mFrame.setResizable(false);
 		mFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mFrame.getContentPane().setBackground(new Color(122, 6, 39));
 		mFrame.setLayout(new BorderLayout());
+		
+		mFrame.add(mCenterSplitPane);
+		
 		mFrame.setVisible(true);
 	}
 
@@ -259,10 +271,18 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private void set2players() {
-		
-		//linker Spieler
+
+		// linker Spieler
 		JPanel leftComp = (JPanel) mTopSplitPane.getLeftComponent();
-		leftComp.add(new JLabel(mGameState.getPlayerStates().get(0).getName()));
+		leftComp.removeAll();
+
+		PlayerState player = mGameState.getPlayerStates().get(0);
+		JLabel nameLeft = new JLabel(player.getName());
+		if (isCurrentPlayer(player)) {
+			nameLeft.setOpaque(true);
+			nameLeft.setBackground(Color.ORANGE);
+		}
+		leftComp.add(nameLeft);
 
 		Token topToken = mGameState.getPlayerStates().get(0).getDeck()
 				.getTopToken();
@@ -271,46 +291,63 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			leftComp.add(new JLabel(new ImageIcon(path)));
 		}
 
-		java.util.List<Dice> fixedDices1 = mGameState.getPlayerStates().get(0).getDiceState().getFixedDices();
+		java.util.List<Dice> fixedDices1 = mGameState.getPlayerStates().get(0)
+				.getDiceState().getFixedDices();
 		for (Iterator iterator = fixedDices1.iterator(); iterator.hasNext();) {
 			Dice dice = (Dice) iterator.next();
-			String path = dice.getLabel() + ".png";
+			String path = "W" + dice.getLabel() + ".png";
 			leftComp.add(new JLabel(new ImageIcon(path)));
 		}
-		
-		
-		//rechter Spieler
+
+		// rechter Spieler
 		JPanel rightComp = (JPanel) mTopSplitPane.getRightComponent();
-		rightComp
-				.add(new JLabel(mGameState.getPlayerStates().get(1).getName()));
+		rightComp.removeAll();
+		player = mGameState.getPlayerStates().get(1);
+		JLabel nameRight = new JLabel(player.getName());
+
+		if (isCurrentPlayer(player)) {
+			nameRight.setOpaque(true);
+			nameRight.setBackground(Color.ORANGE);
+		}
+
+		rightComp.add(nameRight);
 
 		topToken = mGameState.getPlayerStates().get(1).getDeck().getTopToken();
 		if (topToken != null) {
 			String path = topToken.getValue() + ".png";
 			rightComp.add(new JLabel(new ImageIcon(path)));
 		}
-		
-		java.util.List<Dice> fixedDices2 = mGameState.getPlayerStates().get(1).getDiceState().getFixedDices();
+
+		java.util.List<Dice> fixedDices2 = mGameState.getPlayerStates().get(1)
+				.getDiceState().getFixedDices();
 		for (Iterator iterator = fixedDices2.iterator(); iterator.hasNext();) {
 			Dice dice = (Dice) iterator.next();
-			String path = dice.getLabel() + ".png";
+			String path = "W" + dice.getLabel() + ".png";
 			rightComp.add(new JLabel(new ImageIcon(path)));
 		}
-		
+
 	}
 
 	@Override
 	public void showMessage(String message) {
 	}
 
-	
+	private boolean isCurrentPlayer(PlayerState player) {
+		if (mGameState.getCurrentPlayer().equals(player)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	private class MouseHandler extends MouseAdapter {
 		public void mouseClicked(MouseEvent event) {
 			JLabel label = (JLabel) event.getSource();
 			ImageIcon imageIcon = (ImageIcon) label.getIcon();
 			String path = imageIcon.getDescription();
-			
+
 			String input = path.substring(1, 2) + 'C';
+			System.out.println(input);
 			mClient.createDecisionMessage(input);
 		}
 	}

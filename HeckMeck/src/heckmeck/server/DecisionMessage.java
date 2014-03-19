@@ -37,5 +37,9 @@ public class DecisionMessage extends ClientMessage {
 	public String getMessageType() {
 		return mType;
 	}
+	
+	public String toString() {
+		return mDots + mProceed;
+	}
 
 }
