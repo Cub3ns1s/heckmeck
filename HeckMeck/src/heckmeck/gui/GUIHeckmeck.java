@@ -1,15 +1,23 @@
-package heckmeck.client;
+package heckmeck.gui;
 
+import heckmeck.client.Client;
+import heckmeck.client.HeckmeckUI;
 import heckmeck.server.*;
 
-import java.awt.*;
-import java.awt.List;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.SortedSet;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,8 +26,9 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
-	private final int SCREENWIDTH = 1024;
-	private final int SCREENHEIGHT = 768;
+	private static final Color BACKGROUNDCOLOR = new Color(203, 1, 6);
+	private final static int SCREENWIDTH = 400;
+	private final static int SCREENHEIGHT = 300;
 
 	private static final long serialVersionUID = 4220957201237157813L;
 
@@ -36,7 +45,11 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private GameState mGameState;
 	private Client mClient;
 	private String mName;
-	private Dimension mScreenSize;
+	private static Dimension mScreenSize;
+	
+	private Color mBackgroundColor;
+	
+	private List<GUIPlayer> mPlayerList;
 
 
 	public static void main(String[] args) {
@@ -45,18 +58,24 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	}
 
 	private GUIHeckmeck(String name) {
-
 		mClient = new Client(name, this);
 		mName = name;
-		mScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		mScreenSize = new Dimension( 800, 600 );
 		mCenterSplitPane = new JSplitPane();
 		new Thread(mClient).start();
+		
+		mPlayerList = new ArrayList<GUIPlayer>( );
 
+		for (int i = 0; i < 6; i++){
+			mPlayerList.add(new GUIPlayer());
+		}
+		
 		createFrame();
 		createTopPanel();
 		createBottomPanel();
 		createLeftPanel();
 		createRightPanel();
+		
 	}
 
 	private void createCenterPanel() {		
@@ -65,8 +84,8 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		JPanel pCenterTopPane = new JPanel();
 		JPanel pCenterBottomPane = new JPanel();
 
-		pCenterTopPane.setBackground(new Color(122, 6, 39));
-		pCenterBottomPane.setBackground(new Color(122, 6, 39));
+		pCenterTopPane.setBackground(BACKGROUNDCOLOR);
+		pCenterBottomPane.setBackground(BACKGROUNDCOLOR);
 
 		mCenterSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				pCenterTopPane, pCenterBottomPane);
@@ -146,7 +165,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		}
 	}
 
-	private void resizeImageIcon(ImageIcon imageIcon) {
+	public static void resizeImageIcon(ImageIcon imageIcon) {
 		Image image = imageIcon.getImage();
 		Image scaledImage = image.getScaledInstance(
 				(int) (imageIcon.getIconWidth() * getScreenFactor()),
@@ -156,7 +175,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private void createRightPanel() {
 		mRightPanel = new JPanel();
-		mRightPanel.setBackground(new Color(122, 6, 39));
+		mRightPanel.setBackground(BACKGROUNDCOLOR);
 		mRightPanel.setPreferredSize(new Dimension(getNewDimension(100, 25)));
 		mRightPanel.add(new JLabel("RIGHT"));
 		mFrame.add(BorderLayout.LINE_END, mRightPanel);
@@ -165,7 +184,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private void createLeftPanel() {
 		mLeftPanel = new JPanel();
-		mLeftPanel.setBackground(new Color(122, 6, 39));
+		mLeftPanel.setBackground(BACKGROUNDCOLOR);
 		mLeftPanel.setPreferredSize(new Dimension(getNewDimension(100, 25)));
 		mLeftPanel.add(new JLabel("LEFT"));
 		mFrame.add(BorderLayout.LINE_START, mLeftPanel);
@@ -174,7 +193,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private void createBottomPanel() {
 		mBottomPanel = new JPanel();
-		mBottomPanel.setBackground(new Color(122, 6, 39));
+		mBottomPanel.setBackground(BACKGROUNDCOLOR);
 		mBottomPanel.setPreferredSize(new Dimension(getNewDimension(25, 100)));
 		mBottomPanel.add(new JLabel("BOTTOM"));
 		mFrame.add(BorderLayout.PAGE_END, mBottomPanel);
@@ -183,14 +202,14 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	private void createTopPanel() {
 		JPanel topPanel = new JPanel();
-		topPanel.setBackground(new Color(122, 6, 39));
+		topPanel.setBackground(BACKGROUNDCOLOR);
 		topPanel.setPreferredSize(new Dimension(getNewDimension(25, 100)));
 
-		JPanel pTopLeftPane = new JPanel();
-		JPanel pTopRightPane = new JPanel();
+		JPanel pTopLeftPane = mPlayerList.get(0);
+		JPanel pTopRightPane = mPlayerList.get(1);
 
-		pTopLeftPane.setBackground(new Color(122, 6, 39));
-		pTopRightPane.setBackground(new Color(122, 6, 39));
+		pTopLeftPane.setBackground(BACKGROUNDCOLOR);
+		pTopRightPane.setBackground(BACKGROUNDCOLOR);
 
 		mTopSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				pTopRightPane, pTopLeftPane);
@@ -209,7 +228,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		return new Dimension(width, height);
 	}
 
-	private double getScreenFactor() {
+	private static double getScreenFactor() {
 		double xFactor = SCREENWIDTH / mScreenSize.getWidth();
 		double yFactor = SCREENHEIGHT / mScreenSize.getHeight();
 
@@ -225,7 +244,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		mFrame.setSize(mScreenSize);
 		mFrame.setResizable(false);
 		mFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		mFrame.getContentPane().setBackground(new Color(122, 6, 39));
+		mFrame.getContentPane().setBackground(BACKGROUNDCOLOR);
 		mFrame.setLayout(new BorderLayout());
 		
 		mFrame.add(mCenterSplitPane);
@@ -237,95 +256,15 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	public void update(GameState gameState) {
 		mGameState = gameState;
 		createCenterPanel();
-		createPlayerAreas();
-		mFrame.pack();
+		updatePlayer(gameState.getPlayerStates());
 	}
 
-	private void createPlayerAreas() {
+	
 
-		switch (mGameState.getPlayerStates().size()) {
-		case 2:
-			set2players();
-			break;
-
-		case 3:
-			// set3players();
-			break;
-
-		case 4:
-			// set4players();
-			break;
-
-		case 5:
-			// set5players();
-			break;
-
-		case 6:
-			// set6players();
-			break;
-
-		default:
-			break;
+	private void updatePlayer(List<PlayerState> playerStates) {
+		for ( int i = 0; i < playerStates.size(); i++) {
+			mPlayerList.get(i).setPlayerState(playerStates.get(i));
 		}
-
-	}
-
-	private void set2players() {
-
-		// linker Spieler
-		JPanel leftComp = (JPanel) mTopSplitPane.getLeftComponent();
-		leftComp.removeAll();
-
-		PlayerState player = mGameState.getPlayerStates().get(0);
-		JLabel nameLeft = new JLabel(player.getName());
-		if (isCurrentPlayer(player)) {
-			nameLeft.setOpaque(true);
-			nameLeft.setBackground(Color.ORANGE);
-		}
-		leftComp.add(nameLeft);
-
-		Token topToken = mGameState.getPlayerStates().get(0).getDeck()
-				.getTopToken();
-		if (topToken != null) {
-			String path = topToken.getValue() + ".png";
-			leftComp.add(new JLabel(new ImageIcon(path)));
-		}
-
-		java.util.List<Dice> fixedDices1 = mGameState.getPlayerStates().get(0)
-				.getDiceState().getFixedDices();
-		for (Iterator iterator = fixedDices1.iterator(); iterator.hasNext();) {
-			Dice dice = (Dice) iterator.next();
-			String path = "W" + dice.getLabel() + ".png";
-			leftComp.add(new JLabel(new ImageIcon(path)));
-		}
-
-		// rechter Spieler
-		JPanel rightComp = (JPanel) mTopSplitPane.getRightComponent();
-		rightComp.removeAll();
-		player = mGameState.getPlayerStates().get(1);
-		JLabel nameRight = new JLabel(player.getName());
-
-		if (isCurrentPlayer(player)) {
-			nameRight.setOpaque(true);
-			nameRight.setBackground(Color.ORANGE);
-		}
-
-		rightComp.add(nameRight);
-
-		topToken = mGameState.getPlayerStates().get(1).getDeck().getTopToken();
-		if (topToken != null) {
-			String path = topToken.getValue() + ".png";
-			rightComp.add(new JLabel(new ImageIcon(path)));
-		}
-
-		java.util.List<Dice> fixedDices2 = mGameState.getPlayerStates().get(1)
-				.getDiceState().getFixedDices();
-		for (Iterator iterator = fixedDices2.iterator(); iterator.hasNext();) {
-			Dice dice = (Dice) iterator.next();
-			String path = "W" + dice.getLabel() + ".png";
-			rightComp.add(new JLabel(new ImageIcon(path)));
-		}
-
 	}
 
 	@Override
