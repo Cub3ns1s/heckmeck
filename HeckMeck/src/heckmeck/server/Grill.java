@@ -9,7 +9,7 @@ public class Grill implements Serializable{
 
 	// Attributes
 	private static final long serialVersionUID = 5888357567911676482L;
-	private SortedSet<Token> mTokens;
+	private List<Token> mTokens;
 
 	// Constructor
 	public Grill() {
@@ -20,7 +20,7 @@ public class Grill implements Serializable{
 	 * initializes list with 16 tokens
 	 */
 	private void init() {
-		mTokens = new TreeSet<Token>();
+		mTokens = new ArrayList<Token>();
 		for (int i = 21; i < 37; i++) {
 			this.mTokens.add(new Token(i));
 		}
@@ -57,16 +57,21 @@ public class Grill implements Serializable{
 		}
 	}
 
-	public SortedSet<Token> getTokens() {
+	public List<Token> getTokens() {
 		return mTokens;
 	}
 
-	public void setTokens(SortedSet<Token> mTokens) {
+	public void setTokens(List<Token> mTokens) {
 		this.mTokens = mTokens;
 	}
 
 	public void deactivateHighestToken() {
-		mTokens.last().deactivate();
+		for (int i = 0; i < mTokens.size( ); i++) {
+			if (!mTokens.get(i).isActive()){
+				mTokens.get(i - 1).deactivate();
+				return;
+			}			
+		}
 	}
 	
 	@Override

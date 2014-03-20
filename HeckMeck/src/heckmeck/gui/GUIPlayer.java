@@ -1,6 +1,7 @@
 package heckmeck.gui;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.List;
 
 import heckmeck.server.*;
@@ -11,12 +12,14 @@ import javax.swing.JPanel;
 
 public class GUIPlayer extends JPanel {
 
-	private JLabel mNameLabel;
+	private JLabel mNameLabel ;
 	private JPanel mFixedDicesPanel;
 	private JPanel mTopTokenPanel;
 	
 	public GUIPlayer(  ){
 		initUI( );
+		setLayout( new GridLayout( 1,3)	);
+		setSize( new Dimension( 300,300)	);
 	}
 	
 	public void setPlayerState( PlayerState playerState){
@@ -27,16 +30,21 @@ public class GUIPlayer extends JPanel {
 	}
 	
 	private void initUI( ){
-		mNameLabel = new JLabel( );
+		mNameLabel = new JLabel( "Leer");
 		add( mNameLabel );
 		mFixedDicesPanel = new JPanel();
+		mFixedDicesPanel.setBackground(GUIHeckmeck.BACKGROUNDCOLOR);
 		mTopTokenPanel = new JPanel();
+		mTopTokenPanel.setBackground(GUIHeckmeck.BACKGROUNDCOLOR);
 		add( mFixedDicesPanel);
 		add( mTopTokenPanel);
 		revalidate();
 	}
 	
-	private void setTopToken( Token topToken){
+	private void setTopToken( Token topToken ){
+		if (topToken == null){
+			return;
+		}
 		mTopTokenPanel.removeAll();
 		String path = topToken.getValue() + ".png";
 		ImageIcon imageIcon = new ImageIcon(path);
