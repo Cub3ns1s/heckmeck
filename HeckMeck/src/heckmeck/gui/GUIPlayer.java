@@ -36,18 +36,18 @@ public class GUIPlayer extends JPanel {
 	}
 	
 	private void setTopToken( Token topToken){
-//		mTopTokenPanel.removeAll();
+		mTopTokenPanel.removeAll();
 		String path = topToken.getValue() + ".png";
 		ImageIcon imageIcon = new ImageIcon(path);
 		GUIHeckmeck.resizeImageIcon(imageIcon);
 		add(new JLabel(imageIcon));
-//		mTopTokenPanel.add(new JLabel(imageIcon));
+		mTopTokenPanel.add(new JLabel(imageIcon));
 		
 	}
 	
 	private void setFixedDices( List<Dice> fixedDices ){
-//		mFixedDicesPanel.removeAll( );
-//		mFixedDicesPanel.add(new JLabel( "Fixed Dices"));
+		mFixedDicesPanel.removeAll( );
+		mFixedDicesPanel.add(new JLabel( "Fixed Dices"));
 		
 		
 		for (int i = 0; i < fixedDices.size(); i++) {

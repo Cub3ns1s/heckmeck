@@ -47,8 +47,6 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private String mName;
 	private static Dimension mScreenSize;
 	
-	private Color mBackgroundColor;
-	
 	private List<GUIPlayer> mPlayerList;
 
 
@@ -207,7 +205,13 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 		JPanel pTopLeftPane = mPlayerList.get(0);
 		JPanel pTopRightPane = mPlayerList.get(1);
-
+		
+//		int width = (int) (topPanel.getPreferredSize().getWidth()) / 2;
+//		int height = (int) (topPanel.getPreferredSize().getHeight());
+//		
+//		pTopLeftPane.setPreferredSize(new Dimension(width, height));
+//		pTopRightPane.setPreferredSize(new Dimension(width, height));
+		
 		pTopLeftPane.setBackground(BACKGROUNDCOLOR);
 		pTopRightPane.setBackground(BACKGROUNDCOLOR);
 
