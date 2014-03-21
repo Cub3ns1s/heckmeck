@@ -52,19 +52,19 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		mClient = new Client(name, this);
 		mName = name;
 		mScreenSize = new Dimension(800, 600);
-		new Thread(mClient).start();
 		
 		mPlayerList = new ArrayList<GUIPlayer>( );
 
 		for (int i = 0; i < 4; i++){
 			mPlayerList.add(new GUIPlayer());
 		}
-
+		
 		createFrame();
 		createCenterPanel( );
 		createTopPanel();
 		createBottomPanel();
-
+		
+		new Thread(mClient).start();
 		
 	}
 
