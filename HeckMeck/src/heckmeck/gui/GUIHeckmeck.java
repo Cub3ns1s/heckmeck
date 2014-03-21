@@ -9,15 +9,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -33,11 +28,8 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private static final long serialVersionUID = 4220957201237157813L;
 
 	private JFrame mFrame;
-	private JTextField mTextField;
 
 	private JPanel mBottomPanel;
-	private JPanel mLeftPanel;
-	private JPanel mRightPanel;
 
 	private JSplitPane mTopSplitPane;
 	private JSplitPane mCenterSplitPane;
@@ -54,19 +46,17 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 	public static void main(String[] args) {
 		new GUIHeckmeck(args[0]);
-
 	}
 
 	private GUIHeckmeck(String name) {
 		mClient = new Client(name, this);
 		mName = name;
-		mScreenSize = new Dimension( 800, 600 );
-//		mCenterSplitPane = new JSplitPane();
+		mScreenSize = new Dimension(800, 600);
 		new Thread(mClient).start();
 		
 		mPlayerList = new ArrayList<GUIPlayer>( );
 
-		for (int i = 0; i < 6; i++){
+		for (int i = 0; i < 4; i++){
 			mPlayerList.add(new GUIPlayer());
 		}
 
@@ -74,21 +64,21 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		createCenterPanel( );
 		createTopPanel();
 		createBottomPanel();
-		createLeftPanel();
-		createRightPanel();
+
 		
 	}
 
 	private void createCenterPanel() {		
 		mCenterGrillPanel = new JPanel();
 		mCenterDicePanel = new JPanel();
-//    	mFrame.remove(mCenterSplitPane);
+		mCenterSplitPane = new JSplitPane();
 		
 		mCenterGrillPanel.setBackground(BACKGROUNDCOLOR);
 		mCenterDicePanel.setBackground(BACKGROUNDCOLOR);
 
 		mCenterSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				mCenterGrillPanel, mCenterDicePanel);
+		
 		mCenterSplitPane.setResizeWeight(0.5);
 		setDivider(mCenterSplitPane);		
 		
@@ -117,7 +107,6 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 		pCenterSplitPane.setDividerSize(0);
 		pCenterSplitPane.setBorder(null);
-
 	}
 
 	private void insertDices() {
@@ -134,9 +123,9 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			JLabel label = new JLabel(imageIcon);
 			label.addMouseListener(new MouseHandler());
 			mCenterDicePanel.add(label);
+			
 		}
 		mFrame.revalidate();
-
 	}
 
 	private void insertGrillTokenImages() {
@@ -157,7 +146,8 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			resizeImageIcon(imageIcon);
 
 			mCenterGrillPanel.add(new JLabel(imageIcon));
-		}
+
+		}			
 		mFrame.revalidate();
 	}
 
@@ -169,28 +159,11 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		imageIcon.setImage(scaledImage);
 	}
 
-	private void createRightPanel() {
-		mRightPanel = new JPanel();
-		mRightPanel.setBackground(BACKGROUNDCOLOR);
-//		mRightPanel.setPreferredSize(new Dimension(getNewDimension(100, 25)));
-		mRightPanel.add(new JLabel("RIGHT"));
-		mFrame.add(BorderLayout.LINE_END, mRightPanel);
-		mFrame.revalidate();
-	}
-
-	private void createLeftPanel() {
-		mLeftPanel = new JPanel();
-		mLeftPanel.setBackground(BACKGROUNDCOLOR);
-//		mLeftPanel.setPreferredSize(new Dimension(getNewDimension(100, 25)));
-		mLeftPanel.add(new JLabel("LEFT"));
-		mFrame.add(BorderLayout.LINE_START, mLeftPanel);
-		mFrame.revalidate();
-	}
 
 	private void createBottomPanel() {
 		mBottomPanel = new JPanel();
 		mBottomPanel.setBackground(BACKGROUNDCOLOR);
-//		mBottomPanel.setPreferredSize(new Dimension(getNewDimension(25, 100)));
+		mBottomPanel.setPreferredSize(new Dimension(800, 200));
 		mBottomPanel.add(new JLabel("BOTTOM"));
 		mFrame.add(BorderLayout.PAGE_END, mBottomPanel);
 		mFrame.revalidate();
@@ -199,11 +172,10 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private void createTopPanel() {
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(BACKGROUNDCOLOR);
-//		topPanel.setPreferredSize(new Dimension(getNewDimension(25, 100)));
+		topPanel.setPreferredSize(new Dimension(800, 200));
 
 		JPanel pTopLeftPane = mPlayerList.get(0);
 		JPanel pTopRightPane = mPlayerList.get(1);
-		
 		
 		pTopLeftPane.setBackground(BACKGROUNDCOLOR);
 		pTopRightPane.setBackground(BACKGROUNDCOLOR);
@@ -215,15 +187,14 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		topPanel.add(mTopSplitPane);
 		mFrame.add(BorderLayout.PAGE_START, topPanel);
 		mFrame.revalidate();
-
 	}
 
-	private Dimension getNewDimension(int percentageHeight, int percentageWidth) {
-
-		int height = (int) (mScreenSize.getHeight() * percentageHeight / 100);
-		int width = (int) (mScreenSize.getWidth() * percentageWidth / 100);
-		return new Dimension(width, height);
-	}
+//	private Dimension getNewDimension(int percentageHeight, int percentageWidth) {
+//
+//		int height = (int) (mScreenSize.getHeight() * percentageHeight / 100);
+//		int width = (int) (mScreenSize.getWidth() * percentageWidth / 100);
+//		return new Dimension(width, height);
+//	}
 
 	private static double getScreenFactor() {
 		double xFactor = SCREENWIDTH / mScreenSize.getWidth();
@@ -244,8 +215,6 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		mFrame.getContentPane().setBackground(BACKGROUNDCOLOR);
 		mFrame.setLayout(new BorderLayout());
 		
-//		mFrame.add(mCenterSplitPane);
-		
 		mFrame.setVisible(true);
 	}
 
@@ -259,8 +228,6 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	
 
 	private void updateCenterPanel() {
-		// TODO Auto-generated method stub
-
 		insertGrillTokenImages();
 		insertDices();
 	}
@@ -275,13 +242,13 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	public void showMessage(String message) {
 	}
 
-	private boolean isCurrentPlayer(PlayerState player) {
-		if (mGameState.getCurrentPlayer().equals(player)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	private boolean isCurrentPlayer(PlayerState player) {
+//		if (mGameState.getCurrentPlayer().equals(player)) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
 	private class MouseHandler extends MouseAdapter {
 		public void mouseClicked(MouseEvent event) {

@@ -14,7 +14,7 @@ public class Server {
 	private Game mGame;
 	private int mPlayerCount;
 	private static final int MINPLAYER = 2;
-	private static final int MAXPLAYER = 7;
+	private static final int MAXPLAYER = 4;
 	private Logger mLog;
 	
 	// Constructor

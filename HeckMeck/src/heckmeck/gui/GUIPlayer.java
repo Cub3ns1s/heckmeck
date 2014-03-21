@@ -16,10 +16,10 @@ public class GUIPlayer extends JPanel {
 	private JPanel mFixedDicesPanel;
 	private JPanel mTopTokenPanel;
 	
-	public GUIPlayer(  ){
+	public GUIPlayer(){
 		initUI( );
-		setLayout( new GridLayout( 1,3)	);
-		setSize( new Dimension( 300,300)	);
+		setLayout(new GridLayout(3,1));
+		setSize(new Dimension(400, 200));
 	}
 	
 	public void setPlayerState( PlayerState playerState){
@@ -30,7 +30,7 @@ public class GUIPlayer extends JPanel {
 	}
 	
 	private void initUI( ){
-		mNameLabel = new JLabel( "Leer");
+		mNameLabel = new JLabel();
 		add( mNameLabel );
 		mFixedDicesPanel = new JPanel();
 		mFixedDicesPanel.setBackground(GUIHeckmeck.BACKGROUNDCOLOR);
