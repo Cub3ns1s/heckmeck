@@ -39,24 +39,26 @@ public class GUIPlayer extends JPanel {
 		add( mFixedDicesPanel);
 		add( mTopTokenPanel);
 		revalidate();
+		repaint();
 	}
 	
 	private void setTopToken( Token topToken ){
 		if (topToken == null){
 			return;
 		}
+		
 		mTopTokenPanel.removeAll();
 		String path = topToken.getValue() + ".png";
 		ImageIcon imageIcon = new ImageIcon(path);
 		GUIHeckmeck.resizeImageIcon(imageIcon);
 		mTopTokenPanel.add(new JLabel(imageIcon));
 		revalidate();
+		repaint();
 	}
 	
 	private void setFixedDices( List<Dice> fixedDices ){
 		mFixedDicesPanel.removeAll( );
-		mFixedDicesPanel.add(new JLabel( "Fixed Dices"));
-		
+//		mFixedDicesPanel.add(new JLabel( "Fixed Dices"));
 		
 		for (int i = 0; i < fixedDices.size(); i++) {
 			Dice dice = fixedDices.get(i);
@@ -65,6 +67,7 @@ public class GUIPlayer extends JPanel {
 			GUIHeckmeck.resizeImageIcon(imageIcon);
 			mFixedDicesPanel.add(new JLabel(imageIcon));
 			revalidate();
+			repaint();
 		}
 	}
 	
