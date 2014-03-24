@@ -1,5 +1,7 @@
 package heckmeck.gui;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 public class GUIServer extends JFrame {
@@ -12,8 +14,8 @@ public class GUIServer extends JFrame {
 	
 	public GUIServer() {
 		setTitle("Heckmeck - Server");
-//		setSize(new Dimension(800, 600));
-//		setResizable(false);
+		setSize(new Dimension(400, 300));
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		add(new GUIServerStart());
