@@ -81,7 +81,11 @@ public class Game implements GameState {
 			mClientManagement.sendMessage(continueMessage);
 		} else {
 			try {
-				mCurrentPlayer.getDiceState().fixValue(decision.getDots());
+				
+				if (!decision.getDots().equals("0")) {
+					mCurrentPlayer.getDiceState().fixValue(decision.getDots());
+				}
+
 
 				if (decision.proceeds()) {
 					continueTurn();
