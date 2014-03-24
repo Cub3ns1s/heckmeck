@@ -16,7 +16,7 @@ public class TextHeckmeck implements HeckmeckUI {
 	
 	private TextHeckmeck( String name){
 
-		mClient = new Client(name, this);
+		mClient = new Client(name, this, "127.0.0.1");
 		mName = name; 
 		mClient.run();
 	}

@@ -16,29 +16,22 @@ public class Client implements Runnable{
 	private ObjectInputStream mOIS;
 	private SysoLog mLog;
 	private HeckmeckUI mUI;
+	private String mServerIP;
 
 	// Constructor
-	public Client(String name, HeckmeckUI ui) {
+	public Client(String name, HeckmeckUI ui, String ip) {
 		mName = name;
 		mLog = new SysoLog();
 		mUI = ui;
+		mServerIP = ip;
 	}
 
-//	/**
-//	 * Main Method - starts new Thread with new Client
-//	 * 
-//	 * @param args
-//	 */
-//	public static void main(String[] args) {
-//		new Client(args[0]).start();
-//	}
 
 	/**
 	 * starts client
 	 */
 	public void run() {
-		String ip = "127.0.0.1";
-		initConnection(ip);
+		initConnection(mServerIP);
 		logon();
 		waitForServerMessages();
 	}
