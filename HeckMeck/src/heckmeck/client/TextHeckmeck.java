@@ -1,11 +1,8 @@
 package heckmeck.client;
 
-import java.util.Iterator;
 import java.util.Scanner;
 
-import heckmeck.server.DecisionMessage;
 import heckmeck.server.GameState;
-import heckmeck.server.PlayerState;
 
 public class TextHeckmeck implements HeckmeckUI {
 	

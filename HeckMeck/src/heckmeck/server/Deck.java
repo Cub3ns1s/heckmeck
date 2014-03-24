@@ -52,7 +52,7 @@ public class Deck implements Serializable {
 	 */
 	public void removeTopToken() {
 		if(mToken.size() > 0) {
-		mToken.remove(mToken.size() - 1);
+		mToken.remove((mToken.size() - 1));
 		}
 	}
 

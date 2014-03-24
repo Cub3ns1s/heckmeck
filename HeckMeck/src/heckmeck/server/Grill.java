@@ -54,6 +54,7 @@ public class Grill implements Serializable{
 	public void failure(Token token) {
 		if (token != null) {
 			mTokens.add(token);
+			Collections.sort(mTokens);
 		}
 	}
 
@@ -68,10 +69,13 @@ public class Grill implements Serializable{
 	public void deactivateHighestToken() {
 		for (int i = 0; i < mTokens.size( ); i++) {
 			if (!mTokens.get(i).isActive()){
-				mTokens.get(i - 1).deactivate();
+				--i;
+				mTokens.get(i).deactivate();
 				return;
 			}			
 		}
+		
+		mTokens.get((mTokens.size() - 1)).deactivate();
 	}
 	
 	@Override

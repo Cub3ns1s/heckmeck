@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 public class GUIPlayer extends JPanel {
 
+	private static final long serialVersionUID = -8444188031674557590L;
 	private JLabel mNameLabel ;
 	private JPanel mFixedDicesPanel;
 	private JPanel mTopTokenPanel;
@@ -58,7 +59,6 @@ public class GUIPlayer extends JPanel {
 	
 	private void setFixedDices( List<Dice> fixedDices ){
 		mFixedDicesPanel.removeAll( );
-//		mFixedDicesPanel.add(new JLabel( "Fixed Dices"));
 		
 		for (int i = 0; i < fixedDices.size(); i++) {
 			Dice dice = fixedDices.get(i);

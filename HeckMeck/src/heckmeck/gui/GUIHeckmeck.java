@@ -30,16 +30,17 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 	private JPanel mCenterGrillPanel;
 	private JPanel mCenterDicePanel;
 	private JPanel mCenterButtonPanel;
-	private JPanel mBottomPanel;
 	private List<GUIPlayer> mPlayerList;
 	private GUIPlayer mTopLeftPane;
 	private GUIPlayer mTopRightPane;
-	
+	private GUIPlayer mBottomLeftPane;
+	private GUIPlayer mBottomRightPane;
+
 	private GameState mGameState;
 	private Client mClient;
 	private String mName;
 	private ActionListener mButtonListener;
-	
+
 	public static void main(String[] args) {
 		new GUIHeckmeck(args[0]);
 	}
@@ -48,33 +49,33 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		mClient = new Client(name, this);
 		mName = name;
 		mScreenSize = new Dimension(800, 600);
-		mPlayerList = new ArrayList<GUIPlayer>( );
+		mPlayerList = new ArrayList<GUIPlayer>();
 
-		for (int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			mPlayerList.add(new GUIPlayer());
 		}
-		
+
 		initActionListener();
-		
+
 		createFrame();
 		createTopPanel();
-		createCenterPanel( );
+		createCenterPanel();
 		createBottomPanel();
-		
+
 		new Thread(mClient).start();
-		
+
 	}
-	
+
 	private void initActionListener() {
 		mButtonListener = new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String input = "0S";
 				mClient.createDecisionMessage(input);
 			}
 		};
-		
+
 	}
 
 	private void createFrame() {
@@ -83,25 +84,25 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		mFrame.setResizable(false);
 		mFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mFrame.setBackground(BACKGROUNDCOLOR);
-		mFrame.setLayout(new GridLayout(3,1));
-		
+		mFrame.setLayout(new GridLayout(3, 1));
+
 		mFrame.setVisible(true);
 	}
-	
+
 	private void createTopPanel() {
-		JPanel topPanel = new JPanel(new GridLayout(1,2));
+		JPanel topPanel = new JPanel(new GridLayout(1, 2));
 		topPanel.setBackground(BACKGROUNDCOLOR);
 
 		mTopLeftPane = mPlayerList.get(0);
 		mTopRightPane = mPlayerList.get(1);
-		
+
 		mTopLeftPane.setBackground(BACKGROUNDCOLOR);
 		mTopRightPane.setBackground(BACKGROUNDCOLOR);
-		
+
 		topPanel.add(mTopLeftPane);
 		topPanel.add(mTopRightPane);
 		mFrame.add(topPanel);
-		
+
 		mFrame.revalidate();
 		mFrame.repaint();
 	}
@@ -111,30 +112,37 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		mCenterGrillPanel = new JPanel();
 		mCenterDicePanel = new JPanel();
 		mCenterButtonPanel = new JPanel();
-		
+
 		mCenterGrillPanel.setBackground(BACKGROUNDCOLOR);
 		mCenterDicePanel.setBackground(BACKGROUNDCOLOR);
 		mCenterButtonPanel.setBackground(BACKGROUNDCOLOR);
-		
-		mCenterPanel = new JPanel(new GridLayout(3,1));
+
+		mCenterPanel = new JPanel(new GridLayout(3, 1));
 		mCenterPanel.setBackground(BACKGROUNDCOLOR);
-		
+
 		mCenterPanel.add(mCenterGrillPanel);
 		mCenterPanel.add(mCenterDicePanel);
 		mCenterPanel.add(mCenterButtonPanel);
 		mFrame.add(mCenterPanel);
-		
+
 		mFrame.revalidate();
 		mFrame.repaint();
 	}
 
 	private void createBottomPanel() {
-		mBottomPanel = new JPanel();
-		mBottomPanel.setBackground(BACKGROUNDCOLOR);
-		
-		mBottomPanel.add(new JLabel("BOTTOM"));
-		mFrame.add(mBottomPanel);
-		
+		JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
+		bottomPanel.setBackground(BACKGROUNDCOLOR);
+
+		mBottomLeftPane = mPlayerList.get(0);
+		mBottomRightPane = mPlayerList.get(1);
+
+		mBottomLeftPane.setBackground(BACKGROUNDCOLOR);
+		mBottomRightPane.setBackground(BACKGROUNDCOLOR);
+
+		bottomPanel.add(mBottomLeftPane);
+		bottomPanel.add(mBottomRightPane);
+		mFrame.add(bottomPanel);
+
 		mFrame.revalidate();
 		mFrame.repaint();
 	}
@@ -170,9 +178,9 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 		insertDices();
 		insertButton();
 	}
-	
+
 	private void updatePlayer(List<PlayerState> playerStates) {
-		for ( int i = 0; i < playerStates.size(); i++) {
+		for (int i = 0; i < playerStates.size(); i++) {
 			mPlayerList.get(i).setPlayerState(playerStates.get(i));
 		}
 	}
@@ -196,7 +204,7 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 
 			mCenterGrillPanel.add(new JLabel(imageIcon));
 
-		}			
+		}
 		mFrame.revalidate();
 		mFrame.repaint();
 	}
@@ -215,20 +223,20 @@ public class GUIHeckmeck extends JFrame implements HeckmeckUI {
 			JLabel label = new JLabel(imageIcon);
 			label.addMouseListener(new MouseHandler());
 			mCenterDicePanel.add(label);
-			
+
 		}
-		
+
 		mFrame.revalidate();
 		mFrame.repaint();
 	}
-	
+
 	private void insertButton() {
 		mCenterButtonPanel.removeAll();
-		
+
 		JButton buttonStop = new JButton("End Turn");
 		buttonStop.addActionListener(mButtonListener);
 		mCenterButtonPanel.add(buttonStop);
-		
+
 		mFrame.revalidate();
 		mFrame.repaint();
 	}
