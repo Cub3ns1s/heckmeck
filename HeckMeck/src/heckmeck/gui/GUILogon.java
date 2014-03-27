@@ -37,7 +37,9 @@ public class GUILogon extends JPanel{
 					new GUIServer();
 				}
 				else {
-					
+					removeAll();
+					add(new GUIGame(mInputName.getText()));
+					revalidate();
 				}
 			}
 		};
@@ -64,6 +66,7 @@ public class GUILogon extends JPanel{
 		
 		mLogon = new JButton("Logon");
 		mLogon.setBounds(285, 365, 110, 20);
+		mLogon.addActionListener(mActionListener);
 		add(mLogon);
 		
 		mStartServer = new JButton("Start Server");

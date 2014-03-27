@@ -79,6 +79,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 	}
 
 	private void initPanel() {
+		setSize(mScreenSize);
 		setBackground(GUIClient.BACKGROUNDCOLOR);
 		setLayout(new GridLayout(3, 1));
 
