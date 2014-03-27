@@ -24,7 +24,6 @@ public class GUIClient extends JFrame {
 		add(new GUILogon());
 		revalidate();
 		
-//		add(new GUIGame("Peter"));
 	}
 	
 }

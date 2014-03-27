@@ -1,5 +1,7 @@
 package heckmeck.gui;
 
+import heckmeck.server.Server;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,13 +20,25 @@ public class GUIServerStart extends JPanel {
 	private JTextField mInputText;
 	private JButton mBtnStart;
 
-	public GUIServerStart() {
+	public GUIServerStart(String ip) {
 
 		mActionListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String text = mInputText.getText();
+				JButton button = (JButton) e.getSource();
+				Server server = null;
+				
+				if (button.getText().equals("Start Server")) {
+					String amountPlayers = mInputText.getText();
+					mInputText.setEnabled(false);
+					mBtnStart.setText("End server");
+					
+					server = new Server(Integer.valueOf(amountPlayers));
+				}
+				else {
+					server.shutdown();
+				}
 			}
 		};
 
@@ -40,11 +54,11 @@ public class GUIServerStart extends JPanel {
 		mInputText.setBounds(200, 30, 100, 20);
 		add(mInputText);
 
-		mIP = new JLabel("IP: 127.0.0.1");
+		mIP = new JLabel("IP: " + ip);
 		mIP.setBounds(165, 60, 100, 20);
 		add(mIP);
 
-		mBtnStart = new JButton("Starte Server");
+		mBtnStart = new JButton("Start Server");
 		mBtnStart.setBounds(125, 90, 150, 20);
 		mBtnStart.addActionListener(mActionListener);
 		add(mBtnStart);

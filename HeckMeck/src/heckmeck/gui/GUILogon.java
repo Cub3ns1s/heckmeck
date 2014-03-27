@@ -34,7 +34,9 @@ public class GUILogon extends JPanel{
 				JButton button = (JButton) e.getSource();
 				
 				if (button.getText().equals(mStartServer.getText())) {
-					new GUIServer();
+					if(!mInputIP.getText().isEmpty()){
+					new GUIServer(mInputIP.getText());
+				}
 				}
 				else {
 					removeAll();

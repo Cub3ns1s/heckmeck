@@ -18,33 +18,13 @@ public class Server {
 	private Logger mLog;
 	
 	// Constructor
-	public Server(int playerCount, Logger logger) {
+	public Server(int playerCount) {
 		mPlayerCount = playerCount;
-		mLog = logger;
+		mLog = new SysoLog();
 		mClientManagement = new ClientManagement(mPlayerCount);
 		
-	}
-
-
-	/**
-	 * Main method - gets player count and starts server
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-		int playerCount = 2;
-
-		if (args.length > 0) {
-			try {
-				playerCount = new Integer(args[0]);
-			} catch (NumberFormatException nfe) {
-			}
-			;
-		}
-
-		Server server = new Server(playerCount, new SysoLog());
-		server.start(playerCount);
+		start(playerCount);
+		
 	}
 
 	/**
