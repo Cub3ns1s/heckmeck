@@ -21,7 +21,10 @@ public class GUIClient extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		add(new GUIGame("Peter"));
+		add(new GUILogon());
+		revalidate();
+		
+//		add(new GUIGame("Peter"));
 	}
 	
 }
