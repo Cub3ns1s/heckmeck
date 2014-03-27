@@ -1,6 +1,8 @@
 package heckmeck.gui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,11 +20,27 @@ public class GUILogon extends JPanel{
 	private JTextField mInputIP;
 	private JButton mLogon;
 	private JButton mStartServer;
+	private ActionListener mActionListener;
 
 	public GUILogon() {
 		setLayout(null);
 		setSize(new Dimension(800, 600));
 		setBackground(GUIClient.BACKGROUNDCOLOR);
+		
+		mActionListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JButton button = (JButton) e.getSource();
+				
+				if (button.getText().equals(mStartServer.getText())) {
+					new GUIServer();
+				}
+				else {
+					
+				}
+			}
+		};
 		
 		mPicture = new JLabel(new ImageIcon("huehner.gif"));
 		mPicture.setBounds(250, 30, 292, 226);
@@ -50,6 +68,7 @@ public class GUILogon extends JPanel{
 		
 		mStartServer = new JButton("Start Server");
 		mStartServer.setBounds(405, 365, 110, 20);
+		mStartServer.addActionListener(mActionListener);
 		add(mStartServer);
 		
 		setVisible(true);
