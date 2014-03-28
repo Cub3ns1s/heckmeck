@@ -19,6 +19,8 @@ public class GUIServerStart extends JPanel {
 	private JLabel mIP;
 	private JTextField mInputText;
 	private JButton mBtnStart;
+	private JButton mBtnStop;
+	private Server mServer;
 
 	public GUIServerStart(String ip) {
 
@@ -27,17 +29,16 @@ public class GUIServerStart extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JButton button = (JButton) e.getSource();
-				Server server = null;
 				
 				if (button.getText().equals("Start Server")) {
 					String amountPlayers = mInputText.getText();
 					mInputText.setEnabled(false);
 					mBtnStart.setText("End server");
 					
-					server = new Server(Integer.valueOf(amountPlayers));
+					mServer = new Server(Integer.valueOf(amountPlayers));
 				}
 				else {
-					server.shutdown();
+					mServer.shutdown();
 				}
 			}
 		};
@@ -52,6 +53,7 @@ public class GUIServerStart extends JPanel {
 
 		mInputText = new JTextField(10);
 		mInputText.setBounds(200, 30, 100, 20);
+		mInputText.setText("2");
 		add(mInputText);
 
 		mIP = new JLabel("IP: " + ip);
@@ -60,10 +62,38 @@ public class GUIServerStart extends JPanel {
 
 		mBtnStart = new JButton("Start Server");
 		mBtnStart.setBounds(125, 90, 150, 20);
-		mBtnStart.addActionListener(mActionListener);
+		mBtnStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					startServer( );
+				}
+			}
+		);
 		add(mBtnStart);
 
+		mBtnStop = new JButton("Stop Server");
+		mBtnStop.setBounds(125, 90, 150, 20);
+		mBtnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stopServer( );
+			}
+		}
+	);
 		setVisible(true);
+	}
+	
+	private void startServer() {
+		String amountPlayers = mInputText.getText();
+		mInputText.setEnabled(false);		
+		remove( mBtnStart);
+		add(mBtnStop);			
+		mServer = new Server(Integer.valueOf(amountPlayers));
+		new Thread( mServer ).start();
+	}
+	private void stopServer( ){
+		remove( mBtnStop);
+		add(mBtnStart);		
+		mInputText.setEnabled(true);
+		mServer.shutdown();
 	}
 
 }

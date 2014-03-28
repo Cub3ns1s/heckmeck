@@ -35,7 +35,7 @@ public class GUILogon extends JPanel{
 				
 				if (button.getText().equals(mStartServer.getText())) {
 					if(!mInputIP.getText().isEmpty()){
-					new GUIServer(mInputIP.getText());
+					new Thread( new GUIServer(mInputIP.getText())).start( );
 				}
 				}
 				else {
@@ -64,6 +64,7 @@ public class GUILogon extends JPanel{
 		
 		mInputIP = new JTextField(10);
 		mInputIP.setBounds(370, 330, 100, 20);
+		mInputIP.setText("127.0.0.1");
 		add(mInputIP);
 		
 		mLogon = new JButton("Logon");

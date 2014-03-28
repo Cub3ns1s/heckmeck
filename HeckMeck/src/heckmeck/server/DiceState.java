@@ -187,6 +187,12 @@ public class DiceState implements Serializable {
 		mFixedDices.clear();
 
 		assert (mUnfixedDices.size() == 8);
+		try {
+			dice( );
+		} catch (MisthrowThrowException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

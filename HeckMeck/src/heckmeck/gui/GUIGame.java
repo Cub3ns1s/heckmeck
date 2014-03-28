@@ -40,10 +40,8 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 	private Client mClient;
 	private String mName;
 	private ActionListener mButtonListener;
+	private boolean mEndTurn = false;
 
-//	public static void main(String[] args) {
-//		new GUIGame(args[0]);
-//	}
 
 	public GUIGame(String name) {
 		mClient = new Client(name, this, "127.0.0.1");
@@ -55,28 +53,14 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 			mPlayerList.add(new GUIPlayer());
 		}
 
-		initActionListener();
-
 		initPanel();
 		createTopPanel();
 		createCenterPanel();
 		createBottomPanel();
 
 		new Thread(mClient).start();
-
 	}
 
-	private void initActionListener() {
-		mButtonListener = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String input = "0S";
-				mClient.createDecisionMessage(input);
-			}
-		};
-
-	}
 
 	private void initPanel() {
 		setSize(mScreenSize);
@@ -115,6 +99,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 
 		mCenterPanel = new JPanel(new GridLayout(3, 1));
 		mCenterPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mCenterPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 
 		mCenterPanel.add(mCenterGrillPanel);
 		mCenterPanel.add(mCenterDicePanel);
@@ -230,7 +215,13 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 		mCenterButtonPanel.removeAll();
 
 		JButton buttonStop = new JButton("End Turn");
-		buttonStop.addActionListener(mButtonListener);
+		buttonStop.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mEndTurn = true;
+			}
+		});
 		mCenterButtonPanel.add(buttonStop);
 
 		revalidate();
@@ -246,10 +237,15 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 			JLabel label = (JLabel) event.getSource();
 			ImageIcon imageIcon = (ImageIcon) label.getIcon();
 			String path = imageIcon.getDescription();
-
-			String input = path.substring(1, 2) + 'C';
+			String input;
+		    if (mEndTurn){
+		    	input = path.substring( 1,2) + 'S';
+		    }else{
+			  input = path.substring(1, 2) + 'C';
+		    }
 			System.out.println(input);
 			mClient.createDecisionMessage(input);
+			mEndTurn = false;
 		}
 	}
 

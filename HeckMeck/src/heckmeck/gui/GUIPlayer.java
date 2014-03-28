@@ -1,11 +1,13 @@
 package heckmeck.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
 
 import heckmeck.server.*;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,10 +28,11 @@ public class GUIPlayer extends JPanel {
 	public void setPlayerState( PlayerState playerState){
 		mNameLabel.setText(playerState.getName());
 		
+		markCurrentPlayer(playerState.isTurn());
 		setTopToken(playerState.getDeck().getTopToken());
 		setFixedDices(playerState.getDiceState().getFixedDices());
 	}
-	
+
 	private void initUI( ){
 		mNameLabel = new JLabel();
 		add( mNameLabel );
@@ -72,6 +75,17 @@ public class GUIPlayer extends JPanel {
 		}
 	}
 	
-	
+	private void markCurrentPlayer(boolean isTurn) {
+		if (isTurn) {
+			setBackground(new Color(254, 1, 7));
+			mFixedDicesPanel.setBackground(new Color(254, 1, 7));
+			mTopTokenPanel.setBackground(new Color(254, 1, 7));
+		}
+		else {
+			setBackground(GUIClient.BACKGROUNDCOLOR);
+			mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+			mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		}
+	}
 	
 }

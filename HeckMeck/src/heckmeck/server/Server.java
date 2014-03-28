@@ -6,7 +6,7 @@ import java.io.*;
 import java.net.*;
 import java.lang.Thread;
 
-public class Server {
+public class Server implements Runnable{
 
 	// Attributes
 	private ServerSocket mServerSocket;
@@ -16,6 +16,7 @@ public class Server {
 	private static final int MINPLAYER = 2;
 	private static final int MAXPLAYER = 4;
 	private Logger mLog;
+	private boolean mRunning = true;
 	
 	// Constructor
 	public Server(int playerCount) {
@@ -23,7 +24,6 @@ public class Server {
 		mLog = new SysoLog();
 		mClientManagement = new ClientManagement(mPlayerCount);
 		
-		start(playerCount);
 		
 	}
 
@@ -49,12 +49,12 @@ public class Server {
 	public void checkPlayerCount(int playerCount)
 			throws WrongPlayerCountException {
 		if (playerCount < MINPLAYER) {
-			mLog.log("Mindestens zwei Spieler benötigt!");
+			mLog.log("Mindestens " + MINPLAYER +" Spieler benötigt!");
 			throw new WrongPlayerCountException();
 		}
 
 		if (playerCount > MAXPLAYER) {
-			mLog.log("Maximal sieben Spieler erlaubt!");
+			mLog.log("Maximal "+ MAXPLAYER +" erlaubt!");
 			throw new WrongPlayerCountException();
 		}
 	}
@@ -64,7 +64,7 @@ public class Server {
 	 * 
 	 * @param playerCount
 	 */
-	public void start(int playerCount) {
+	public void run() {
 		try {
 			mServerSocket = new ServerSocket(23534);
 		} catch (IOException e) {
@@ -72,12 +72,12 @@ public class Server {
 		}
 
 		try {
-			checkPlayerCount(playerCount);
+			checkPlayerCount(mPlayerCount);
 		} catch (WrongPlayerCountException e1) {
 			return;
 		}
 
-		mLog.log("Start server for " + playerCount + " players");
+		mLog.log("Start server for " + mPlayerCount + " players");
 		waitForNewClients();
 
 	}
@@ -86,7 +86,7 @@ public class Server {
 	 * waits for new clients to start game
 	 */
 	private void waitForNewClients() {
-		while (true) {
+		while (mRunning) {
 
 			Socket socket;
 			try {
@@ -102,6 +102,7 @@ public class Server {
 			} catch (IOException e) {
 				mLog.log(e);
 			}
+			
 		}
 	}
 
@@ -160,6 +161,7 @@ public class Server {
 	 */
 	public void shutdown() {
 		try {
+			mRunning = false;
 			mServerSocket.close();
 			mClientManagement.shutdown();
 			mLog.log("Server beendet.");
