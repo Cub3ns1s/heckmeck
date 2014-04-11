@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 public class GUIServerStart extends JPanel {
 
 	private static final long serialVersionUID = -1432504468764188547L;
-	private ActionListener mActionListener;
 	private JLabel mAmount;
 	private JLabel mIP;
 	private JTextField mInputText;
@@ -24,7 +23,7 @@ public class GUIServerStart extends JPanel {
 
 	public GUIServerStart(String ip) {
 
-		mActionListener = new ActionListener() {
+		new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

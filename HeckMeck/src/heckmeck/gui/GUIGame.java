@@ -4,7 +4,6 @@ import heckmeck.client.Client;
 import heckmeck.client.HeckmeckUI;
 import heckmeck.server.*;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -38,14 +37,11 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 
 	private GameState mGameState;
 	private Client mClient;
-	private String mName;
-	private ActionListener mButtonListener;
 	private boolean mEndTurn = false;
 
 
 	public GUIGame(String name) {
 		mClient = new Client(name, this, "127.0.0.1");
-		mName = name;
 		mScreenSize = new Dimension(800, 600);
 		mPlayerList = new ArrayList<GUIPlayer>();
 

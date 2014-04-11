@@ -7,7 +7,6 @@ import java.util.List;
 
 import heckmeck.server.*;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
