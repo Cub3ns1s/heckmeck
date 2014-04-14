@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,17 +166,20 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 	private void insertGrillTokenImages() {
 		mCenterGrillPanel.removeAll();
 
+//		URL path2;
 		String path = "";
 		List<Token> tokenList = mGameState.getGrill().getTokens();
 
 		for (Token token : tokenList) {
 			if (token.isActive()) {
 				path = token.getValue() + ".png";
+//				path2 = GUIClient.class.getResource(token.getValue() + ".png");
 
 			} else {
 				path = "inactiveToken.png";
+//				path2 = GUIClient.class.getResource("inactiveToken.png");
 			}
-
+			
 			ImageIcon imageIcon = new ImageIcon(path);
 			resizeImageIcon(imageIcon);
 
