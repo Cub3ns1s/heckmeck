@@ -17,6 +17,9 @@ public class GUIPlayer extends JPanel {
 	private JLabel mNameLabel ;
 	private JPanel mFixedDicesPanel;
 	private JPanel mTopTokenPanel;
+	private JLabel mAmountTokenLabel;
+	private JLabel mAmountDots;
+	private JPanel mLabelPanel;
 	
 	public GUIPlayer(){
 		initUI( );
@@ -25,22 +28,52 @@ public class GUIPlayer extends JPanel {
 	}
 	
 	public void setPlayerState( PlayerState playerState){
-		mNameLabel.setText(playerState.getName());
-		
+		setLabels(playerState);
 		markCurrentPlayer(playerState.isTurn());
 		setTopToken(playerState.getDeck().getTopToken());
 		setFixedDices(playerState.getDiceState().getFixedDices());
 	}
 
+	private void setLabels(PlayerState playerState) {
+		mNameLabel.setText(playerState.getName());
+		mLabelPanel.add(mNameLabel);
+		
+		int amountToken = playerState.getDeck().getSize();
+		mAmountTokenLabel.setText("Tokens: " + String.valueOf(amountToken));
+		mLabelPanel.add(mAmountTokenLabel);
+		
+		int amountDots = getAmountDots(playerState);
+		mAmountDots.setText("Amount Dots: " + String.valueOf(amountDots));
+		mLabelPanel.add(mAmountDots);
+	}
+
+	private int getAmountDots(PlayerState playerState) {
+		int amount = 0;
+		
+		for (int i = 0; i < playerState.getDiceState().getFixedDices().size(); i++) {
+			Dice dice = playerState.getDiceState().getFixedDices().get(i);
+			amount += dice.getValue();
+		}
+		
+		return amount;
+	}
+
 	private void initUI( ){
+		
 		mNameLabel = new JLabel();
-		add( mNameLabel );
+		mAmountTokenLabel = new JLabel();
+		mAmountDots = new JLabel();
+		
+		mLabelPanel = new JPanel(new GridLayout(3,1));
+		mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		mFixedDicesPanel = new JPanel();
 		mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		mTopTokenPanel = new JPanel();
 		mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-		add( mFixedDicesPanel);
-		add( mTopTokenPanel);
+		
+		add(mLabelPanel);
+		add(mFixedDicesPanel);
+		add(mTopTokenPanel);
 		revalidate();
 		repaint();
 	}

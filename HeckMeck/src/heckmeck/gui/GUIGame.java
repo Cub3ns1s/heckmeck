@@ -19,13 +19,11 @@ import javax.swing.*;
 
 public class GUIGame extends JPanel implements HeckmeckUI {
 
-//	public static final Color BACKGROUNDCOLOR = new Color(203, 1, 6);
 	private final static int SCREENWIDTH = 340;
 	private final static int SCREENHEIGHT = 240;
 	private static Dimension mScreenSize;
 	private static final long serialVersionUID = 4220957201237157813L;
 
-//	private JFrame mFrame;
 	private JPanel mCenterPanel;
 	private JPanel mCenterGrillPanel;
 	private JPanel mCenterDicePanel;
@@ -165,19 +163,16 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 
 	private void insertGrillTokenImages() {
 		mCenterGrillPanel.removeAll();
-
-//		URL path2;
-		String path = "";
+		
+		URL path = null;
 		List<Token> tokenList = mGameState.getGrill().getTokens();
 
 		for (Token token : tokenList) {
 			if (token.isActive()) {
-				path = token.getValue() + ".png";
-//				path2 = GUIClient.class.getResource(token.getValue() + ".png");
+				path = GUIClient.class.getResource(token.getValue() + ".png");
 
 			} else {
-				path = "inactiveToken.png";
-//				path2 = GUIClient.class.getResource("inactiveToken.png");
+				path = GUIClient.class.getResource("inactiveToken.png");
 			}
 			
 			ImageIcon imageIcon = new ImageIcon(path);
@@ -197,7 +192,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 				.getDiceState().getUnfixedDices();
 
 		for (Dice dice : unfixedDices) {
-			String path = "W" + dice.getLabel() + ".png";
+			URL path = GUIClient.class.getResource("W" + dice.getLabel() + ".png");
 
 			ImageIcon imageIcon = new ImageIcon(path);
 			resizeImageIcon(imageIcon);
