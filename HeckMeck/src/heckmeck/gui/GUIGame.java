@@ -5,16 +5,19 @@ import heckmeck.client.HeckmeckUI;
 import heckmeck.server.*;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class GUIGame extends JPanel implements HeckmeckUI {
@@ -56,23 +59,38 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 		new Thread(mClient).start();
 	}
 
+	@Override
+	  protected void paintComponent(Graphics g) {
+
+	    super.paintComponent(g);
+	        URL path = getClass().getResource("holz.gif");
+	        Image bgImage;
+			try {
+				bgImage = ImageIO.read(path);			
+				g.drawImage(bgImage , 0, 0, null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	}
 
 	private void initPanel() {
 		setSize(mScreenSize);
-		setBackground(GUIClient.BACKGROUNDCOLOR);
+//		setBackground(GUIClient.BACKGROUNDCOLOR);
 		setLayout(new GridLayout(3, 1));
 
 	}
 
 	private void createTopPanel() {
 		JPanel topPanel = new JPanel(new GridLayout(1, 2));
-		topPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		topPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 
 		mTopLeftPane = mPlayerList.get(0);
 		mTopRightPane = mPlayerList.get(1);
 
-		mTopLeftPane.setBackground(GUIClient.BACKGROUNDCOLOR);
-		mTopRightPane.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mTopLeftPane.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mTopRightPane.setBackground(GUIClient.BACKGROUNDCOLOR);
 
 		topPanel.add(mTopLeftPane);
 		topPanel.add(mTopRightPane);
@@ -88,13 +106,13 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 		mCenterDicePanel = new JPanel();
 		mCenterButtonPanel = new JPanel();
 
-		mCenterGrillPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-		mCenterDicePanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-		mCenterButtonPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mCenterGrillPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mCenterDicePanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mCenterButtonPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 
 		mCenterPanel = new JPanel(new GridLayout(3, 1));
-		mCenterPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-		mCenterPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+//		mCenterPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mCenterPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 
 		mCenterPanel.add(mCenterGrillPanel);
 		mCenterPanel.add(mCenterDicePanel);
@@ -107,13 +125,13 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 
 	private void createBottomPanel() {
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
-		bottomPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		bottomPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 
 		mBottomLeftPane = mPlayerList.get(2);
 		mBottomRightPane = mPlayerList.get(3);
 
-		mBottomLeftPane.setBackground(GUIClient.BACKGROUNDCOLOR);
-		mBottomRightPane.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mBottomLeftPane.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mBottomRightPane.setBackground(GUIClient.BACKGROUNDCOLOR);
 
 		bottomPanel.add(mBottomLeftPane);
 		bottomPanel.add(mBottomRightPane);

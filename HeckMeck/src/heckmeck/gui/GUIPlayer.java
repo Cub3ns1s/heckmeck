@@ -3,6 +3,7 @@ package heckmeck.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.net.URL;
 import java.util.List;
 
 import heckmeck.server.*;
@@ -65,11 +66,11 @@ public class GUIPlayer extends JPanel {
 		mAmountDots = new JLabel();
 		
 		mLabelPanel = new JPanel(new GridLayout(3,1));
-		mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		mFixedDicesPanel = new JPanel();
-		mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		mTopTokenPanel = new JPanel();
-		mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//		mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		
 		add(mLabelPanel);
 		add(mFixedDicesPanel);
@@ -85,7 +86,7 @@ public class GUIPlayer extends JPanel {
 			return;
 		}
 		
-		String path = topToken.getValue() + ".png";
+		URL path = GUIPlayer.class.getResource(topToken.getValue() + ".png");
 		ImageIcon imageIcon = new ImageIcon(path);
 		GUIGame.resizeImageIcon(imageIcon);
 		mTopTokenPanel.add(new JLabel(imageIcon));
@@ -98,7 +99,7 @@ public class GUIPlayer extends JPanel {
 		
 		for (int i = 0; i < fixedDices.size(); i++) {
 			Dice dice = fixedDices.get(i);
-			String path = "W" + dice.getLabel() + ".png";
+			URL path = GUIPlayer.class.getResource("W" + dice.getLabel() + ".png");
 			ImageIcon imageIcon = new ImageIcon(path);
 			GUIGame.resizeImageIcon(imageIcon);
 			mFixedDicesPanel.add(new JLabel(imageIcon));
@@ -114,9 +115,9 @@ public class GUIPlayer extends JPanel {
 			mTopTokenPanel.setBackground(new Color(254, 1, 7));
 		}
 		else {
-			setBackground(GUIClient.BACKGROUNDCOLOR);
-			mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-			mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//			setBackground(GUIClient.BACKGROUNDCOLOR);
+//			mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//			mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		}
 	}
 	
