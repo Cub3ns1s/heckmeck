@@ -46,7 +46,7 @@ public class GUILogon extends JPanel{
 			}
 		};
 		
-		mPicture = new JLabel(new ImageIcon(getClass().getResource("huehner.gif")));
+		mPicture = new JLabel(new ImageIcon("huehner.gif"));
 		mPicture.setBounds(250, 30, 292, 226);
 		add(mPicture);
 		

@@ -4,6 +4,8 @@ import heckmeck.exceptions.*;
 
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 public class Game implements GameState {
 
 	// Attributes
@@ -109,6 +111,11 @@ public class Game implements GameState {
 		try {
 			validateThrowContainsWorm();
 			transferTokenToCurrentPlayer();
+			
+			if(!mGrill.hasActiveTokens()) {
+				//Spiel zu Ende! Pop-Up mit Statistik oder so
+				JOptionPane.showMessageDialog(null, mPlayers.toString());
+			}
 
 		} catch (MisthrowDecisionException e) {
 			handleMissthrowDecisionException();
@@ -212,7 +219,7 @@ public class Game implements GameState {
 				.hasNext();) {
 			Token token = iterator.next();
 
-			if (amount >= token.getValue()) {
+			if (token.isActive() && amount >= token.getValue()) {
 				tmpToken = token;
 			}
 		}
