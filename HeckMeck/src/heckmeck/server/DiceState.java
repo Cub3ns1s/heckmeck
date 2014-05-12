@@ -90,14 +90,14 @@ public class DiceState implements Serializable {
 	 */
 	public void dice() throws MisthrowThrowException {
 
-		for (Iterator<Dice> iterator = mUnfixedDices.iterator(); iterator
-				.hasNext();) {
-			Dice dice = iterator.next();
-
-			dice.dice();
-			if (isMisthrow()) {
-				throw new MisthrowThrowException();
-			}
+		
+		
+		for (int i = 0; i < mUnfixedDices.size(); i++) {
+			mUnfixedDices.get(i).dice();
+		}
+		
+		if (isMisthrow()) {
+			throw new MisthrowThrowException();
 		}
 
 		sort();
@@ -113,13 +113,13 @@ public class DiceState implements Serializable {
 	}
 
 	private boolean validateValueFixed() {
-		for (Iterator<Dice> iterator = mUnfixedDices.iterator(); iterator
-				.hasNext();) {
-			Dice dice = iterator.next();
-
-			if (!isValueFixed(dice.getLabel())) {
+		
+		for (int i = 0; i < mUnfixedDices.size(); i++) {
+			
+			if(!isValueFixed(mUnfixedDices.get(i).getLabel())){
 				return false;
 			}
+			
 		}
 
 		return true;
@@ -132,11 +132,10 @@ public class DiceState implements Serializable {
 	 * @return
 	 */
 	private boolean isValueFixed(String label) {
-		for (Iterator<Dice> iterator = mFixedDices.iterator(); iterator
-				.hasNext();) {
-
-			Dice dice = iterator.next();
-
+		for (int i = 0; i < mFixedDices.size(); i++) {
+			
+			Dice dice = mFixedDices.get(i);
+					
 			if (dice.getLabel().equals(label)) {
 				return true;
 			}

@@ -5,7 +5,7 @@ import heckmeck.exceptions.NoTokenFoundException;
 import java.io.Serializable;
 import java.util.*;
 
-public class Grill implements Serializable{
+public class Grill implements Serializable {
 
 	// Attributes
 	private static final long serialVersionUID = 5888357567911676482L;
@@ -30,7 +30,7 @@ public class Grill implements Serializable{
 	 * removes token from grill
 	 * 
 	 * @param tokenNr
-	 * @return 
+	 * @return
 	 * @throws NoTokenFoundException
 	 */
 	public Token remove(int tokenNr) throws NoTokenFoundException {
@@ -67,22 +67,47 @@ public class Grill implements Serializable{
 	}
 
 	public void deactivateHighestToken() {
-		for (int i = 0; i < mTokens.size( ); i++) {
-			if (!mTokens.get(i).isActive()){
-				--i;
-				mTokens.get(i).deactivate();
-				return;
-			}			
+		int value = 0;
+		int index = 0;
+		
+		for (int i = 0; i < mTokens.size(); i++) {
+			if (mTokens.get(i).isActive()) {
+				if(mTokens.get(i).getValue() > value) {
+					value = mTokens.get(i).getValue();
+					index = i;
+				}
+					
+			}
 		}
 		
-		mTokens.get((mTokens.size() - 1)).deactivate();
+		mTokens.get(index).deactivate();
+		
+//		for (int i = 0; i < mTokens.size(); i++) {
+//			if (!mTokens.get(i).isActive()) {
+//				--i;
+//				mTokens.get(i).deactivate();
+//				return;
+//			}
+//		}
+
+//		mTokens.get((mTokens.size() - 1)).deactivate();
 	}
-	
+
+	public boolean hasActiveTokens() {
+		for (int i = 0; i < mTokens.size(); i++) {
+			if (mTokens.get(i).isActive()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		sB.append("GRILL \n");
-		
+
 		for (Iterator<Token> iterator = mTokens.iterator(); iterator.hasNext();) {
 			Token token = iterator.next();
 			if (token.isActive()) {
@@ -92,7 +117,5 @@ public class Grill implements Serializable{
 		sB.append("\n********************\n");
 		return sB.toString();
 	}
-
-	
 
 }
