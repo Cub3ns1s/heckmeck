@@ -38,8 +38,8 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 	private boolean mEndTurn = false;
 
 
-	public GUIGame(String name) {
-		mClient = new Client(name, this, "127.0.0.1");
+	public GUIGame(String name, String ip) {
+		mClient = new Client(name, this, ip);
 		mScreenSize = new Dimension(800, 600);
 		mPlayerList = new ArrayList<GUIPlayer>();
 
