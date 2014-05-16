@@ -83,11 +83,10 @@ public class Game implements GameState {
 			mClientManagement.sendMessage(continueMessage);
 		} else {
 			try {
-				
+
 				if (!decision.getDots().equals("0")) {
 					mCurrentPlayer.getDiceState().fixValue(decision.getDots());
 				}
-
 
 				if (decision.proceeds()) {
 					continueTurn();
@@ -111,9 +110,10 @@ public class Game implements GameState {
 		try {
 			validateThrowContainsWorm();
 			transferTokenToCurrentPlayer();
-			
-			if(!mGrill.hasActiveTokens()) {
-				//Spiel zu Ende! Pop-Up mit Statistik oder so
+
+			if (!mGrill.hasActiveTokens()) {
+				// Spiel zu Ende! Pop-Up mit Statistik oder so
+				mLog.log("Spiel zu Ende!");
 				JOptionPane.showMessageDialog(null, mPlayers.toString());
 			}
 
@@ -125,9 +125,17 @@ public class Game implements GameState {
 	private void handleMissthrowDecisionException() {
 		mLog.log("Caught MissthrowDecisionException because of worm or throw amount!");
 		if (mCurrentPlayer.getDiceState().getUnfixedDices().size() != 0) {
-			ContinueMessage continueMessage = new ContinueMessage(
-					"Go on! No worm included or amount not adequate!");
-			mClientManagement.sendMessage(continueMessage);
+			try {
+				mCurrentPlayer.getDiceState().dice();
+				
+				ContinueMessage continueMessage = new ContinueMessage(
+						"Go on! No worm included or amount not adequate!");
+				mClientManagement.sendMessage(continueMessage);
+				
+			} catch (MisthrowThrowException e) {
+				handleMisthrowException();
+			}
+
 		} else {
 			try {
 				transferTokenToCurrentPlayer();
@@ -149,21 +157,25 @@ public class Game implements GameState {
 				mCurrentPlayer.getDiceState().dice();
 
 			} catch (MisthrowThrowException e) {
-				mLog.log("Caught MissthrowThrowException!");
-				mGrill.failure(mCurrentPlayer.getDeck().getTopToken());
-				mCurrentPlayer.getDeck().removeTopToken();
-				mGrill.deactivateHighestToken();
-				setNextTurn();
-
-				ContinueMessage continueMessage = new ContinueMessage(
-						"Invalid throw! All diced values already fixed! End of Turn.");
-				mClientManagement.sendMessage(continueMessage);
+				handleMisthrowException();
 			}
 		}
 
 		else {
 			finalizeTurn();
 		}
+	}
+
+	private void handleMisthrowException() {
+		mLog.log("Caught MissthrowThrowException!");
+		mGrill.failure(mCurrentPlayer.getDeck().getTopToken());
+		mCurrentPlayer.getDeck().removeTopToken();
+		mGrill.deactivateHighestToken();
+		setNextTurn();
+
+		ContinueMessage continueMessage = new ContinueMessage(
+				"Invalid throw! All diced values already fixed! End of Turn.");
+		mClientManagement.sendMessage(continueMessage);
 	}
 
 	private void setNextTurn() {
