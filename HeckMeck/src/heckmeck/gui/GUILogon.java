@@ -40,9 +40,7 @@ public class GUILogon extends JPanel{
 				}
 				else {
 					removeAll();
-					if(!mInputIP.getText().isEmpty()){
 					add(new GUIGame(mInputName.getText(), mInputIP.getText()));
-					}
 					revalidate();
 				}
 			}

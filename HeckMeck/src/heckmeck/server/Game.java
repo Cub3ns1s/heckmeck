@@ -110,6 +110,11 @@ public class Game implements GameState {
 		try {
 			validateThrowContainsWorm();
 			transferTokenToCurrentPlayer();
+			
+			if(!mGrill.hasActiveTokens()) {
+				//Spiel zu Ende! Pop-Up mit Statistik oder so
+				JOptionPane.showMessageDialog(null, mPlayers.toString());
+			}
 
 			if (!mGrill.hasActiveTokens()) {
 				// Spiel zu Ende! Pop-Up mit Statistik oder so

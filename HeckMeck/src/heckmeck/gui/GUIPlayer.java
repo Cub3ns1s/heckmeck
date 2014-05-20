@@ -112,13 +112,11 @@ public class GUIPlayer extends JPanel {
 			setBackground(new Color(254, 1, 7));
 			mFixedDicesPanel.setBackground(new Color(254, 1, 7));
 			mTopTokenPanel.setBackground(new Color(254, 1, 7));
-			mLabelPanel.setBackground(new Color(254, 1, 7));
 		}
 		else {
 			setBackground(GUIClient.BACKGROUNDCOLOR);
 			mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 			mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-			mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		}
 	}
 	
