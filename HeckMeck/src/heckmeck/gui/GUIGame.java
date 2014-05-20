@@ -36,6 +36,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 	private GameState mGameState;
 	private Client mClient;
 	private boolean mEndTurn = false;
+	private String mDiceValue;
 
 
 	public GUIGame(String name, String ip) {
@@ -208,12 +209,25 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 	private void insertButton() {
 		mCenterButtonPanel.removeAll();
 
+		JButton buttonContinue = new JButton("Continue Turn");
+		buttonContinue.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mEndTurn = false;
+				buildDecision();
+			}
+		});
+		mCenterButtonPanel.add(buttonContinue);
+		
+		
 		JButton buttonStop = new JButton("End Turn");
 		buttonStop.addActionListener( new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mEndTurn = true;
+				buildDecision();
 			}
 		});
 		mCenterButtonPanel.add(buttonStop);
@@ -222,6 +236,22 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 		repaint();
 	}
 
+	private void buildDecision() {
+		String input;
+		
+		if (mEndTurn) {
+			input = mDiceValue + 'S';
+		}
+		else {
+			input = mDiceValue + 'C';
+		}
+
+		System.out.println(input);
+		mClient.createDecisionMessage(input);
+		mEndTurn = false;
+		mDiceValue = null;
+	}
+	
 	@Override
 	public void showMessage(String message) {
 	}
@@ -231,15 +261,18 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 			JLabel label = (JLabel) event.getSource();
 			ImageIcon imageIcon = (ImageIcon) label.getIcon();
 			String path = imageIcon.getDescription();
-			String input;
-		    if (mEndTurn){
-		    	input = path.substring( 1,2) + 'S';
-		    }else{
-			  input = path.substring(1, 2) + 'C';
-		    }
-			System.out.println(input);
-			mClient.createDecisionMessage(input);
-			mEndTurn = false;
+			mDiceValue = path.substring( 1,2);
+			
+//			String input;
+//		    if (mEndTurn){
+//		    	input = path.substring( 1,2) + 'S';
+//		    }else{
+//			  input = path.substring(1, 2) + 'C';
+//		    }
+//			System.out.println(input);
+			
+//			mClient.createDecisionMessage(input);
+//			mEndTurn = false;
 		}
 	}
 
