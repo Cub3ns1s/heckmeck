@@ -123,14 +123,23 @@ public class Client implements Runnable{
 			processContinueMessage(serverMessage);
 			break;
 
+		case ServerMessage.GAMEEND:
+			processGameEndMessage(serverMessage);
 		default:
 			break;
 		}
 	}
 
+	private void processGameEndMessage(ServerMessage serverMessage) {
+		GameEndMessage gameEndMessage = (GameEndMessage) serverMessage;
+		//Beende Spiel!!
+	}
+
+
 	private void processContinueMessage(ServerMessage serverMessage) {
 		ContinueMessage continueMessage = (ContinueMessage) serverMessage;
 		mLog.log(continueMessage.getText());
+		mUI.showMessage(continueMessage.getText());
 	}
 
 	/**

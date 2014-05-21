@@ -5,6 +5,7 @@ import heckmeck.client.HeckmeckUI;
 import heckmeck.server.*;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -18,8 +19,8 @@ import javax.swing.*;
 
 public class GUIGame extends JPanel implements HeckmeckUI {
 
-	private final static int SCREENWIDTH = 340;
-	private final static int SCREENHEIGHT = 240;
+	private final static int SCREENWIDTH = 440;
+	private final static int SCREENHEIGHT = 340;
 	private static Dimension mScreenSize;
 	private static final long serialVersionUID = 4220957201237157813L;
 
@@ -32,16 +33,16 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 	private GUIPlayer mTopRightPane;
 	private GUIPlayer mBottomLeftPane;
 	private GUIPlayer mBottomRightPane;
+	private JLabel mMessageLbl;
 
 	private GameState mGameState;
 	private Client mClient;
 	private boolean mEndTurn = false;
 	private String mDiceValue;
 
-
 	public GUIGame(String name, String ip) {
 		mClient = new Client(name, this, ip);
-		mScreenSize = new Dimension(800, 600);
+		mScreenSize = new Dimension(1000, 800);
 		mPlayerList = new ArrayList<GUIPlayer>();
 
 		for (int i = 0; i < 4; i++) {
@@ -51,16 +52,16 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 		initPanel();
 		createTopPanel();
 		createCenterPanel();
+		createMessagePanel();
 		createBottomPanel();
 
 		new Thread(mClient).start();
 	}
 
-
 	private void initPanel() {
 		setSize(mScreenSize);
 		setBackground(GUIClient.BACKGROUNDCOLOR);
-		setLayout(new GridLayout(3, 1));
+		setLayout(new GridLayout(4, 1));
 
 	}
 
@@ -100,6 +101,20 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 		mCenterPanel.add(mCenterDicePanel);
 		mCenterPanel.add(mCenterButtonPanel);
 		add(mCenterPanel);
+
+		revalidate();
+		repaint();
+	}
+
+	private void createMessagePanel() {
+		JPanel messagePanel = new JPanel();
+		messagePanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+
+		mMessageLbl = new JLabel("Welcome and have fun!");
+		mMessageLbl.setFont(mMessageLbl.getFont().deriveFont(Font.BOLD, 20));
+
+		messagePanel.add(mMessageLbl);
+		add(messagePanel);
 
 		revalidate();
 		repaint();
@@ -163,7 +178,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 
 	private void insertGrillTokenImages() {
 		mCenterGrillPanel.removeAll();
-		
+
 		String path = null;
 		List<Token> tokenList = mGameState.getGrill().getTokens();
 
@@ -174,7 +189,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 			} else {
 				path = "inactiveToken.png";
 			}
-			
+
 			ImageIcon imageIcon = new ImageIcon(path);
 			resizeImageIcon(imageIcon);
 
@@ -210,24 +225,32 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 		mCenterButtonPanel.removeAll();
 
 		JButton buttonContinue = new JButton("Continue Turn");
-		buttonContinue.addActionListener( new ActionListener() {
+		buttonContinue.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mEndTurn = false;
-				buildDecision();
+				if (mDiceValue != null) {
+					buildDecision();
+				} else {
+					mMessageLbl.setText("Please choose a dice first.");
+				}
+
 			}
 		});
 		mCenterButtonPanel.add(buttonContinue);
-		
-		
+
 		JButton buttonStop = new JButton("End Turn");
-		buttonStop.addActionListener( new ActionListener() {
+		buttonStop.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mEndTurn = true;
-				buildDecision();
+				if (mDiceValue != null) {
+					buildDecision();
+				} else {
+					mMessageLbl.setText("Please choose a dice first.");
+				}
 			}
 		});
 		mCenterButtonPanel.add(buttonStop);
@@ -238,11 +261,10 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 
 	private void buildDecision() {
 		String input;
-		
+
 		if (mEndTurn) {
 			input = mDiceValue + 'S';
-		}
-		else {
+		} else {
 			input = mDiceValue + 'C';
 		}
 
@@ -251,28 +273,21 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 		mEndTurn = false;
 		mDiceValue = null;
 	}
-	
+
 	@Override
 	public void showMessage(String message) {
+		mMessageLbl.setText(message);
 	}
 
 	private class MouseHandler extends MouseAdapter {
 		public void mouseClicked(MouseEvent event) {
+			mMessageLbl.setText(null);
 			JLabel label = (JLabel) event.getSource();
 			ImageIcon imageIcon = (ImageIcon) label.getIcon();
 			String path = imageIcon.getDescription();
-			mDiceValue = path.substring( 1,2);
-			
-//			String input;
-//		    if (mEndTurn){
-//		    	input = path.substring( 1,2) + 'S';
-//		    }else{
-//			  input = path.substring(1, 2) + 'C';
-//		    }
-//			System.out.println(input);
-			
-//			mClient.createDecisionMessage(input);
-//			mEndTurn = false;
+			mDiceValue = path.substring(1, 2);
+			String message = "Dices with value " + mDiceValue + " were chosen.";
+			mMessageLbl.setText(message);
 		}
 	}
 

@@ -4,8 +4,6 @@ import heckmeck.exceptions.*;
 
 import java.util.*;
 
-import javax.swing.JOptionPane;
-
 public class Game implements GameState {
 
 	// Attributes
@@ -110,16 +108,11 @@ public class Game implements GameState {
 		try {
 			validateThrowContainsWorm();
 			transferTokenToCurrentPlayer();
-			
-			if(!mGrill.hasActiveTokens()) {
-				//Spiel zu Ende! Pop-Up mit Statistik oder so
-//				JOptionPane.showMessageDialog(null, mPlayers.toString());
-			}
 
 			if (!mGrill.hasActiveTokens()) {
-				// Spiel zu Ende! Pop-Up mit Statistik oder so
+				// Spiel zu Ende!
 				mLog.log("Spiel zu Ende!");
-//				JOptionPane.showMessageDialog(null, mPlayers.toString());
+				prepareEndofGame();
 			}
 
 		} catch (MisthrowDecisionException e) {
@@ -127,16 +120,21 @@ public class Game implements GameState {
 		}
 	}
 
+	private void prepareEndofGame() {
+		GameEndMessage gameEndMessage = new GameEndMessage(mPlayers);
+		mClientManagement.sendMessage(gameEndMessage);
+	}
+
 	private void handleMissthrowDecisionException() {
 		mLog.log("Caught MissthrowDecisionException because of worm or throw amount!");
 		if (mCurrentPlayer.getDiceState().getUnfixedDices().size() != 0) {
 			try {
 				mCurrentPlayer.getDiceState().dice();
-				
+
 				ContinueMessage continueMessage = new ContinueMessage(
 						"Go on! No worm included or amount not adequate!");
 				mClientManagement.sendMessage(continueMessage);
-				
+
 			} catch (MisthrowThrowException e) {
 				handleMisthrowException();
 			}
@@ -192,6 +190,10 @@ public class Game implements GameState {
 		} else {
 			setCurrentPlayer((getPlayerPosition() + 1));
 		}
+
+		ContinueMessage continueMessage = new ContinueMessage("It's "
+				+ mCurrentPlayer.getName() + "'s turn!");
+		mClientManagement.sendMessage(continueMessage);
 
 	}
 

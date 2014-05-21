@@ -2,6 +2,7 @@ package heckmeck.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -14,17 +15,18 @@ import javax.swing.JPanel;
 public class GUIPlayer extends JPanel {
 
 	private static final long serialVersionUID = -8444188031674557590L;
+	private static final int mTextSize = 15;
 	private JLabel mNameLabel ;
-	private JPanel mFixedDicesPanel;
-	private JPanel mTopTokenPanel;
 	private JLabel mAmountTokenLabel;
 	private JLabel mAmountDots;
+	private JPanel mFixedDicesPanel;
+	private JPanel mTopTokenPanel;
 	private JPanel mLabelPanel;
 	
 	public GUIPlayer(){
 		initUI( );
 		setLayout(new GridLayout(3,1));
-		setSize(new Dimension(400, 200));
+		setSize(new Dimension(500, 300));
 	}
 	
 	public void setPlayerState( PlayerState playerState){
@@ -36,14 +38,17 @@ public class GUIPlayer extends JPanel {
 
 	private void setLabels(PlayerState playerState) {
 		mNameLabel.setText(playerState.getName());
+		mNameLabel.setFont(mNameLabel.getFont().deriveFont(Font.BOLD, mTextSize));
 		mLabelPanel.add(mNameLabel);
 		
 		int amountToken = playerState.getDeck().getSize();
 		mAmountTokenLabel.setText("Tokens: " + String.valueOf(amountToken));
+		mAmountTokenLabel.setFont(mAmountTokenLabel.getFont().deriveFont(Font.BOLD, mTextSize));
 		mLabelPanel.add(mAmountTokenLabel);
 		
 		int amountDots = getAmountDots(playerState);
 		mAmountDots.setText("Amount Dots: " + String.valueOf(amountDots));
+		mAmountDots.setFont(mAmountDots.getFont().deriveFont(Font.BOLD, mTextSize));
 		mLabelPanel.add(mAmountDots);
 	}
 
