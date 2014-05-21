@@ -24,7 +24,7 @@ public class GUILogon extends JPanel{
 
 	public GUILogon() {
 		setLayout(null);
-		setSize(new Dimension(800, 600));
+		setSize(new Dimension(1000, 800));
 		setBackground(GUIClient.BACKGROUNDCOLOR);
 		
 		mActionListener = new ActionListener() {

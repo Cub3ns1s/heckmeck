@@ -113,13 +113,13 @@ public class Game implements GameState {
 			
 			if(!mGrill.hasActiveTokens()) {
 				//Spiel zu Ende! Pop-Up mit Statistik oder so
-				JOptionPane.showMessageDialog(null, mPlayers.toString());
+//				JOptionPane.showMessageDialog(null, mPlayers.toString());
 			}
 
 			if (!mGrill.hasActiveTokens()) {
 				// Spiel zu Ende! Pop-Up mit Statistik oder so
 				mLog.log("Spiel zu Ende!");
-				JOptionPane.showMessageDialog(null, mPlayers.toString());
+//				JOptionPane.showMessageDialog(null, mPlayers.toString());
 			}
 
 		} catch (MisthrowDecisionException e) {
