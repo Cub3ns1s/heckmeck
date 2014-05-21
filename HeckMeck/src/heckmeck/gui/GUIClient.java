@@ -16,7 +16,7 @@ public class GUIClient extends JFrame {
 	
 	public GUIClient() {
 		setTitle("Heckmeck");
-		setSize(new Dimension(100, 800));
+		setSize(new Dimension(1000, 800));
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
