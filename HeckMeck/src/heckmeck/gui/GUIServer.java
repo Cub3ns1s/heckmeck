@@ -17,7 +17,6 @@ public class GUIServer extends JFrame implements Runnable{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 
 		setTitle("Heckmeck - Server");
 		setSize(new Dimension(400, 300));

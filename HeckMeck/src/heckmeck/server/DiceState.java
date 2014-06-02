@@ -189,7 +189,6 @@ public class DiceState implements Serializable {
 		try {
 			dice( );
 		} catch (MisthrowThrowException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

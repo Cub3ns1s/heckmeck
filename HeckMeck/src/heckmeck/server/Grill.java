@@ -81,16 +81,6 @@ public class Grill implements Serializable {
 		}
 		
 		mTokens.get(index).deactivate();
-		
-//		for (int i = 0; i < mTokens.size(); i++) {
-//			if (!mTokens.get(i).isActive()) {
-//				--i;
-//				mTokens.get(i).deactivate();
-//				return;
-//			}
-//		}
-
-//		mTokens.get((mTokens.size() - 1)).deactivate();
 	}
 
 	public boolean hasActiveTokens() {

@@ -169,7 +169,7 @@ public class Client implements Runnable{
 	 * @throws HeckmeckException
 	 */
 	private void processFullMessage() throws HeckmeckException {
-		mUI.showMessage("Server full!");
+		mUI.showMessage(MessageTexts.M001);
 		throw new HeckmeckException();
 	}
 

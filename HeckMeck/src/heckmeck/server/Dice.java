@@ -37,7 +37,6 @@ public class Dice implements Serializable, Comparable<Dice> {
 	 */
 	public void dice() {
 		mValue = (int) (Math.random() * 6 + 1);
-//		mValue = (int) (((Math.random() * 113) % 6)  + 1);
 		mLabel = Integer.toString(mValue);
 		
 		if (mValue == 6) {

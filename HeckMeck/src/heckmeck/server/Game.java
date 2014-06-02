@@ -59,7 +59,7 @@ public class Game implements GameState {
 	private void setCurrentPlayer(int index) {
 		mCurrentPlayer = mPlayers.get(index);
 		mCurrentPlayer.setTurn(true);
-		mLog.log(mCurrentPlayer.getName() + "'s turn!");
+		mLog.log(mCurrentPlayer.getName() + MessageTexts.M006);
 	}
 
 	private int getPlayerPosition() {
@@ -76,8 +76,8 @@ public class Game implements GameState {
 		if (mCurrentPlayer.getName() != playerName) {
 
 			ContinueMessage continueMessage = new ContinueMessage(
-					"Wrong player, it's " + mCurrentPlayer.getName()
-							+ "'s turn!");
+					MessageTexts.M007 + mCurrentPlayer.getName()
+							+ MessageTexts.M006);
 			mClientManagement.sendMessage(continueMessage);
 		} else {
 			try {
@@ -94,7 +94,7 @@ public class Game implements GameState {
 
 			} catch (AlreadyFixedException e) {
 				ContinueMessage continueMessage = new ContinueMessage(
-						"Repeat decision! Chosen value already fixed!");
+						MessageTexts.M008);
 				mClientManagement.sendMessage(continueMessage);
 
 			} catch (ValueNotFoundException e) {
@@ -111,7 +111,7 @@ public class Game implements GameState {
 
 			if (!mGrill.hasActiveTokens()) {
 				// Spiel zu Ende!
-				mLog.log("Spiel zu Ende!");
+				mLog.log(MessageTexts.M009);
 				prepareEndofGame();
 			}
 
@@ -126,13 +126,13 @@ public class Game implements GameState {
 	}
 
 	private void handleMissthrowDecisionException() {
-		mLog.log("Caught MissthrowDecisionException because of worm or throw amount!");
+		mLog.log(MessageTexts.M010);
 		if (mCurrentPlayer.getDiceState().getUnfixedDices().size() != 0) {
 			try {
 				mCurrentPlayer.getDiceState().dice();
 
 				ContinueMessage continueMessage = new ContinueMessage(
-						"Go on! No worm included or amount not adequate!");
+						MessageTexts.M011);
 				mClientManagement.sendMessage(continueMessage);
 
 			} catch (MisthrowThrowException e) {
@@ -143,9 +143,9 @@ public class Game implements GameState {
 			try {
 				transferTokenToCurrentPlayer();
 			} catch (MisthrowDecisionException e) {
-				mLog.log("Caught MissthrowDecisionException because no adequate token was found!");
+				mLog.log(MessageTexts.M012);
 				ContinueMessage continueMessage = new ContinueMessage(
-						"No token matching your throw found!");
+						MessageTexts.M013);
 				mClientManagement.sendMessage(continueMessage);
 
 				setNextTurn();
@@ -170,14 +170,14 @@ public class Game implements GameState {
 	}
 
 	private void handleMisthrowException() {
-		mLog.log("Caught MissthrowThrowException!");
+		mLog.log(MessageTexts.M014);
 		mGrill.failure(mCurrentPlayer.getDeck().getTopToken());
 		mCurrentPlayer.getDeck().removeTopToken();
 		mGrill.deactivateHighestToken();
 		setNextTurn();
 
 		ContinueMessage continueMessage = new ContinueMessage(
-				"Invalid throw! All diced values already fixed! End of Turn.");
+				MessageTexts.M015);
 		mClientManagement.sendMessage(continueMessage);
 	}
 
@@ -191,8 +191,7 @@ public class Game implements GameState {
 			setCurrentPlayer((getPlayerPosition() + 1));
 		}
 
-		ContinueMessage continueMessage = new ContinueMessage("It's "
-				+ mCurrentPlayer.getName() + "'s turn!");
+		ContinueMessage continueMessage = new ContinueMessage(mCurrentPlayer.getName() + MessageTexts.M006);
 		mClientManagement.sendMessage(continueMessage);
 
 	}

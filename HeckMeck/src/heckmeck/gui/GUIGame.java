@@ -110,7 +110,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 		JPanel messagePanel = new JPanel();
 		messagePanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 
-		mMessageLbl = new JLabel("Welcome and have fun!");
+		mMessageLbl = new JLabel(MessageTexts.M002);
 		mMessageLbl.setFont(mMessageLbl.getFont().deriveFont(Font.BOLD, 20));
 
 		messagePanel.add(mMessageLbl);
@@ -233,7 +233,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 				if (mDiceValue != null) {
 					buildDecision();
 				} else {
-					mMessageLbl.setText("Please choose a dice first.");
+					mMessageLbl.setText(MessageTexts.M003);
 				}
 
 			}
@@ -249,7 +249,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 				if (mDiceValue != null) {
 					buildDecision();
 				} else {
-					mMessageLbl.setText("Please choose a dice first.");
+					mMessageLbl.setText(MessageTexts.M003);
 				}
 			}
 		});
@@ -286,7 +286,7 @@ public class GUIGame extends JPanel implements HeckmeckUI {
 			ImageIcon imageIcon = (ImageIcon) label.getIcon();
 			String path = imageIcon.getDescription();
 			mDiceValue = path.substring(1, 2);
-			String message = "Dices with value " + mDiceValue + " were chosen.";
+			String message = MessageTexts.M004 + mDiceValue;
 			mMessageLbl.setText(message);
 		}
 	}

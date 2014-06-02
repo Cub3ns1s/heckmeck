@@ -97,7 +97,7 @@ public class ClientConnection implements Runnable {
 	 */
 	private void logon(LogonMessage logonMessage) {
 		mName = logonMessage.getName();
-		mLog.log("New Player: " + mName);
+		mLog.log(MessageTexts.M005 + mName);
 	}
 
 	/**
