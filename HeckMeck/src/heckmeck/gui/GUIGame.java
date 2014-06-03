@@ -4,6 +4,7 @@ import heckmeck.client.Client;
 import heckmeck.client.HeckmeckUI;
 import heckmeck.server.*;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -39,7 +40,8 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 	private Client mClient;
 	private boolean mEndTurn = false;
 	private String mDiceValue;
-
+	private JPanel mStatistics;
+	
 	public GUIGame(String name, String ip) {
 		mClient = new Client(name, this, ip);
 		mScreenSize = new Dimension(1000, 800);
@@ -60,22 +62,17 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 
 	private void initPanel() {
 		setSize(mScreenSize);
-//		setBackground(GUIClient.BACKGROUNDCOLOR);
 		setLayout(new GridLayout(4, 1));
 	}
 
 	private void createTopPanel() {
 		JPanel topPanel = new JPanel(new GridLayout(1, 2));
-		topPanel.setOpaque(true);
-//		topPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		topPanel.setOpaque(false);
 
 		mTopLeftPane = mPlayerList.get(0);
-		mTopLeftPane.setOpaque(true);
+		mTopLeftPane.setOpaque(false);
 		mTopRightPane = mPlayerList.get(1);
-		mTopRightPane.setOpaque(true);
-
-//		mTopLeftPane.setBackground(GUIClient.BACKGROUNDCOLOR);
-//		mTopRightPane.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mTopRightPane.setOpaque(false);
 
 		topPanel.add(mTopLeftPane);
 		topPanel.add(mTopRightPane);
@@ -88,20 +85,14 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 	private void createCenterPanel() {
 
 		mCenterGrillPanel = new JPanel();
-		mCenterGrillPanel.setOpaque(true);
+		mCenterGrillPanel.setOpaque(false);
 		mCenterDicePanel = new JPanel();
-		mCenterDicePanel.setOpaque(true);
+		mCenterDicePanel.setOpaque(false);
 		mCenterButtonPanel = new JPanel();
-		mCenterButtonPanel.setOpaque(true);
-
-//		mCenterGrillPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-//		mCenterDicePanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-//		mCenterButtonPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mCenterButtonPanel.setOpaque(false);
 
 		mCenterPanel = new JPanel(new GridLayout(3, 1));
-		mCenterPanel.setOpaque(true);
-//		mCenterPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-//		mCenterPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+		mCenterPanel.setOpaque(false);
 
 		mCenterPanel.add(mCenterGrillPanel);
 		mCenterPanel.add(mCenterDicePanel);
@@ -114,11 +105,11 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 
 	private void createMessagePanel() {
 		JPanel messagePanel = new JPanel();
-		messagePanel.setOpaque(true);
-//		messagePanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		messagePanel.setOpaque(false);
 
 		mMessageLbl = new JLabel(MessageTexts.M002);
 		mMessageLbl.setFont(mMessageLbl.getFont().deriveFont(Font.BOLD, 20));
+		mMessageLbl.setForeground(Color.WHITE);
 
 		messagePanel.add(mMessageLbl);
 		add(messagePanel);
@@ -129,16 +120,12 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 
 	private void createBottomPanel() {
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
-		bottomPanel.setOpaque(true);
-//		bottomPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		bottomPanel.setOpaque(false);
 
 		mBottomLeftPane = mPlayerList.get(2);
-		mBottomLeftPane.setOpaque(true);
+		mBottomLeftPane.setOpaque(false);
 		mBottomRightPane = mPlayerList.get(3);
-		mBottomRightPane.setOpaque(true);
-
-//		mBottomLeftPane.setBackground(GUIClient.BACKGROUNDCOLOR);
-//		mBottomRightPane.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mBottomRightPane.setOpaque(false);
 
 		bottomPanel.add(mBottomLeftPane);
 		bottomPanel.add(mBottomRightPane);
@@ -303,11 +290,23 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 
 	@Override
 	public void endGame(GameEndMessage gameEndMessage) {
-		List<PlayerState> players = gameEndMessage.getmPlayers();
 		
 		removeAll();
-		JPanel statistics = new JPanel(null);
+		mStatistics = new JPanel(null);
+		setSize(mScreenSize);
+		mStatistics.setOpaque(false);
+		add(mStatistics);
 		
+		JLabel endLbl = new JLabel(MessageTexts.M021);
+		endLbl.setForeground(Color.WHITE);
+		endLbl.setFont(endLbl.getFont().deriveFont(Font.BOLD, 20));
+		endLbl.setBounds(200, 300, 200, 100);
+		mStatistics.add(endLbl);
+		
+		prepareEndOutput(gameEndMessage.getmPlayers());
+	}
+
+	private void prepareEndOutput(List<PlayerState> players) {
 		
 	}
 

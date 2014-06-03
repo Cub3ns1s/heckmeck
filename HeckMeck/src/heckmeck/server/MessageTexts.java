@@ -9,6 +9,7 @@ public static final String M001 = "Server full!";
 public static final String M002 = "Welcome and have fun!";
 public static final String M003 = "Please choose a dice first.";
 public static final String M004 = "Chosen dice value: ";
+public static final String M021 = "End of Game!";
 
 //Game
 public static final String M007 = "Wrong player! ";

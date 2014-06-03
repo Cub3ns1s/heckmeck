@@ -1,5 +1,6 @@
 package heckmeck.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -39,16 +40,19 @@ public class GUIPlayer extends GUIBackground {
 	private void setLabels(PlayerState playerState) {
 		mNameLabel.setText(playerState.getName());
 		mNameLabel.setFont(mNameLabel.getFont().deriveFont(Font.BOLD, mTextSize));
+		mNameLabel.setForeground(Color.WHITE);
 		mLabelPanel.add(mNameLabel);
 		
 		int amountToken = playerState.getDeck().getSize();
 		mAmountTokenLabel.setText("Tokens: " + String.valueOf(amountToken));
 		mAmountTokenLabel.setFont(mAmountTokenLabel.getFont().deriveFont(Font.BOLD, mTextSize));
+		mAmountTokenLabel.setForeground(Color.WHITE);
 		mLabelPanel.add(mAmountTokenLabel);
 		
 		int amountDots = getAmountDots(playerState);
 		mAmountDots.setText("Amount Dots: " + String.valueOf(amountDots));
 		mAmountDots.setFont(mAmountDots.getFont().deriveFont(Font.BOLD, mTextSize));
+		mAmountDots.setForeground(Color.WHITE);
 		mLabelPanel.add(mAmountDots);
 	}
 
@@ -70,14 +74,11 @@ public class GUIPlayer extends GUIBackground {
 		mAmountDots = new JLabel();
 		
 		mLabelPanel = new JPanel(new GridLayout(3,1));
-		mLabelPanel.setOpaque(true);
-//		mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mLabelPanel.setOpaque(false);
 		mFixedDicesPanel = new JPanel();
-		mFixedDicesPanel.setOpaque(true);
-//		mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mFixedDicesPanel.setOpaque(false);
 		mTopTokenPanel = new JPanel();
-		mTopTokenPanel.setOpaque(true);
-//		mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mTopTokenPanel.setOpaque(false);
 		
 		add(mLabelPanel);
 		add(mFixedDicesPanel);
