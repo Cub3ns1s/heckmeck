@@ -1,5 +1,6 @@
 package heckmeck.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class GUILogon extends JPanel{
+public class GUILogon extends GUIBackground{
 
 	private static final long serialVersionUID = -4583822138415796314L;
 	private JLabel mPicture;
@@ -21,11 +22,16 @@ public class GUILogon extends JPanel{
 	private JButton mLogon;
 	private JButton mStartServer;
 	private ActionListener mActionListener;
+	private JPanel mMain;
 
 	public GUILogon() {
-		setLayout(null);
+		
 		setSize(new Dimension(1000, 800));
-		setBackground(GUIClient.BACKGROUNDCOLOR);
+		
+		mMain = new JPanel(null);
+		mMain.setOpaque(false);
+		mMain.setSize(new Dimension(1000, 800));
+		add(mMain);
 		
 		mActionListener = new ActionListener() {
 			
@@ -39,43 +45,46 @@ public class GUILogon extends JPanel{
 				}
 				}
 				else {
-					removeAll();
-					add(new GUIGame(mInputName.getText(), mInputIP.getText()));
-					revalidate();
+					mMain.removeAll();
+					mMain.add(new GUIGame(mInputName.getText(), mInputIP.getText()));
+					mMain.revalidate();
 				}
 			}
 		};
 		
 		mPicture = new JLabel(new ImageIcon("huehner.gif"));
-		mPicture.setBounds(250, 30, 292, 226);
-		add(mPicture);
+		mPicture.setBounds(325, 180, 292, 226);
+		mPicture.repaint();
+		mMain.add(mPicture);
 		
 		mName = new JLabel("Name: ");
-		mName.setBounds(320, 300, 100, 20);
-		add(mName);
+		mName.setBounds(390, 440, 100, 20);
+		mName.setForeground(Color.WHITE);
+		mMain.add(mName);
 		
 		mInputName = new JTextField(10);
-		mInputName.setBounds(370, 300, 100, 20);
-		add(mInputName);
+		mInputName.setBounds(440, 440, 100, 20);
+		mMain.add(mInputName);
 		
 		mIP = new JLabel("IP: ");
-		mIP.setBounds(320, 330, 100, 20);
-		add(mIP);
+		mIP.setBounds(390, 470, 100, 20);
+		mIP.setForeground(Color.WHITE);
+		mMain.add(mIP);
 		
 		mInputIP = new JTextField(10);
-		mInputIP.setBounds(370, 330, 100, 20);
+		mInputIP.setBounds(440, 470, 100, 20);
 		mInputIP.setText("127.0.0.1");
-		add(mInputIP);
+		mMain.add(mInputIP);
 		
 		mLogon = new JButton("Logon");
-		mLogon.setBounds(285, 365, 110, 20);
+		mLogon.setBounds(355, 505, 110, 20);
 		mLogon.addActionListener(mActionListener);
-		add(mLogon);
+		mMain.add(mLogon);
 		
 		mStartServer = new JButton("Start Server");
-		mStartServer.setBounds(405, 365, 110, 20);
+		mStartServer.setBounds(475, 505, 110, 20);
 		mStartServer.addActionListener(mActionListener);
-		add(mStartServer);
+		mMain.add(mStartServer);
 		
 		setVisible(true);
 	}

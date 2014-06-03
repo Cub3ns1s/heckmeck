@@ -1,6 +1,5 @@
 package heckmeck.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -12,7 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GUIPlayer extends JPanel {
+public class GUIPlayer extends GUIBackground {
 
 	private static final long serialVersionUID = -8444188031674557590L;
 	private static final int mTextSize = 15;
@@ -27,6 +26,7 @@ public class GUIPlayer extends JPanel {
 		initUI( );
 		setLayout(new GridLayout(3,1));
 		setSize(new Dimension(500, 300));
+		setOpaque(true);
 	}
 	
 	public void setPlayerState( PlayerState playerState){
@@ -70,11 +70,14 @@ public class GUIPlayer extends JPanel {
 		mAmountDots = new JLabel();
 		
 		mLabelPanel = new JPanel(new GridLayout(3,1));
-		mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mLabelPanel.setOpaque(true);
+//		mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		mFixedDicesPanel = new JPanel();
-		mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mFixedDicesPanel.setOpaque(true);
+//		mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		mTopTokenPanel = new JPanel();
-		mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+		mTopTokenPanel.setOpaque(true);
+//		mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		
 		add(mLabelPanel);
 		add(mFixedDicesPanel);
@@ -114,16 +117,16 @@ public class GUIPlayer extends JPanel {
 	
 	private void markCurrentPlayer(boolean isTurn) {
 		if (isTurn) {
-			setBackground(new Color(254, 1, 7));
-			mFixedDicesPanel.setBackground(new Color(254, 1, 7));
-			mTopTokenPanel.setBackground(new Color(254, 1, 7));
-			mLabelPanel.setBackground(new Color(254, 1, 7));
+//			setBackground(new Color(254, 1, 7));
+//			mFixedDicesPanel.setBackground(new Color(254, 1, 7));
+//			mTopTokenPanel.setBackground(new Color(254, 1, 7));
+//			mLabelPanel.setBackground(new Color(254, 1, 7));
 		}
 		else {
-			setBackground(GUIClient.BACKGROUNDCOLOR);
-			mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-			mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-			mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//			setBackground(GUIClient.BACKGROUNDCOLOR);
+//			mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//			mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+//			mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 		}
 	}
 	

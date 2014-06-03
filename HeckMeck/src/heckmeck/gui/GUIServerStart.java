@@ -2,16 +2,16 @@ package heckmeck.gui;
 
 import heckmeck.server.Server;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class GUIServerStart extends JPanel {
+public class GUIServerStart extends GUIBackground {
 
 	private static final long serialVersionUID = -1432504468764188547L;
 	private JLabel mAmount;
@@ -44,23 +44,24 @@ public class GUIServerStart extends JPanel {
 
 		setLayout(null);
 		setSize(new Dimension(400, 300));
-		setBackground(GUIClient.BACKGROUNDCOLOR);
 
 		mAmount = new JLabel("Anzahl Spieler: ");
-		mAmount.setBounds(100, 30, 100, 20);
+		mAmount.setBounds(100, 80, 100, 20);
+		mAmount.setForeground(Color.WHITE);
 		add(mAmount);
 
 		mInputText = new JTextField(10);
-		mInputText.setBounds(200, 30, 100, 20);
+		mInputText.setBounds(200, 80, 100, 20);
 		mInputText.setText("2");
 		add(mInputText);
 
 		mIP = new JLabel("IP: " + ip);
-		mIP.setBounds(165, 60, 100, 20);
+		mIP.setBounds(165, 110, 100, 20);
+		mIP.setForeground(Color.WHITE);
 		add(mIP);
 
 		mBtnStart = new JButton("Start Server");
-		mBtnStart.setBounds(125, 90, 150, 20);
+		mBtnStart.setBounds(125, 140, 150, 20);
 		mBtnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					startServer( );
@@ -70,7 +71,7 @@ public class GUIServerStart extends JPanel {
 		add(mBtnStart);
 
 		mBtnStop = new JButton("Stop Server");
-		mBtnStop.setBounds(125, 90, 150, 20);
+		mBtnStop.setBounds(125, 140, 150, 20);
 		mBtnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				stopServer( );
