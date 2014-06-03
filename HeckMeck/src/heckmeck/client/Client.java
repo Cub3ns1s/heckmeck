@@ -133,6 +133,7 @@ public class Client implements Runnable{
 	private void processGameEndMessage(ServerMessage serverMessage) {
 		GameEndMessage gameEndMessage = (GameEndMessage) serverMessage;
 		//Beende Spiel!!
+		mUI.endGame(gameEndMessage);
 	}
 
 

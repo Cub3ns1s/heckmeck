@@ -62,7 +62,6 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 		setSize(mScreenSize);
 //		setBackground(GUIClient.BACKGROUNDCOLOR);
 		setLayout(new GridLayout(4, 1));
-		setOpaque(true);
 	}
 
 	private void createTopPanel() {
@@ -71,7 +70,9 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 //		topPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 
 		mTopLeftPane = mPlayerList.get(0);
+		mTopLeftPane.setOpaque(true);
 		mTopRightPane = mPlayerList.get(1);
+		mTopRightPane.setOpaque(true);
 
 //		mTopLeftPane.setBackground(GUIClient.BACKGROUNDCOLOR);
 //		mTopRightPane.setBackground(GUIClient.BACKGROUNDCOLOR);
@@ -132,7 +133,9 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 //		bottomPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
 
 		mBottomLeftPane = mPlayerList.get(2);
+		mBottomLeftPane.setOpaque(true);
 		mBottomRightPane = mPlayerList.get(3);
+		mBottomRightPane.setOpaque(true);
 
 //		mBottomLeftPane.setBackground(GUIClient.BACKGROUNDCOLOR);
 //		mBottomRightPane.setBackground(GUIClient.BACKGROUNDCOLOR);
@@ -296,6 +299,16 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 			String message = MessageTexts.M004 + mDiceValue;
 			mMessageLbl.setText(message);
 		}
+	}
+
+	@Override
+	public void endGame(GameEndMessage gameEndMessage) {
+		List<PlayerState> players = gameEndMessage.getmPlayers();
+		
+		removeAll();
+		JPanel statistics = new JPanel(null);
+		
+		
 	}
 
 }

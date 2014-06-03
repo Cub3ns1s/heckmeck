@@ -2,6 +2,7 @@ package heckmeck.client;
 
 import java.util.Scanner;
 
+import heckmeck.server.GameEndMessage;
 import heckmeck.server.GameState;
 
 public class TextHeckmeck implements HeckmeckUI {
@@ -31,7 +32,6 @@ public class TextHeckmeck implements HeckmeckUI {
 
 	@Override
 	public void showMessage(String message) {
-		// TODO Auto-generated method stub
 		System.out.println(message);
 	}
 
@@ -52,12 +52,12 @@ public class TextHeckmeck implements HeckmeckUI {
 			}
 		}
 	}
-//	for (Iterator<PlayerState> iterator = mGameState.getPlayerStates()
-//			.iterator(); iterator.hasNext();) {
-//		PlayerState playerState = iterator.next();
-//		if (playerState.getName().equals(mName) && playerState.isTurn()) {
-//			waitForUserInput();
-//		}
-//	}
+
+
+	@Override
+	public void endGame(GameEndMessage gameEndMessage) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
