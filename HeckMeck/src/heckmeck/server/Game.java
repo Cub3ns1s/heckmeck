@@ -140,16 +140,7 @@ public class Game implements GameState {
 			}
 
 		} else {
-			try {
-				transferTokenToCurrentPlayer();
-			} catch (MisthrowDecisionException e) {
-				mLog.log(MessageTexts.M012);
-				ContinueMessage continueMessage = new ContinueMessage(
-						MessageTexts.M013);
-				mClientManagement.sendMessage(continueMessage);
-
-				setNextTurn();
-			}
+			executeMissthrowConsequences();
 		}
 
 	}
@@ -170,15 +161,18 @@ public class Game implements GameState {
 	}
 
 	private void handleMisthrowException() {
+		executeMissthrowConsequences();
+		
 		mLog.log(MessageTexts.M014);
+		ContinueMessage continueMessage = new ContinueMessage(MessageTexts.M015);
+		mClientManagement.sendMessage(continueMessage);
+	}
+
+	private void executeMissthrowConsequences() {
 		mGrill.failure(mCurrentPlayer.getDeck().getTopToken());
 		mCurrentPlayer.getDeck().removeTopToken();
 		mGrill.deactivateHighestToken();
 		setNextTurn();
-
-		ContinueMessage continueMessage = new ContinueMessage(
-				MessageTexts.M015);
-		mClientManagement.sendMessage(continueMessage);
 	}
 
 	private void setNextTurn() {
@@ -191,7 +185,8 @@ public class Game implements GameState {
 			setCurrentPlayer((getPlayerPosition() + 1));
 		}
 
-		ContinueMessage continueMessage = new ContinueMessage(mCurrentPlayer.getName() + MessageTexts.M006);
+		ContinueMessage continueMessage = new ContinueMessage(
+				mCurrentPlayer.getName() + MessageTexts.M006);
 		mClientManagement.sendMessage(continueMessage);
 
 	}
@@ -258,23 +253,27 @@ public class Game implements GameState {
 
 	private int getThrowAmount() {
 		int amount = 0;
-
-		for (Iterator<Dice> iterator = mCurrentPlayer.getDiceState()
-				.getFixedDices().iterator(); iterator.hasNext();) {
-			Dice dice = iterator.next();
+		List<Dice> fixedDices = mCurrentPlayer.getDiceState().getFixedDices();
+		
+		for (int i = 0; i < fixedDices.size(); i++) {
+			Dice dice = mCurrentPlayer.getDiceState().getFixedDices().get(i);
 			amount += dice.getValue();
 		}
+		
 		return amount;
 	}
 
 	private void validateThrowContainsWorm() throws MisthrowDecisionException {
-		for (Iterator<Dice> iterator = mCurrentPlayer.getDiceState()
-				.getFixedDices().iterator(); iterator.hasNext();) {
-			Dice dice = iterator.next();
-			if (dice.getLabel() == "W") {
+		List<Dice> fixedDices = mCurrentPlayer.getDiceState().getFixedDices();
+
+		for (int i = 0; i < fixedDices.size(); i++) {
+			Dice dice = mCurrentPlayer.getDiceState().getFixedDices().get(i);
+
+			if (dice.getLabel().equals("W")) {
 				return;
 			}
 		}
+		
 		throw new MisthrowDecisionException();
 	}
 
