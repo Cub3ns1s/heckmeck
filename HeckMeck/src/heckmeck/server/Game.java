@@ -12,11 +12,9 @@ public class Game implements GameState {
 	private List<PlayerState> mPlayers;
 	private PlayerState mCurrentPlayer;
 	private transient ClientManagement mClientManagement;
-	private transient SysoLog mLog;
 
 	// Constructor
 	public Game(List<String> playerList, ClientManagement clientManagement) {
-		mLog = new SysoLog();
 		initPlayerStates(playerList);
 		mClientManagement = clientManagement;
 		mGrill = new Grill();
@@ -59,7 +57,6 @@ public class Game implements GameState {
 	private void setCurrentPlayer(int index) {
 		mCurrentPlayer = mPlayers.get(index);
 		mCurrentPlayer.setTurn(true);
-		mLog.log(mCurrentPlayer.getName() + MessageTexts.getMessage("M006"));
 	}
 
 	private int getPlayerPosition() {
@@ -117,7 +114,6 @@ public class Game implements GameState {
 	private void isEndOfGame() {
 		if (!mGrill.hasActiveTokens()) {
 			// Spiel zu Ende!
-//			mLog.log(MessageTexts.M009);
 			prepareEndofGame();
 		}
 	}
@@ -128,7 +124,6 @@ public class Game implements GameState {
 	}
 
 	private void handleMissthrowDecisionException() {
-//		mLog.log(MessageTexts.M010);
 		if (mCurrentPlayer.getDiceState().getUnfixedDices().size() != 0) {
 			try {
 				mCurrentPlayer.getDiceState().dice();
@@ -164,7 +159,6 @@ public class Game implements GameState {
 	private void handleMisthrowException() {
 		executeMissthrowConsequences();
 
-		mLog.log(MessageTexts.getMessage("M014"));
 		ContinueMessage continueMessage = new ContinueMessage("M015");
 		mClientManagement.sendMessage(continueMessage);
 	}

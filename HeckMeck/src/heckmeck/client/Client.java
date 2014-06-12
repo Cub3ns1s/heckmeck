@@ -14,14 +14,12 @@ public class Client implements Runnable{
 	private GameState mGameState;
 	private ObjectOutputStream mOOS;
 	private ObjectInputStream mOIS;
-	private SysoLog mLog;
 	private HeckmeckUI mUI;
 	private String mServerIP;
 
 	// Constructor
 	public Client(String name, HeckmeckUI ui, String ip) {
 		mName = name;
-		mLog = new SysoLog();
 		mUI = ui;
 		mServerIP = ip;
 	}
@@ -41,7 +39,6 @@ public class Client implements Runnable{
 	 */
 	private void logon() {
 		LogonMessage logonMessage = new LogonMessage(mName);
-
 		sendMessage(logonMessage);
 	}
 
@@ -94,7 +91,6 @@ public class Client implements Runnable{
 			e.printStackTrace();
 		} catch (HeckmeckException e) {
 		}
-
 	}
 
 	/**
@@ -132,14 +128,12 @@ public class Client implements Runnable{
 
 	private void processGameEndMessage(ServerMessage serverMessage) {
 		GameEndMessage gameEndMessage = (GameEndMessage) serverMessage;
-		//Beende Spiel!!
 		mUI.endGame(gameEndMessage);
 	}
 
 
 	private void processContinueMessage(ServerMessage serverMessage) {
 		ContinueMessage continueMessage = (ContinueMessage) serverMessage;
-//		mLog.log(continueMessage.getText());
 		mUI.showMessage(continueMessage.getText());
 	}
 
@@ -153,8 +147,6 @@ public class Client implements Runnable{
 		mGameState = gameStateMessage.getGameState();
 
 		printGameState();
-
-
 	}
 
 	/**
@@ -184,6 +176,9 @@ public class Client implements Runnable{
 		mUI.showMessage(message.getText());
 	}
 
+	/**
+	 * @param input
+	 */
 	public void createDecisionMessage(String input) {
 		String decisionString = input.toUpperCase();
 		String dots = decisionString.substring(0, 1);
