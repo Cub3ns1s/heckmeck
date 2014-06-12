@@ -139,7 +139,7 @@ public class Client implements Runnable{
 
 	private void processContinueMessage(ServerMessage serverMessage) {
 		ContinueMessage continueMessage = (ContinueMessage) serverMessage;
-		mLog.log(continueMessage.getText());
+//		mLog.log(continueMessage.getText());
 		mUI.showMessage(continueMessage.getText());
 	}
 
@@ -170,7 +170,7 @@ public class Client implements Runnable{
 	 * @throws HeckmeckException
 	 */
 	private void processFullMessage() throws HeckmeckException {
-		mUI.showMessage(MessageTexts.M001);
+		mUI.showMessage(MessageTexts.getMessage("M001"));
 		throw new HeckmeckException();
 	}
 

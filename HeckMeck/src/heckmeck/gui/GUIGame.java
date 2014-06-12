@@ -40,13 +40,14 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 	private Client mClient;
 	private boolean mEndTurn = false;
 	private String mDiceValue;
-	private JPanel mStatistics;
 	
-	public GUIGame(String name, String ip) {
+	public GUIGame(String name, String ip, String language) {
 		mClient = new Client(name, this, ip);
 		mScreenSize = new Dimension(1000, 800);
 		mPlayerList = new ArrayList<GUIPlayer>();
 
+		new MessageTexts(language);
+		
 		for (int i = 0; i < 4; i++) {
 			mPlayerList.add(new GUIPlayer());
 		}
@@ -107,7 +108,7 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 		JPanel messagePanel = new JPanel();
 		messagePanel.setOpaque(false);
 
-		mMessageLbl = new JLabel(MessageTexts.M002);
+		mMessageLbl = new JLabel(MessageTexts.getMessage("M002"));
 		mMessageLbl.setFont(mMessageLbl.getFont().deriveFont(Font.BOLD, 20));
 		mMessageLbl.setForeground(Color.WHITE);
 
@@ -230,7 +231,7 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 				if (mDiceValue != null) {
 					buildDecision();
 				} else {
-					mMessageLbl.setText(MessageTexts.M003);
+					mMessageLbl.setText(MessageTexts.getMessage("M003"));
 				}
 
 			}
@@ -246,7 +247,7 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 				if (mDiceValue != null) {
 					buildDecision();
 				} else {
-					mMessageLbl.setText(MessageTexts.M003);
+					mMessageLbl.setText(MessageTexts.getMessage("M003"));
 				}
 			}
 		});
@@ -283,7 +284,7 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 			ImageIcon imageIcon = (ImageIcon) label.getIcon();
 			String path = imageIcon.getDescription();
 			mDiceValue = path.substring(1, 2);
-			String message = MessageTexts.M004 + mDiceValue;
+			String message = MessageTexts.getMessage("M004") + mDiceValue;
 			mMessageLbl.setText(message);
 		}
 	}
@@ -292,18 +293,17 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 	public void endGame(GameEndMessage gameEndMessage) {
 		
 		removeAll();
-		mStatistics = new JPanel(null);
-		setSize(mScreenSize);
-		mStatistics.setOpaque(false);
-		add(mStatistics);
+		setLayout(null);
 		
-		JLabel endLbl = new JLabel(MessageTexts.M021);
+		JLabel endLbl = new JLabel(MessageTexts.getMessage("M021"));
 		endLbl.setForeground(Color.WHITE);
 		endLbl.setFont(endLbl.getFont().deriveFont(Font.BOLD, 20));
 		endLbl.setBounds(200, 300, 200, 100);
-		mStatistics.add(endLbl);
+		add(endLbl);
 		
 		prepareEndOutput(gameEndMessage.getmPlayers());
+		revalidate();
+
 	}
 
 	private void prepareEndOutput(List<PlayerState> players) {

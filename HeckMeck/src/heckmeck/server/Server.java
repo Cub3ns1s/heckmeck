@@ -49,12 +49,12 @@ public class Server implements Runnable{
 	public void checkPlayerCount(int playerCount)
 			throws WrongPlayerCountException {
 		if (playerCount < MINPLAYER) {
-			mLog.log(MessageTexts.M016);
+			mLog.log(MessageTexts.getMessage("M016"));
 			throw new WrongPlayerCountException();
 		}
 
 		if (playerCount > MAXPLAYER) {
-			mLog.log(MessageTexts.M017);
+			mLog.log(MessageTexts.getMessage("M017"));
 			throw new WrongPlayerCountException();
 		}
 	}
@@ -77,7 +77,7 @@ public class Server implements Runnable{
 			return;
 		}
 
-		mLog.log(MessageTexts.M018 + mPlayerCount);
+		mLog.log(MessageTexts.getMessage("M018") + mPlayerCount);
 		waitForNewClients();
 
 	}
@@ -149,7 +149,7 @@ public class Server implements Runnable{
 	public void startGameIfAllClientsConnected() {
 
 		if (mClientManagement.isPlayerCountReached()) {
-			mLog.log(MessageTexts.M019);
+			mLog.log(MessageTexts.getMessage("M019"));
 			mGame = new Game(mClientManagement.getPlayerNames(), mClientManagement);
 			sendInitialGameStateMessage();
 		}
@@ -164,7 +164,7 @@ public class Server implements Runnable{
 			mRunning = false;
 			mServerSocket.close();
 			mClientManagement.shutdown();
-			mLog.log(MessageTexts.M020);
+			mLog.log(MessageTexts.getMessage("M020"));
 		} catch (IOException e) {
 			mLog.log(e);
 		}

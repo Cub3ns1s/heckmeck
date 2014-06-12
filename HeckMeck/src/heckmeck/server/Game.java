@@ -59,7 +59,7 @@ public class Game implements GameState {
 	private void setCurrentPlayer(int index) {
 		mCurrentPlayer = mPlayers.get(index);
 		mCurrentPlayer.setTurn(true);
-		mLog.log(mCurrentPlayer.getName() + MessageTexts.M006);
+		mLog.log(mCurrentPlayer.getName() + MessageTexts.getMessage("M006"));
 	}
 
 	private int getPlayerPosition() {
@@ -76,8 +76,8 @@ public class Game implements GameState {
 		if (mCurrentPlayer.getName() != playerName) {
 
 			ContinueMessage continueMessage = new ContinueMessage(
-					MessageTexts.M007 + mCurrentPlayer.getName()
-							+ MessageTexts.M006);
+					MessageTexts.getMessage("M007") + mCurrentPlayer.getName()
+							+ MessageTexts.getMessage("M006"));
 			mClientManagement.sendMessage(continueMessage);
 		} else {
 			try {
@@ -94,7 +94,7 @@ public class Game implements GameState {
 
 			} catch (AlreadyFixedException e) {
 				ContinueMessage continueMessage = new ContinueMessage(
-						MessageTexts.M008);
+						MessageTexts.getMessage("M008"));
 				mClientManagement.sendMessage(continueMessage);
 
 			} catch (ValueNotFoundException e) {
@@ -109,14 +109,18 @@ public class Game implements GameState {
 			validateThrowContainsWorm();
 			transferTokenToCurrentPlayer();
 
-			if (!mGrill.hasActiveTokens()) {
-				// Spiel zu Ende!
-				mLog.log(MessageTexts.M009);
-				prepareEndofGame();
-			}
-
 		} catch (MisthrowDecisionException e) {
 			handleMissthrowDecisionException();
+		}
+
+		isEndOfGame();
+	}
+
+	private void isEndOfGame() {
+		if (!mGrill.hasActiveTokens()) {
+			// Spiel zu Ende!
+//			mLog.log(MessageTexts.M009);
+			prepareEndofGame();
 		}
 	}
 
@@ -126,13 +130,13 @@ public class Game implements GameState {
 	}
 
 	private void handleMissthrowDecisionException() {
-		mLog.log(MessageTexts.M010);
+//		mLog.log(MessageTexts.M010);
 		if (mCurrentPlayer.getDiceState().getUnfixedDices().size() != 0) {
 			try {
 				mCurrentPlayer.getDiceState().dice();
 
 				ContinueMessage continueMessage = new ContinueMessage(
-						MessageTexts.M011);
+						MessageTexts.getMessage("M011"));
 				mClientManagement.sendMessage(continueMessage);
 
 			} catch (MisthrowThrowException e) {
@@ -162,9 +166,9 @@ public class Game implements GameState {
 
 	private void handleMisthrowException() {
 		executeMissthrowConsequences();
-		
-		mLog.log(MessageTexts.M014);
-		ContinueMessage continueMessage = new ContinueMessage(MessageTexts.M015);
+
+		mLog.log(MessageTexts.getMessage("M014"));
+		ContinueMessage continueMessage = new ContinueMessage(MessageTexts.getMessage("M015"));
 		mClientManagement.sendMessage(continueMessage);
 	}
 
@@ -173,6 +177,9 @@ public class Game implements GameState {
 		mCurrentPlayer.getDeck().removeTopToken();
 		mGrill.deactivateHighestToken();
 		setNextTurn();
+				
+		isEndOfGame();
+
 	}
 
 	private void setNextTurn() {
@@ -186,7 +193,7 @@ public class Game implements GameState {
 		}
 
 		ContinueMessage continueMessage = new ContinueMessage(
-				mCurrentPlayer.getName() + MessageTexts.M006);
+				mCurrentPlayer.getName() + MessageTexts.getMessage("M006"));
 		mClientManagement.sendMessage(continueMessage);
 
 	}
@@ -254,12 +261,12 @@ public class Game implements GameState {
 	private int getThrowAmount() {
 		int amount = 0;
 		List<Dice> fixedDices = mCurrentPlayer.getDiceState().getFixedDices();
-		
+
 		for (int i = 0; i < fixedDices.size(); i++) {
 			Dice dice = mCurrentPlayer.getDiceState().getFixedDices().get(i);
 			amount += dice.getValue();
 		}
-		
+
 		return amount;
 	}
 
@@ -273,7 +280,7 @@ public class Game implements GameState {
 				return;
 			}
 		}
-		
+
 		throw new MisthrowDecisionException();
 	}
 

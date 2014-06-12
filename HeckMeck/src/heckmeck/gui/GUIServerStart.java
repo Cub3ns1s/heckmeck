@@ -45,7 +45,7 @@ public class GUIServerStart extends GUIBackground {
 		setLayout(null);
 		setSize(new Dimension(400, 300));
 
-		mAmount = new JLabel("Anzahl Spieler: ");
+		mAmount = new JLabel("Amount players: ");
 		mAmount.setBounds(100, 80, 100, 20);
 		mAmount.setForeground(Color.WHITE);
 		add(mAmount);
@@ -80,7 +80,7 @@ public class GUIServerStart extends GUIBackground {
 	);
 		setVisible(true);
 	}
-	
+
 	private void startServer() {
 		String amountPlayers = mInputText.getText();
 		mInputText.setEnabled(false);		
