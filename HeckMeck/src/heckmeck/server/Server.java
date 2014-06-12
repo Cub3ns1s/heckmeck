@@ -24,6 +24,7 @@ public class Server implements Runnable{
 		mLog = new SysoLog();
 		mClientManagement = new ClientManagement(mPlayerCount);
 		
+		new MessageTexts("English");
 		
 	}
 

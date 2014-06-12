@@ -63,7 +63,7 @@ public class GUILogon extends GUIBackground {
 		mPicture.setBounds(325, 180, 292, 226);
 		mPicture.repaint();
 		mMain.add(mPicture);
-
+		
 		mName = new JLabel("Name: ");
 		mName.setBounds(390, 440, 100, 20);
 		mName.setForeground(Color.WHITE);
@@ -87,7 +87,7 @@ public class GUILogon extends GUIBackground {
 		mLanguageDD = new JComboBox<String>(languages);
 		mLanguageDD.setSelectedIndex(0);
 		mLanguageDD.setBounds(440, 500, 100, 20);
-		add(mLanguageDD);
+		mMain.add(mLanguageDD);
 
 		mLogon = new JButton("Logon");
 		mLogon.setBounds(355, 550, 110, 20);

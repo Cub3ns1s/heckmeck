@@ -1,6 +1,7 @@
 package heckmeck.gui;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
@@ -15,6 +16,7 @@ public class GUIClient extends JFrame {
 	
 	public GUIClient() {
 		setTitle("Heckmeck");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("ww2.gif"));
 		setSize(new Dimension(1000, 800));
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

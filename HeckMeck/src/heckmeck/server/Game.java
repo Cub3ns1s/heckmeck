@@ -75,9 +75,7 @@ public class Game implements GameState {
 	public GameState move(DecisionMessage decision, String playerName) {
 		if (mCurrentPlayer.getName() != playerName) {
 
-			ContinueMessage continueMessage = new ContinueMessage(
-					MessageTexts.getMessage("M007") + mCurrentPlayer.getName()
-							+ MessageTexts.getMessage("M006"));
+			ContinueMessage continueMessage = new ContinueMessage( "M007" );
 			mClientManagement.sendMessage(continueMessage);
 		} else {
 			try {
@@ -135,8 +133,7 @@ public class Game implements GameState {
 			try {
 				mCurrentPlayer.getDiceState().dice();
 
-				ContinueMessage continueMessage = new ContinueMessage(
-						MessageTexts.getMessage("M011"));
+				ContinueMessage continueMessage = new ContinueMessage("M011");
 				mClientManagement.sendMessage(continueMessage);
 
 			} catch (MisthrowThrowException e) {
@@ -168,7 +165,7 @@ public class Game implements GameState {
 		executeMissthrowConsequences();
 
 		mLog.log(MessageTexts.getMessage("M014"));
-		ContinueMessage continueMessage = new ContinueMessage(MessageTexts.getMessage("M015"));
+		ContinueMessage continueMessage = new ContinueMessage("M015");
 		mClientManagement.sendMessage(continueMessage);
 	}
 
@@ -192,8 +189,7 @@ public class Game implements GameState {
 			setCurrentPlayer((getPlayerPosition() + 1));
 		}
 
-		ContinueMessage continueMessage = new ContinueMessage(
-				mCurrentPlayer.getName() + MessageTexts.getMessage("M006"));
+		ContinueMessage continueMessage = new ContinueMessage("M006");
 		mClientManagement.sendMessage(continueMessage);
 
 	}
