@@ -88,8 +88,7 @@ public class Game implements GameState {
 				}
 
 			} catch (AlreadyFixedException e) {
-				ContinueMessage continueMessage = new ContinueMessage(
-						MessageTexts.getMessage("M008"));
+				ContinueMessage continueMessage = new ContinueMessage( "M008" );
 				mClientManagement.sendMessage(continueMessage);
 
 			} catch (ValueNotFoundException e) {

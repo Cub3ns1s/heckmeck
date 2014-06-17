@@ -293,12 +293,13 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 	public void endGame(GameEndMessage gameEndMessage) {
 		
 		removeAll();
+		revalidate();
 		setLayout(null);
 		
 		JLabel endLbl = new JLabel(MessageTexts.getMessage("M021"));
 		endLbl.setForeground(Color.WHITE);
 		endLbl.setFont(endLbl.getFont().deriveFont(Font.BOLD, 20));
-		endLbl.setBounds(200, 300, 200, 100);
+		endLbl.setBounds(330, 100, 500, 100);
 		add(endLbl);
 		
 		prepareEndOutput(gameEndMessage.getmPlayers());
@@ -308,6 +309,43 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 
 	private void prepareEndOutput(List<PlayerState> players) {
 		
+		String winnerTmp = null;
+		int amountTmp = 0;
+		int boundX = 330;
+		int boundY = 200;
+		
+		for (int i = 0; i < players.size(); i++) {
+			PlayerState player = players.get(i);
+			
+			int amountWorms = player.getDeck().getWorms();
+			String text = MessageTexts.getMessage("M022") + player.getName() + ": " + String.valueOf(amountWorms);
+
+			if (amountWorms > amountTmp) {
+				winnerTmp = player.getName();
+			} 
+			
+			JLabel worms = new JLabel(text);
+			worms.setForeground(Color.WHITE);			
+			worms.setBounds(boundX,boundY,300, 100);
+			add(worms);
+			revalidate();
+			
+			boundY += 30;
+		}
+		
+		JLabel winner = new JLabel((MessageTexts.getMessage("M023") + winnerTmp + "!"));
+		winner.setForeground(Color.WHITE);
+		winner.setFont(winner.getFont().deriveFont(Font.BOLD, 20));
+		winner.setBounds(330, 320, 500,100);
+		add(winner);
+		revalidate();
+		
+		JLabel congrats = new JLabel(MessageTexts.getMessage("M024"));
+		congrats.setForeground(Color.WHITE);
+		congrats.setFont(congrats.getFont().deriveFont(Font.BOLD, 20));
+		congrats.setBounds(330, 345, 500,100);
+		add(congrats);
+		revalidate();
 	}
 
 }
