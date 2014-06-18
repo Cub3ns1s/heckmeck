@@ -2,7 +2,6 @@ package heckmeck.gui;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -14,10 +13,10 @@ public class GUIBackground extends JPanel {
 	private BufferedImage img;
 	 
 	  public GUIBackground() {
-	    // load the background image
 		  setLayout(null);
 	    try {
-	      img = ImageIO.read(new File("holz.jpg"));
+//	      img = ImageIO.read(new File("holz.jpg"));
+	      img = ImageIO.read(getClass().getResource("/heckmeck/pictures/holz.jpg"));
 	    } catch(IOException e) {
 	      e.printStackTrace();
 	    }

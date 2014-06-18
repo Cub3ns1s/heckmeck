@@ -94,8 +94,8 @@ public class GUIPlayer extends GUIBackground {
 			return;
 		}
 		
-		String path = topToken.getValue() + ".png";
-		ImageIcon imageIcon = new ImageIcon(path);
+		String path = "/heckmeck/pictures/" + topToken.getValue() + ".png";
+		ImageIcon imageIcon = new ImageIcon(getClass().getResource(path));
 		GUIGame.resizeImageIcon(imageIcon);
 		mTopTokenPanel.add(new JLabel(imageIcon));
 		revalidate();
@@ -107,8 +107,8 @@ public class GUIPlayer extends GUIBackground {
 		
 		for (int i = 0; i < fixedDices.size(); i++) {
 			Dice dice = fixedDices.get(i);
-			String path = "W" + dice.getLabel() + ".png";
-			ImageIcon imageIcon = new ImageIcon(path);
+			String path = "/heckmeck/pictures/W" + dice.getLabel() + ".png";
+			ImageIcon imageIcon = new ImageIcon(getClass().getResource(path));
 			GUIGame.resizeImageIcon(imageIcon);
 			mFixedDicesPanel.add(new JLabel(imageIcon));
 			revalidate();

@@ -59,7 +59,7 @@ public class GUILogon extends GUIBackground {
 
 		};
 
-		mPicture = new JLabel(new ImageIcon("huehner.gif"));
+		mPicture = new JLabel(new ImageIcon(getClass().getResource("/heckmeck/pictures/huehner.gif")));
 		mPicture.setBounds(325, 180, 292, 226);
 		mPicture.repaint();
 		mMain.add(mPicture);

@@ -182,13 +182,13 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 
 		for (Token token : tokenList) {
 			if (token.isActive()) {
-				path = token.getValue() + ".png";
+				path = "/heckmeck/pictures/" + token.getValue() + ".png";
 
 			} else {
-				path = "inactiveToken.png";
+				path = "/heckmeck/pictures/inactiveToken.png";
 			}
 
-			ImageIcon imageIcon = new ImageIcon(path);
+			ImageIcon imageIcon = new ImageIcon(getClass().getResource(path));
 			resizeImageIcon(imageIcon);
 
 			mCenterGrillPanel.add(new JLabel(imageIcon));
@@ -205,12 +205,12 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 				.getDiceState().getUnfixedDices();
 
 		for (Dice dice : unfixedDices) {
-			String path = "W" + dice.getLabel() + ".png";
+			String path = "/heckmeck/pictures/W" + dice.getLabel() + ".png";
 
-			ImageIcon imageIcon = new ImageIcon(path);
+			ImageIcon imageIcon = new ImageIcon(getClass().getResource(path));
 			resizeImageIcon(imageIcon);
 			JLabel label = new JLabel(imageIcon);
-			label.addMouseListener(new MouseHandler());
+			label.addMouseListener(new MouseHandler(dice.getLabel()));
 			mCenterDicePanel.add(label);
 
 		}
@@ -278,12 +278,14 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 	}
 
 	private class MouseHandler extends MouseAdapter {
+		String mLocalDiceValue; 
+		
+		public MouseHandler(String diceValue){
+			mLocalDiceValue = diceValue;
+		}
+		
 		public void mouseClicked(MouseEvent event) {
-			mMessageLbl.setText(null);
-			JLabel label = (JLabel) event.getSource();
-			ImageIcon imageIcon = (ImageIcon) label.getIcon();
-			String path = imageIcon.getDescription();
-			mDiceValue = path.substring(1, 2);
+			mDiceValue = mLocalDiceValue; 
 			String message = MessageTexts.getMessage("M004") + mDiceValue;
 			mMessageLbl.setText(message);
 		}
