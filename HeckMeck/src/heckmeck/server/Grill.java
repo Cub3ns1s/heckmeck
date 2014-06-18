@@ -21,7 +21,7 @@ public class Grill implements Serializable {
 	 */
 	private void init() {
 		mTokens = new ArrayList<Token>();
-		for (int i = 21; i < 25; i++) {
+		for (int i = 21; i < 37; i++) {
 			this.mTokens.add(new Token(i));
 		}
 	}

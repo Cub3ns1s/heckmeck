@@ -15,7 +15,6 @@ public class GUIBackground extends JPanel {
 	  public GUIBackground() {
 		  setLayout(null);
 	    try {
-//	      img = ImageIO.read(new File("holz.jpg"));
 	      img = ImageIO.read(getClass().getResource("/heckmeck/pictures/holz.jpg"));
 	    } catch(IOException e) {
 	      e.printStackTrace();
