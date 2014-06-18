@@ -222,7 +222,7 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 	private void insertButton() {
 		mCenterButtonPanel.removeAll();
 
-		JButton buttonContinue = new JButton("Continue Turn");
+		JButton buttonContinue = new JButton(MessageTexts.getMessage("M025"));
 		buttonContinue.addActionListener(new ActionListener() {
 
 			@Override
@@ -238,7 +238,7 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 		});
 		mCenterButtonPanel.add(buttonContinue);
 
-		JButton buttonStop = new JButton("End Turn");
+		JButton buttonStop = new JButton(MessageTexts.getMessage("M026"));
 		buttonStop.addActionListener(new ActionListener() {
 
 			@Override
