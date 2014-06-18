@@ -15,7 +15,7 @@ public class Server implements Runnable{
 	private int mPlayerCount;
 	private static final int MINPLAYER = 2;
 	private static final int MAXPLAYER = 4;
-	private Logger mLog;
+	private SysoLog mLog;
 	private boolean mRunning = true;
 	
 	// Constructor

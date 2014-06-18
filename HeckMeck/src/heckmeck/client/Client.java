@@ -2,7 +2,6 @@ package heckmeck.client;
 
 import heckmeck.exceptions.*;
 import heckmeck.server.*;
-
 import java.io.*;
 import java.net.*;
 
