@@ -1,5 +1,8 @@
 package heckmeck.gui;
 
+import heckmeck.client.HeckmeckUI;
+import heckmeck.server.GameEndMessage;
+import heckmeck.server.GameState;
 import heckmeck.server.Server;
 
 import java.awt.Color;
@@ -9,9 +12,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class GUIServerStart extends GUIBackground {
+public class GUIServerStart extends GUIBackground implements HeckmeckUI {
 
 	private static final long serialVersionUID = -1432504468764188547L;
 	private JLabel mAmount;
@@ -34,7 +38,7 @@ public class GUIServerStart extends GUIBackground {
 					mInputText.setEnabled(false);
 					mBtnStart.setText("End server");
 					
-					mServer = new Server(Integer.valueOf(amountPlayers));
+					mServer = new Server(Integer.valueOf(amountPlayers), GUIServerStart.this);
 				}
 				else {
 					mServer.shutdown();
@@ -86,7 +90,7 @@ public class GUIServerStart extends GUIBackground {
 		mInputText.setEnabled(false);		
 		remove( mBtnStart);
 		add(mBtnStop);			
-		mServer = new Server(Integer.valueOf(amountPlayers));
+		mServer = new Server(Integer.valueOf(amountPlayers), this);
 		new Thread( mServer ).start();
 	}
 	private void stopServer( ){
@@ -94,6 +98,24 @@ public class GUIServerStart extends GUIBackground {
 		add(mBtnStart);		
 		mInputText.setEnabled(true);
 		mServer.shutdown();
+	}
+
+	@Override
+	public void update(GameState gameState) {
+		// not needed
+	}
+
+	@Override
+	public void showMessage(String message) {
+		JOptionPane.showMessageDialog(this,
+			    message,
+			    "Server warning",
+			    JOptionPane.WARNING_MESSAGE);
+	}
+
+	@Override
+	public void endGame(GameEndMessage gameEndMessage) {
+		// not needed
 	}
 
 }

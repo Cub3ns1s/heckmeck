@@ -1,5 +1,6 @@
 package heckmeck.server;
 
+import heckmeck.client.HeckmeckUI;
 import heckmeck.exceptions.WrongPlayerCountException;
 
 import java.io.*;
@@ -15,13 +16,15 @@ public class Server implements Runnable{
 	private int mPlayerCount;
 	private static final int MINPLAYER = 2;
 	private static final int MAXPLAYER = 4;
-	private SysoLog mLog;
+//	private SysoLog mLog;
 	private boolean mRunning = true;
+	private HeckmeckUI mUI;
 	
 	// Constructor
-	public Server(int playerCount) {
+	public Server(int playerCount, HeckmeckUI ui) {
 		mPlayerCount = playerCount;
-		mLog = new SysoLog();
+		mUI = ui;
+//		mLog = new SysoLog();
 		mClientManagement = new ClientManagement(mPlayerCount);
 		
 		new MessageTexts("English");
@@ -50,12 +53,12 @@ public class Server implements Runnable{
 	public void checkPlayerCount(int playerCount)
 			throws WrongPlayerCountException {
 		if (playerCount < MINPLAYER) {
-			mLog.log(MessageTexts.getMessage("M016"));
+			mUI.showMessage(MessageTexts.getMessage("M016") + " " + MINPLAYER);
 			throw new WrongPlayerCountException();
 		}
 
 		if (playerCount > MAXPLAYER) {
-			mLog.log(MessageTexts.getMessage("M017"));
+			mUI.showMessage(MessageTexts.getMessage("M017") + " " + MAXPLAYER);
 			throw new WrongPlayerCountException();
 		}
 	}
@@ -78,7 +81,7 @@ public class Server implements Runnable{
 			return;
 		}
 
-		mLog.log(MessageTexts.getMessage("M018") + mPlayerCount);
+//		mLog.log(MessageTexts.getMessage("M018") + mPlayerCount);
 		waitForNewClients();
 
 	}
@@ -101,7 +104,7 @@ public class Server implements Runnable{
 
 				startGameIfAllClientsConnected();
 			} catch (IOException e) {
-				mLog.log(e);
+//				mLog.log(e);
 			}
 			
 		}
@@ -150,7 +153,7 @@ public class Server implements Runnable{
 	public void startGameIfAllClientsConnected() {
 
 		if (mClientManagement.isPlayerCountReached()) {
-			mLog.log(MessageTexts.getMessage("M019"));
+//			mLog.log(MessageTexts.getMessage("M019"));
 			mGame = new Game(mClientManagement.getPlayerNames(), mClientManagement);
 			sendInitialGameStateMessage();
 		}
@@ -165,9 +168,9 @@ public class Server implements Runnable{
 			mRunning = false;
 			mServerSocket.close();
 			mClientManagement.shutdown();
-			mLog.log(MessageTexts.getMessage("M020"));
+//			mLog.log(MessageTexts.getMessage("M020"));
 		} catch (IOException e) {
-			mLog.log(e);
+//			mLog.log(e);
 		}
 	}
 
