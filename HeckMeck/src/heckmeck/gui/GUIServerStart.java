@@ -32,15 +32,15 @@ public class GUIServerStart extends GUIBackground implements HeckmeckUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JButton button = (JButton) e.getSource();
-				
+
 				if (button.getText().equals("Start Server")) {
 					String amountPlayers = mInputText.getText();
 					mInputText.setEnabled(false);
 					mBtnStart.setText("End server");
-					
-					mServer = new Server(Integer.valueOf(amountPlayers), GUIServerStart.this);
-				}
-				else {
+
+					mServer = new Server(Integer.valueOf(amountPlayers),
+							GUIServerStart.this);
+				} else {
 					mServer.shutdown();
 				}
 			}
@@ -68,34 +68,33 @@ public class GUIServerStart extends GUIBackground implements HeckmeckUI {
 		mBtnStart.setBounds(125, 140, 150, 20);
 		mBtnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					startServer( );
-				}
+				startServer();
 			}
-		);
+		});
 		add(mBtnStart);
 
 		mBtnStop = new JButton("Stop Server");
 		mBtnStop.setBounds(125, 140, 150, 20);
 		mBtnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				stopServer( );
+				stopServer();
 			}
-		}
-	);
+		});
 		setVisible(true);
 	}
 
 	private void startServer() {
 		String amountPlayers = mInputText.getText();
-		mInputText.setEnabled(false);		
-		remove( mBtnStart);
-		add(mBtnStop);			
+		mInputText.setEnabled(false);
+		remove(mBtnStart);
+		add(mBtnStop);
 		mServer = new Server(Integer.valueOf(amountPlayers), this);
-		new Thread( mServer ).start();
+		new Thread(mServer).start();
 	}
-	private void stopServer( ){
-		remove( mBtnStop);
-		add(mBtnStart);		
+
+	private void stopServer() {
+		remove(mBtnStop);
+		add(mBtnStart);
 		mInputText.setEnabled(true);
 		mServer.shutdown();
 	}
@@ -107,10 +106,8 @@ public class GUIServerStart extends GUIBackground implements HeckmeckUI {
 
 	@Override
 	public void showMessage(String message) {
-		JOptionPane.showMessageDialog(this,
-			    message,
-			    "Server warning",
-			    JOptionPane.WARNING_MESSAGE);
+		JOptionPane.showMessageDialog(this, message, "Server warning",
+				JOptionPane.WARNING_MESSAGE);
 	}
 
 	@Override

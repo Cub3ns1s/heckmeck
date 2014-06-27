@@ -2,8 +2,11 @@ package heckmeck.client;
 
 import heckmeck.exceptions.*;
 import heckmeck.server.*;
+
 import java.io.*;
 import java.net.*;
+
+import javax.swing.JOptionPane;
 
 public class Client implements Runnable{
 
@@ -160,8 +163,11 @@ public class Client implements Runnable{
 	 * 
 	 * @throws HeckmeckException
 	 */
-	private void processFullMessage() throws HeckmeckException {
-		mUI.showMessage(MessageTexts.getMessage("M001"));
+	private void processFullMessage() throws HeckmeckException {		
+		JOptionPane.showMessageDialog(null, MessageTexts.getMessage("M001"), "Server error",
+				JOptionPane.ERROR_MESSAGE);
+		
+//		mUI.showMessage(MessageTexts.getMessage("M001"));
 		throw new HeckmeckException();
 	}
 
