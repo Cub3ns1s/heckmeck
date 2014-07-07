@@ -83,7 +83,7 @@ public class GUILogon extends GUIBackground {
 		mInputIP.setText("127.0.0.1");
 		mMain.add(mInputIP);
 
-		String languages[] = { "Deutsch", "English" };
+		String languages[] = { "English", "Deutsch" };
 		mLanguageDD = new JComboBox<String>(languages);
 		mLanguageDD.setSelectedIndex(0);
 		mLanguageDD.setBounds(440, 500, 100, 20);
