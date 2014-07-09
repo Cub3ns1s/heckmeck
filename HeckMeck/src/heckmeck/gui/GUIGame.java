@@ -260,6 +260,7 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 
 			if (amountWorms > amountTmp) {
 				winnerTmp = player.getName();
+				amountTmp = amountWorms;
 			}
 
 			JLabel worms = new JLabel(text);

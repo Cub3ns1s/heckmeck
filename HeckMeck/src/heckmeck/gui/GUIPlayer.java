@@ -11,6 +11,9 @@ import heckmeck.server.*;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
 
 public class GUIPlayer extends GUIBackground {
 
@@ -122,15 +125,10 @@ public class GUIPlayer extends GUIBackground {
 
 	private void markCurrentPlayer(boolean isTurn) {
 		if (isTurn) {
-			// setBackground(new Color(254, 1, 7));
-			// mFixedDicesPanel.setBackground(new Color(254, 1, 7));
-			// mTopTokenPanel.setBackground(new Color(254, 1, 7));
-			// mLabelPanel.setBackground(new Color(254, 1, 7));
+			Border margin = new LineBorder(Color.WHITE, 4);
+			setBorder(new CompoundBorder(null, margin));
 		} else {
-			// setBackground(GUIClient.BACKGROUNDCOLOR);
-			// mFixedDicesPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-			// mTopTokenPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
-			// mLabelPanel.setBackground(GUIClient.BACKGROUNDCOLOR);
+			setBorder(null);
 		}
 	}
 }
