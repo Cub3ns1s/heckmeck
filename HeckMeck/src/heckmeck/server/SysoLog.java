@@ -2,13 +2,11 @@ package heckmeck.server;
 
 import java.io.IOException;
 
-public class SysoLog{
-
+public class SysoLog {
 
 	public void log(String message) {
 		System.out.println(message);
 	}
-
 
 	public void log(IOException e) {
 		for (int i = 0; i < e.getStackTrace().length; i++) {
@@ -16,5 +14,4 @@ public class SysoLog{
 			log(ste.toString());
 		}
 	}
-
 }

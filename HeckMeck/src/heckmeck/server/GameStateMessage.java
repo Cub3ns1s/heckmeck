@@ -16,11 +16,6 @@ public class GameStateMessage extends ServerMessage {
 		this.mType = GAMESTATE;
 	}
 
-	/**
-	 * gets game state
-	 * 
-	 * @return
-	 */
 	public GameState getGameState() {
 		return mGameState;
 	}
@@ -29,6 +24,4 @@ public class GameStateMessage extends ServerMessage {
 	public String getMessageType() {
 		return mType;
 	}
-
-
 }

@@ -17,14 +17,7 @@ public class Token implements Comparable<Token>, Serializable {
 		this.mWorms = getWormsForValue(m_value);
 	}
 
-	/**
-	 * returns amount of worms for value
-	 * 
-	 * @param value
-	 * @return 
-	 */
 	private int getWormsForValue(int value) {
-
 		if (value <= 24) {
 			return 1;
 		}
@@ -38,45 +31,22 @@ public class Token implements Comparable<Token>, Serializable {
 		}
 	}
 
-	/**
-	 * returns if token is active or not
-	 * 
-	 * @return 
-	 */
 	public boolean isActive() {
 		return mActive;
 	}
 
-	/**
-	 * returns value of token
-	 * 
-	 * @return 
-	 */
 	public int getValue() {
 		return mValue;
 	}
 
-	/**
-	 * returns amount of worms of token
-	 * 
-	 * @return 
-	 */
 	public int getWorms() {
 		return mWorms;
 	}
 
-	/**
-	 * deactivates token
-	 */
 	public void deactivate() {
 		mActive = false;
 	}
 
-	/**
-	 * compares token to another token
-	 * 
-	 * @return 
-	 */
 	public int compareTo(Token other) {
 		Token otherToken = other;
 		return mValue - otherToken.mValue;
@@ -86,6 +56,4 @@ public class Token implements Comparable<Token>, Serializable {
 	public String toString() {
 		return mValue + " - " + mWorms + "\n";
 	}
-	
-	
 }

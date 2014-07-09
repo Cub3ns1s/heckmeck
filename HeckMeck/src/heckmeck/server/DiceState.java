@@ -14,7 +14,6 @@ public class DiceState implements Serializable {
 
 	// Constructor
 	public DiceState() {
-
 		mUnfixedDices = new ArrayList<Dice>();
 		mFixedDices = new ArrayList<Dice>();
 
@@ -28,74 +27,11 @@ public class DiceState implements Serializable {
 		}
 	}
 
-	/**
-	 * gets list of unfixed dices
-	 * 
-	 * @return
-	 */
-	public List<Dice> getUnfixedDices() {
-		return mUnfixedDices;
-	}
-
-	/**
-	 * sets list of unfixed dices
-	 * 
-	 * @param unfixedDices
-	 */
-	public void setmUnfixedDices(List<Dice> unfixedDices) {
-		this.mUnfixedDices = unfixedDices;
-	}
-
-	/**
-	 * gets list of fixed dices
-	 * 
-	 * @return
-	 */
-	public List<Dice> getFixedDices() {
-		return mFixedDices;
-	}
-
-	/**
-	 * set list of fixed dices
-	 * 
-	 * @param fixedDices
-	 */
-	public void setmFixedDices(List<Dice> fixedDices) {
-		this.mFixedDices = fixedDices;
-	}
-
-	/**
-	 * returns sum of diced dices
-	 * 
-	 * @return
-	 */
-	public int getDicedValue() {
-
-		int result = 0;
-
-		for (Iterator<Dice> iterator = mFixedDices.iterator(); iterator
-				.hasNext();) {
-			Dice dice = iterator.next();
-
-			result = dice.getValue();
-		}
-
-		return result;
-	}
-
-	/**
-	 * dices all unfixed dices
-	 * 
-	 * @throws MisthrowException
-	 */
 	public void dice() throws MisthrowThrowException {
-
-		
-		
 		for (int i = 0; i < mUnfixedDices.size(); i++) {
 			mUnfixedDices.get(i).dice();
 		}
-		
+
 		if (isMisthrow()) {
 			throw new MisthrowThrowException();
 		}
@@ -103,54 +39,6 @@ public class DiceState implements Serializable {
 		sort();
 	}
 
-	/**
-	 * checks whether a misthrow occured
-	 * 
-	 * @return
-	 */
-	private boolean isMisthrow() {
-		return validateValueFixed();
-	}
-
-	private boolean validateValueFixed() {
-		
-		for (int i = 0; i < mUnfixedDices.size(); i++) {
-			
-			if(!isValueFixed(mUnfixedDices.get(i).getLabel())){
-				return false;
-			}
-			
-		}
-
-		return true;
-	}
-
-	/**
-	 * checks whether value is fixed
-	 * 
-	 * @param value
-	 * @return
-	 */
-	private boolean isValueFixed(String label) {
-		for (int i = 0; i < mFixedDices.size(); i++) {
-			
-			Dice dice = mFixedDices.get(i);
-					
-			if (dice.getLabel().equals(label)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * fixes all dices with given value
-	 * 
-	 * @param value
-	 * @throws AlreadyFixedException
-	 * @throws ValueNotFoundException
-	 */
 	public void fixValue(String label) throws AlreadyFixedException,
 			ValueNotFoundException {
 		boolean valueFound = false;
@@ -177,20 +65,77 @@ public class DiceState implements Serializable {
 		}
 	}
 
-	/**
-	 * clears list of fixed dices and resets dicestate
-	 */
-	public void clear() {
+	private void sort() {
+		Collections.sort(mFixedDices);
+		Collections.sort(mUnfixedDices);
+	}
 
+	public void clear() {
 		mUnfixedDices.addAll(mFixedDices);
 		mFixedDices.clear();
 
 		assert (mUnfixedDices.size() == 8);
 		try {
-			dice( );
+			dice();
 		} catch (MisthrowThrowException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public int getDicedValue() {
+		int result = 0;
+
+		for (Iterator<Dice> iterator = mFixedDices.iterator(); iterator
+				.hasNext();) {
+			Dice dice = iterator.next();
+
+			result = dice.getValue();
+		}
+
+		return result;
+	}
+
+	private boolean validateValueFixed() {
+		for (int i = 0; i < mUnfixedDices.size(); i++) {
+
+			if (!isValueFixed(mUnfixedDices.get(i).getLabel())) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private boolean isValueFixed(String label) {
+		for (int i = 0; i < mFixedDices.size(); i++) {
+			Dice dice = mFixedDices.get(i);
+
+			if (dice.getLabel().equals(label)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isMisthrow() {
+		return validateValueFixed();
+	}
+
+	public List<Dice> getUnfixedDices() {
+		return mUnfixedDices;
+	}
+
+	public void setUnfixedDices(List<Dice> unfixedDices) {
+		this.mUnfixedDices = unfixedDices;
+	}
+
+	public List<Dice> getFixedDices() {
+		return mFixedDices;
+	}
+
+	public void setFixedDices(List<Dice> fixedDices) {
+		this.mFixedDices = fixedDices;
 	}
 
 	@Override
@@ -212,13 +157,5 @@ public class DiceState implements Serializable {
 			sB.append(dice.getLabel() + " ");
 		}
 		return sB.toString();
-	}
-
-	/**
-	 * sorts lists of fixed and unfixed dices
-	 */
-	private void sort() {
-		Collections.sort(mFixedDices);
-		Collections.sort(mUnfixedDices);
 	}
 }

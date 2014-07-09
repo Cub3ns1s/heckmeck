@@ -1,6 +1,5 @@
 package heckmeck.server;
 
-import heckmeck.exceptions.NoTokenFoundException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -15,12 +14,16 @@ public class Deck implements Serializable {
 		this.mToken = new ArrayList<Token>();
 	}
 
-	/**
-	 * returns token on top of deck
-	 * 
-	 * @return
-	 * @throws NoTokenFoundException
-	 */
+	public void addToken(Token token) {
+		mToken.add(token);
+	}
+
+	public void removeTopToken() {
+		if (mToken.size() > 0) {
+			mToken.remove((mToken.size() - 1));
+		}
+	}
+
 	public Token getTopToken() {
 		if (mToken.size() != 0) {
 			return mToken.get((mToken.size() - 1));
@@ -29,36 +32,10 @@ public class Deck implements Serializable {
 		}
 	}
 
-	/**
-	 * returns size of deck
-	 * 
-	 * @return
-	 */
 	public int getSize() {
 		return mToken.size();
 	}
 
-	/**
-	 * adds token to deck
-	 * 
-	 * @param token
-	 */
-	public void addToken(Token token) {
-		mToken.add(token);
-	}
-
-	/**
-	 * removes token from deck
-	 */
-	public void removeTopToken() {
-		if(mToken.size() > 0) {
-		mToken.remove((mToken.size() - 1));
-		}
-	}
-
-	/**
-	 * @return
-	 */
 	public int getWorms() {
 		int result = 0;
 

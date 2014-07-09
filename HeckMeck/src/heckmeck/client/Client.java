@@ -8,7 +8,7 @@ import java.net.*;
 
 import javax.swing.JOptionPane;
 
-public class Client implements Runnable{
+public class Client implements Runnable {
 
 	// Attributes
 	private Socket mSocket;
@@ -19,36 +19,24 @@ public class Client implements Runnable{
 	private HeckmeckUI mUI;
 	private String mServerIP;
 
-	// Constructor
+	//Constructor
 	public Client(String name, HeckmeckUI ui, String ip) {
 		mName = name;
 		mUI = ui;
 		mServerIP = ip;
 	}
 
-
-	/**
-	 * starts client
-	 */
 	public void run() {
 		initConnection(mServerIP);
 		logon();
 		waitForServerMessages();
 	}
 
-	/**
-	 * logs client on and sends message to server
-	 */
 	private void logon() {
 		LogonMessage logonMessage = new LogonMessage(mName);
 		sendMessage(logonMessage);
 	}
 
-	/**
-	 * inits connection of client
-	 * 
-	 * @param ip
-	 */
 	private void initConnection(String ip) {
 		try {
 			mSocket = new Socket(ip, 23534);
@@ -59,11 +47,6 @@ public class Client implements Runnable{
 		}
 	}
 
-	/**
-	 * sends message to server
-	 * 
-	 * @param message
-	 */
 	private void sendMessage(ClientMessage message) {
 		try {
 			mOOS.writeObject(message);
@@ -72,9 +55,6 @@ public class Client implements Runnable{
 		}
 	}
 
-	/**
-	 * waits for message from server
-	 */
 	private void waitForServerMessages() {
 		try {
 			do {
@@ -95,12 +75,6 @@ public class Client implements Runnable{
 		}
 	}
 
-	/**
-	 * processes Message
-	 * 
-	 * @param serverMessage
-	 * @throws HeckmeckException
-	 */
 	private void processMessage(ServerMessage serverMessage)
 			throws HeckmeckException {
 
@@ -123,6 +97,7 @@ public class Client implements Runnable{
 
 		case ServerMessage.GAMEEND:
 			processGameEndMessage(serverMessage);
+			
 		default:
 			break;
 		}
@@ -133,17 +108,11 @@ public class Client implements Runnable{
 		mUI.endGame(gameEndMessage);
 	}
 
-
 	private void processContinueMessage(ServerMessage serverMessage) {
 		ContinueMessage continueMessage = (ContinueMessage) serverMessage;
 		mUI.showMessage(continueMessage.getText());
 	}
 
-	/**
-	 * processes GameStateMessage
-	 * 
-	 * @param serverMessage
-	 */
 	private void processGameStateMessage(ServerMessage serverMessage) {
 		GameStateMessage gameStateMessage = (GameStateMessage) serverMessage;
 		mGameState = gameStateMessage.getGameState();
@@ -151,39 +120,18 @@ public class Client implements Runnable{
 		printGameState();
 	}
 
-	/**
-	 * prints Game State
-	 */
-	private void printGameState() {
-		mUI.update(mGameState);
-	}
+	private void processFullMessage() throws HeckmeckException {
+		JOptionPane.showMessageDialog(null, MessageTexts.getMessage("M001"),
+				"Server error", JOptionPane.ERROR_MESSAGE);
 
-	/**
-	 * processes Message when server is full
-	 * 
-	 * @throws HeckmeckException
-	 */
-	private void processFullMessage() throws HeckmeckException {		
-		JOptionPane.showMessageDialog(null, MessageTexts.getMessage("M001"), "Server error",
-				JOptionPane.ERROR_MESSAGE);
-		
-//		mUI.showMessage(MessageTexts.getMessage("M001"));
 		throw new HeckmeckException();
 	}
 
-	/**
-	 * processes Welcome Message
-	 * 
-	 * @param serverMessage
-	 */
 	private void processWelcomeMessage(ServerMessage serverMessage) {
 		WelcomeMessage message = (WelcomeMessage) serverMessage;
 		mUI.showMessage(message.getText());
 	}
 
-	/**
-	 * @param input
-	 */
 	public void createDecisionMessage(String input) {
 		String decisionString = input.toUpperCase();
 		String dots = decisionString.substring(0, 1);
@@ -191,6 +139,10 @@ public class Client implements Runnable{
 		DecisionMessage decision = new DecisionMessage(dots, proceed);
 
 		sendMessage(decision);
+	}
+
+	private void printGameState() {
+		mUI.update(mGameState);
 	}
 
 }

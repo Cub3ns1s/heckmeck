@@ -14,28 +14,6 @@ public class ClientManagement {
 		this.mPlayerCount = playerCount;
 	}
 
-	/**
-	 * Adds client to list
-	 * 
-	 * @param clientListener
-	 */
-	public void addClient(ClientConnection clientConnection) {
-		this.mClients.add(clientConnection);
-	}
-
-	/**
-	 * checks if all players are connected and have sent their logon messages
-	 */
-	public boolean isPlayerCountReached() {
-
-		return (mClients.size() == mPlayerCount);
-	}
-
-	/**
-	 * sends message
-	 * 
-	 * @param message
-	 */
 	public void sendMessage(ServerMessage message) {
 		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator
 				.hasNext();) {
@@ -44,11 +22,14 @@ public class ClientManagement {
 		}
 	}
 
-	/**
-	 * gets names of connected players
-	 * 
-	 * @return
-	 */
+	public void addClient(ClientConnection clientConnection) {
+		this.mClients.add(clientConnection);
+	}
+
+	public boolean isPlayerCountReached() {
+		return (mClients.size() == mPlayerCount);
+	}
+
 	public List<String> getPlayerNames() {
 
 		ArrayList<String> clientList = new ArrayList<String>();
@@ -62,9 +43,6 @@ public class ClientManagement {
 		return clientList;
 	}
 
-	/**
-	 * shuts Client Connections down
-	 */
 	public void shutdown() {
 		for (Iterator<ClientConnection> iterator = mClients.iterator(); iterator
 				.hasNext();) {
@@ -72,5 +50,4 @@ public class ClientManagement {
 			clientConnection.shutdown();
 		}
 	}
-
 }

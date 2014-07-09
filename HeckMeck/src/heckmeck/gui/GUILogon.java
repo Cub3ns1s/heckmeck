@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 public class GUILogon extends GUIBackground {
 
+	// Attributes
 	private static final long serialVersionUID = -4583822138415796314L;
 	private JLabel mPicture;
 	private JLabel mName;
@@ -26,8 +27,8 @@ public class GUILogon extends GUIBackground {
 	private JPanel mMain;
 	private JComboBox<String> mLanguageDD;
 
+	// Constructor
 	public GUILogon() {
-
 		setSize(new Dimension(1000, 800));
 
 		mMain = new JPanel(null);
@@ -59,11 +60,12 @@ public class GUILogon extends GUIBackground {
 
 		};
 
-		mPicture = new JLabel(new ImageIcon(getClass().getResource("/heckmeck/pictures/huehner.gif")));
+		mPicture = new JLabel(new ImageIcon(getClass().getResource(
+				"/heckmeck/pictures/huehner.gif")));
 		mPicture.setBounds(325, 180, 292, 226);
 		mPicture.repaint();
 		mMain.add(mPicture);
-		
+
 		mName = new JLabel("Name: ");
 		mName.setBounds(390, 440, 100, 20);
 		mName.setForeground(Color.WHITE);

@@ -20,7 +20,7 @@ public class ClientConnection implements Runnable {
 		mOos = new ObjectOutputStream(socket.getOutputStream());
 		mOis = new ObjectInputStream(mClientSocket.getInputStream());
 		mLog = new SysoLog();
-		
+
 		try {
 			waitForMessage();
 		} catch (ClassNotFoundException e) {
@@ -28,38 +28,6 @@ public class ClientConnection implements Runnable {
 		}
 	}
 
-	@Override
-	public void run() {
-		waitForMessages();
-	}
-
-	/**
-	 * sends Message
-	 * 
-	 * @param message
-	 */
-	public void sendMessage(ServerMessage message) {
-		try {
-			mOos.reset();
-			mOos.writeObject(message);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * gets name of player
-	 * 
-	 * @return
-	 */
-	public String getName() {
-		return mName;
-	}
-
-	/**
-	 * waits for messages
-	 */
 	private void waitForMessages() {
 		try {
 			do {
@@ -75,7 +43,7 @@ public class ClientConnection implements Runnable {
 	private void waitForMessage() throws IOException, ClassNotFoundException {
 		ClientMessage clientMessage = (ClientMessage) mOis.readObject();
 		mLog.log(clientMessage.toString());
-		
+
 		switch (clientMessage.getMessageType()) {
 		case ClientMessage.LOGON:
 			logon((LogonMessage) clientMessage);
@@ -90,19 +58,21 @@ public class ClientConnection implements Runnable {
 		}
 	}
 
-	/**
-	 * Called after receiving the logon message from one of the clients
-	 * 
-	 * @param message
-	 */
+	public void sendMessage(ServerMessage message) {
+		try {
+			mOos.reset();
+			mOos.writeObject(message);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void logon(LogonMessage logonMessage) {
 		mName = logonMessage.getName();
 		mLog.log(MessageTexts.getMessage("M005") + mName);
 	}
 
-	/**
-	 * shuts Client connection down
-	 */
 	public void shutdown() {
 		try {
 			mClientSocket.close();
@@ -111,9 +81,17 @@ public class ClientConnection implements Runnable {
 		}
 	}
 
+	public String getName() {
+		return mName;
+	}
+
+	@Override
+	public void run() {
+		waitForMessages();
+	}
+
 	@Override
 	public String toString() {
 		return mName;
 	}
-
 }

@@ -13,6 +13,11 @@ public class Game implements GameState {
 	private PlayerState mCurrentPlayer;
 	private transient ClientManagement mClientManagement;
 
+	// Main Method
+	public static void main(String[] args) {
+		System.out.println(args[0]);
+	}
+
 	// Constructor
 	public Game(List<String> playerList, ClientManagement clientManagement) {
 		initPlayerStates(playerList);
@@ -20,22 +25,7 @@ public class Game implements GameState {
 		mGrill = new Grill();
 	}
 
-	/**
-	 * Main Method - prints players
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		System.out.println(args[0]);
-	}
-
-	/**
-	 * inits player states
-	 * 
-	 * @param playerList
-	 */
 	private void initPlayerStates(List<String> playerList) {
-
 		mPlayers = new ArrayList<PlayerState>();
 
 		for (Iterator<String> iterator = playerList.iterator(); iterator
@@ -46,14 +36,8 @@ public class Game implements GameState {
 		}
 
 		setCurrentPlayer(mPlayers.size() - 1);
-
 	}
 
-	/**
-	 * sets current player
-	 * 
-	 * @param index
-	 */
 	private void setCurrentPlayer(int index) {
 		mCurrentPlayer = mPlayers.get(index);
 		mCurrentPlayer.setTurn(true);
@@ -63,20 +47,12 @@ public class Game implements GameState {
 		return mPlayers.indexOf(mCurrentPlayer);
 	}
 
-	/**
-	 * modifys game state dependent on decision
-	 * 
-	 * @param decision
-	 * @return
-	 */
 	public GameState move(DecisionMessage decision, String playerName) {
 		if (mCurrentPlayer.getName() != playerName) {
-
-			ContinueMessage continueMessage = new ContinueMessage( "M007" );
+			ContinueMessage continueMessage = new ContinueMessage("M007");
 			mClientManagement.sendMessage(continueMessage);
 		} else {
 			try {
-
 				if (!decision.getDots().equals("0")) {
 					mCurrentPlayer.getDiceState().fixValue(decision.getDots());
 				}
@@ -88,7 +64,7 @@ public class Game implements GameState {
 				}
 
 			} catch (AlreadyFixedException e) {
-				ContinueMessage continueMessage = new ContinueMessage( "M008" );
+				ContinueMessage continueMessage = new ContinueMessage("M008");
 				mClientManagement.sendMessage(continueMessage);
 
 			} catch (ValueNotFoundException e) {
@@ -112,7 +88,6 @@ public class Game implements GameState {
 
 	private void isEndOfGame() {
 		if (!mGrill.hasActiveTokens()) {
-			// Spiel zu Ende!
 			prepareEndofGame();
 		}
 	}
@@ -133,11 +108,9 @@ public class Game implements GameState {
 			} catch (MisthrowThrowException e) {
 				handleMisthrowException();
 			}
-
 		} else {
 			executeMissthrowConsequences();
 		}
-
 	}
 
 	private void continueTurn() {
@@ -148,9 +121,7 @@ public class Game implements GameState {
 			} catch (MisthrowThrowException e) {
 				handleMisthrowException();
 			}
-		}
-
-		else {
+		} else {
 			finalizeTurn();
 		}
 	}
@@ -167,9 +138,8 @@ public class Game implements GameState {
 		mCurrentPlayer.getDeck().removeTopToken();
 		mGrill.deactivateHighestToken();
 		setNextTurn();
-				
-		isEndOfGame();
 
+		isEndOfGame();
 	}
 
 	private void setNextTurn() {
@@ -184,7 +154,6 @@ public class Game implements GameState {
 
 		ContinueMessage continueMessage = new ContinueMessage("M006");
 		mClientManagement.sendMessage(continueMessage);
-
 	}
 
 	private void transferTokenToCurrentPlayer()
@@ -213,6 +182,7 @@ public class Game implements GameState {
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -273,11 +243,6 @@ public class Game implements GameState {
 		throw new MisthrowDecisionException();
 	}
 
-	/**
-	 * gets game state
-	 * 
-	 * @return
-	 */
 	public GameState getGameState() {
 		return this;
 	}
@@ -309,5 +274,4 @@ public class Game implements GameState {
 		}
 		return sB.toString();
 	}
-
 }

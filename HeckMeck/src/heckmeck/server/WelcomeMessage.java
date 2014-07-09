@@ -13,18 +13,12 @@ public class WelcomeMessage extends ServerMessage {
 		this.mType = WELCOME;
 	}
 
-	@Override
-	public String getMessageType() {
-		return mType;
-	}
-
-	/**
-	 * gets text of message
-	 * 
-	 * @return
-	 */
 	public String getText() {
 		return mText;
 	}
 
+	@Override
+	public String getMessageType() {
+		return mType;
+	}
 }

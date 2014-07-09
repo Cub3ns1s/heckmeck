@@ -1,3 +1,5 @@
 heckmeck.client
 heckmeck.exceptions
+heckmeck.gui
 heckmeck.server
+heckmeck.unittests

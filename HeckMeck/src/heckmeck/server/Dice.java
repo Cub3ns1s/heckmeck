@@ -14,31 +14,10 @@ public class Dice implements Serializable, Comparable<Dice> {
 		dice();
 	}
 
-	/**
-	 * returns value of dice
-	 * 
-	 * @return
-	 */
-	public int getValue() {
-		return mValue;
-	}
-
-	/**
-	 * sets value of dice
-	 * 
-	 * @param mValue
-	 */
-	public void setValue(int mValue) {
-		this.mValue = mValue;
-	}
-
-	/**
-	 * dices dice and saves value
-	 */
 	public void dice() {
 		mValue = (int) (Math.random() * 6 + 1);
 		mLabel = Integer.toString(mValue);
-		
+
 		if (mValue == 6) {
 			mValue = 5;
 			mLabel = "W";
@@ -46,18 +25,25 @@ public class Dice implements Serializable, Comparable<Dice> {
 		System.out.println(mLabel);
 	}
 
+	public String getLabel() {
+		return mLabel;
+	}
+
+	public int getValue() {
+		return mValue;
+	}
+
+	public void setValue(int mValue) {
+		this.mValue = mValue;
+	}
+
 	@Override
 	public int compareTo(Dice otherDice) {
 		return getLabel().compareTo(otherDice.getLabel());
-	}
-
-	public String getLabel() {
-		return mLabel;
 	}
 
 	@Override
 	public String toString() {
 		return "Dice [mValue=" + mValue + "]";
 	}
-
 }

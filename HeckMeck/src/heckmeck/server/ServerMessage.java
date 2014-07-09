@@ -13,5 +13,4 @@ public abstract class ServerMessage extends Message {
 	public static final String CONTINUE = "CONTINUE";
 	public static final String GAMEEND = "GAMEEND";
 	public String mType;
-	
 }

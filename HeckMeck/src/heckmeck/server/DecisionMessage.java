@@ -15,31 +15,20 @@ public class DecisionMessage extends ClientMessage {
 		this.mType = DECISION;
 	}
 
-	/**
-	 * gets dots of dice
-	 * 
-	 * @return
-	 */
 	public String getDots() {
 		return mDots;
 	}
 
-	/**
-	 * decides whether player is proceeding
-	 * 
-	 * @return
-	 */
 	public boolean proceeds() {
 		return mProceed;
+	}
+
+	public String toString() {
+		return mDots + mProceed;
 	}
 
 	@Override
 	public String getMessageType() {
 		return mType;
 	}
-	
-	public String toString() {
-		return mDots + mProceed;
-	}
-
 }

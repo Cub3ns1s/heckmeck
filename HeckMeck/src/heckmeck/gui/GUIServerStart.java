@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 
 public class GUIServerStart extends GUIBackground implements HeckmeckUI {
 
+	// Attributes
 	private static final long serialVersionUID = -1432504468764188547L;
 	private JLabel mAmount;
 	private JLabel mIP;
@@ -25,8 +26,8 @@ public class GUIServerStart extends GUIBackground implements HeckmeckUI {
 	private JButton mBtnStop;
 	private Server mServer;
 
+	// Constructor
 	public GUIServerStart(String ip) {
-
 		new ActionListener() {
 
 			@Override
@@ -100,19 +101,18 @@ public class GUIServerStart extends GUIBackground implements HeckmeckUI {
 	}
 
 	@Override
-	public void update(GameState gameState) {
-		// not needed
-	}
-
-	@Override
 	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(this, message, "Server warning",
 				JOptionPane.WARNING_MESSAGE);
 	}
 
 	@Override
-	public void endGame(GameEndMessage gameEndMessage) {
+	public void update(GameState gameState) {
 		// not needed
 	}
 
+	@Override
+	public void endGame(GameEndMessage gameEndMessage) {
+		// not needed
+	}
 }

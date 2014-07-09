@@ -20,11 +20,11 @@ import javax.swing.*;
 
 public class GUIGame extends GUIBackground implements HeckmeckUI {
 
+	// Attributes
 	private final static int SCREENWIDTH = 440;
 	private final static int SCREENHEIGHT = 340;
 	private static Dimension mScreenSize;
 	private static final long serialVersionUID = 4220957201237157813L;
-
 	private JPanel mCenterPanel;
 	private JPanel mCenterGrillPanel;
 	private JPanel mCenterDicePanel;
@@ -35,19 +35,19 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 	private GUIPlayer mBottomLeftPane;
 	private GUIPlayer mBottomRightPane;
 	private JLabel mMessageLbl;
-
 	private GameState mGameState;
 	private Client mClient;
 	private boolean mEndTurn = false;
 	private String mDiceValue;
-	
+
+	// Constructor
 	public GUIGame(String name, String ip, String language) {
 		mClient = new Client(name, this, ip);
 		mScreenSize = new Dimension(1000, 800);
 		mPlayerList = new ArrayList<GUIPlayer>();
 
 		new MessageTexts(language);
-		
+
 		for (int i = 0; i < 4; i++) {
 			mPlayerList.add(new GUIPlayer());
 		}
@@ -84,7 +84,6 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 	}
 
 	private void createCenterPanel() {
-
 		mCenterGrillPanel = new JPanel();
 		mCenterGrillPanel.setOpaque(false);
 		mCenterDicePanel = new JPanel();
@@ -134,32 +133,6 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 
 		revalidate();
 		repaint();
-	}
-
-	public static void resizeImageIcon(ImageIcon imageIcon) {
-		Image image = imageIcon.getImage();
-		Image scaledImage = image.getScaledInstance(
-				(int) (imageIcon.getIconWidth() * getScreenFactor()),
-				(int) (imageIcon.getIconHeight() * getScreenFactor()), 4);
-		imageIcon.setImage(scaledImage);
-	}
-
-	private static double getScreenFactor() {
-		double xFactor = SCREENWIDTH / mScreenSize.getWidth();
-		double yFactor = SCREENHEIGHT / mScreenSize.getHeight();
-
-		if (xFactor > yFactor) {
-			return yFactor;
-		} else {
-			return xFactor;
-		}
-	}
-
-	@Override
-	public void update(GameState gameState) {
-		mGameState = gameState;
-		updateCenterPanel();
-		updatePlayer(gameState.getPlayerStates());
 	}
 
 	private void updateCenterPanel() {
@@ -272,82 +245,106 @@ public class GUIGame extends GUIBackground implements HeckmeckUI {
 		mDiceValue = null;
 	}
 
+	private void prepareEndOutput(List<PlayerState> players) {
+		String winnerTmp = null;
+		int amountTmp = 0;
+		int boundX = 330;
+		int boundY = 200;
+
+		for (int i = 0; i < players.size(); i++) {
+			PlayerState player = players.get(i);
+
+			int amountWorms = player.getDeck().getWorms();
+			String text = MessageTexts.getMessage("M022") + player.getName()
+					+ ": " + String.valueOf(amountWorms);
+
+			if (amountWorms > amountTmp) {
+				winnerTmp = player.getName();
+			}
+
+			JLabel worms = new JLabel(text);
+			worms.setForeground(Color.WHITE);
+			worms.setBounds(boundX, boundY, 300, 100);
+			add(worms);
+			revalidate();
+
+			boundY += 30;
+		}
+
+		JLabel winner = new JLabel(
+				(MessageTexts.getMessage("M023") + winnerTmp + "!"));
+		winner.setForeground(Color.WHITE);
+		winner.setFont(winner.getFont().deriveFont(Font.BOLD, 20));
+		winner.setBounds(330, 320, 500, 100);
+		add(winner);
+		revalidate();
+
+		JLabel congrats = new JLabel(MessageTexts.getMessage("M024"));
+		congrats.setForeground(Color.WHITE);
+		congrats.setFont(congrats.getFont().deriveFont(Font.BOLD, 20));
+		congrats.setBounds(330, 345, 500, 100);
+		add(congrats);
+		revalidate();
+	}
+
+	public static void resizeImageIcon(ImageIcon imageIcon) {
+		Image image = imageIcon.getImage();
+		Image scaledImage = image.getScaledInstance(
+				(int) (imageIcon.getIconWidth() * getScreenFactor()),
+				(int) (imageIcon.getIconHeight() * getScreenFactor()), 4);
+		imageIcon.setImage(scaledImage);
+	}
+
+	private static double getScreenFactor() {
+		double xFactor = SCREENWIDTH / mScreenSize.getWidth();
+		double yFactor = SCREENHEIGHT / mScreenSize.getHeight();
+
+		if (xFactor > yFactor) {
+			return yFactor;
+		} else {
+			return xFactor;
+		}
+	}
+
+	@Override
+	public void update(GameState gameState) {
+		mGameState = gameState;
+		updateCenterPanel();
+		updatePlayer(gameState.getPlayerStates());
+	}
+
 	@Override
 	public void showMessage(String message) {
 		mMessageLbl.setText(message);
 	}
 
-	private class MouseHandler extends MouseAdapter {
-		String mLocalDiceValue; 
-		
-		public MouseHandler(String diceValue){
-			mLocalDiceValue = diceValue;
-		}
-		
-		public void mouseClicked(MouseEvent event) {
-			mDiceValue = mLocalDiceValue; 
-			String message = MessageTexts.getMessage("M004") + mDiceValue;
-			mMessageLbl.setText(message);
-		}
-	}
-
 	@Override
 	public void endGame(GameEndMessage gameEndMessage) {
-		
 		removeAll();
 		revalidate();
 		setLayout(null);
-		
+
 		JLabel endLbl = new JLabel(MessageTexts.getMessage("M021"));
 		endLbl.setForeground(Color.WHITE);
 		endLbl.setFont(endLbl.getFont().deriveFont(Font.BOLD, 20));
 		endLbl.setBounds(330, 100, 500, 100);
 		add(endLbl);
-		
-		prepareEndOutput(gameEndMessage.getmPlayers());
-		revalidate();
 
+		prepareEndOutput(gameEndMessage.getPlayers());
+		revalidate();
 	}
 
-	private void prepareEndOutput(List<PlayerState> players) {
-		
-		String winnerTmp = null;
-		int amountTmp = 0;
-		int boundX = 330;
-		int boundY = 200;
-		
-		for (int i = 0; i < players.size(); i++) {
-			PlayerState player = players.get(i);
-			
-			int amountWorms = player.getDeck().getWorms();
-			String text = MessageTexts.getMessage("M022") + player.getName() + ": " + String.valueOf(amountWorms);
+	private class MouseHandler extends MouseAdapter {
+		String mLocalDiceValue;
 
-			if (amountWorms > amountTmp) {
-				winnerTmp = player.getName();
-			} 
-			
-			JLabel worms = new JLabel(text);
-			worms.setForeground(Color.WHITE);			
-			worms.setBounds(boundX,boundY,300, 100);
-			add(worms);
-			revalidate();
-			
-			boundY += 30;
+		public MouseHandler(String diceValue) {
+			mLocalDiceValue = diceValue;
 		}
-		
-		JLabel winner = new JLabel((MessageTexts.getMessage("M023") + winnerTmp + "!"));
-		winner.setForeground(Color.WHITE);
-		winner.setFont(winner.getFont().deriveFont(Font.BOLD, 20));
-		winner.setBounds(330, 320, 500,100);
-		add(winner);
-		revalidate();
-		
-		JLabel congrats = new JLabel(MessageTexts.getMessage("M024"));
-		congrats.setForeground(Color.WHITE);
-		congrats.setFont(congrats.getFont().deriveFont(Font.BOLD, 20));
-		congrats.setBounds(330, 345, 500,100);
-		add(congrats);
-		revalidate();
-	}
 
+		public void mouseClicked(MouseEvent event) {
+			mDiceValue = mLocalDiceValue;
+			String message = MessageTexts.getMessage("M004") + mDiceValue;
+			mMessageLbl.setText(message);
+		}
+	}
 }

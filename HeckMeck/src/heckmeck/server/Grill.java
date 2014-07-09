@@ -16,9 +16,6 @@ public class Grill implements Serializable {
 		init();
 	}
 
-	/**
-	 * initializes list with 16 tokens
-	 */
 	private void init() {
 		mTokens = new ArrayList<Token>();
 		for (int i = 21; i < 37; i++) {
@@ -26,13 +23,6 @@ public class Grill implements Serializable {
 		}
 	}
 
-	/**
-	 * removes token from grill
-	 * 
-	 * @param tokenNr
-	 * @return
-	 * @throws NoTokenFoundException
-	 */
 	public Token remove(int tokenNr) throws NoTokenFoundException {
 		for (Iterator<Token> iterator = mTokens.iterator(); iterator.hasNext();) {
 			Token token = iterator.next();
@@ -46,16 +36,27 @@ public class Grill implements Serializable {
 		throw new NoTokenFoundException();
 	}
 
-	/**
-	 * adds token to grill after misthrow
-	 * 
-	 * @param token
-	 */
 	public void failure(Token token) {
 		if (token != null) {
 			mTokens.add(token);
 			Collections.sort(mTokens);
 		}
+	}
+
+	public void deactivateHighestToken() {
+		int value = 0;
+		int index = 0;
+
+		for (int i = 0; i < mTokens.size(); i++) {
+			if (mTokens.get(i).isActive()) {
+				if (mTokens.get(i).getValue() > value) {
+					value = mTokens.get(i).getValue();
+					index = i;
+				}
+
+			}
+		}
+		mTokens.get(index).deactivate();
 	}
 
 	public List<Token> getTokens() {
@@ -66,30 +67,12 @@ public class Grill implements Serializable {
 		this.mTokens = mTokens;
 	}
 
-	public void deactivateHighestToken() {
-		int value = 0;
-		int index = 0;
-		
-		for (int i = 0; i < mTokens.size(); i++) {
-			if (mTokens.get(i).isActive()) {
-				if(mTokens.get(i).getValue() > value) {
-					value = mTokens.get(i).getValue();
-					index = i;
-				}
-					
-			}
-		}
-		
-		mTokens.get(index).deactivate();
-	}
-
 	public boolean hasActiveTokens() {
 		for (int i = 0; i < mTokens.size(); i++) {
 			if (mTokens.get(i).isActive()) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -107,5 +90,4 @@ public class Grill implements Serializable {
 		sB.append("\n********************\n");
 		return sB.toString();
 	}
-
 }

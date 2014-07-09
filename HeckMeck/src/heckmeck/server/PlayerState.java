@@ -19,47 +19,22 @@ public class PlayerState implements Serializable {
 		this.mDiceState = new DiceState();
 	}
 
-	/**
-	 * returns whether it's players turn or not
-	 * 
-	 * @return boolean
-	 */
 	public boolean isTurn() {
 		return mTurn;
 	}
 
-	/**
-	 * returns deck of player
-	 * 
-	 * @return Deck
-	 */
 	public Deck getDeck() {
 		return mDeck;
 	}
 
-	/**
-	 * returns name of player
-	 * 
-	 * @return String
-	 */
 	public String getName() {
 		return mName;
 	}
 
-	/**
-	 * returns dice state of player
-	 * 
-	 * @return DiceState
-	 */
 	public DiceState getDiceState() {
 		return mDiceState;
 	}
 
-	/**
-	 * sets if it's players turn or not
-	 * 
-	 * @param turn
-	 */
 	public void setTurn(boolean turn) {
 		this.mTurn = turn;
 	}
@@ -69,16 +44,13 @@ public class PlayerState implements Serializable {
 		StringBuilder sB = new StringBuilder();
 		sB.append("Player: " + this.getName() + "\n");
 		sB.append("Tokens: " + mDeck.getSize() + "\n");
-		if (mDeck.getTopToken() != null) 
+		if (mDeck.getTopToken() != null)
 			sB.append("Top Token: " + mDeck.getTopToken().toString() + "\n");
-		
+
 		if (isTurn()) {
 			sB.append(mDiceState.toString());
 		}
 		sB.append("\n********************\n");
 		return sB.toString();
 	}
-	
-	
-
 }

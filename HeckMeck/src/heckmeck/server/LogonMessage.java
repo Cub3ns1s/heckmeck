@@ -12,11 +12,6 @@ public class LogonMessage extends ClientMessage {
 		this.mType = LOGON;
 	}
 
-	/**
-	 * gets name of player
-	 * 
-	 * @return
-	 */
 	public String getName() {
 		return mName;
 	}
@@ -25,5 +20,4 @@ public class LogonMessage extends ClientMessage {
 	public String getMessageType() {
 		return mType;
 	}
-
 }
