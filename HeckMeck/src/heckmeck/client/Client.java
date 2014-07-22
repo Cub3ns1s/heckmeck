@@ -39,7 +39,7 @@ public class Client implements Runnable {
 
 	private void initConnection(String ip) {
 		try {
-			mSocket = new Socket(ip, 23534);
+			mSocket = new Socket(ip, 80);
 			mOOS = new ObjectOutputStream(mSocket.getOutputStream());
 			mOIS = new ObjectInputStream(mSocket.getInputStream());
 		} catch (IOException e) {
